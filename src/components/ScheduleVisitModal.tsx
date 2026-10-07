@@ -1,0 +1,298 @@
+import React, { useState } from 'react';
+import { X, Calendar, CheckCircle2, Car, Clock, Phone, Mail, User, Loader2 } from 'lucide-react';
+import { NOIDA_PROPERTIES } from '../data/properties';
+import { useSiteSettings } from '../context/SiteSettingsContext';
+
+interface ScheduleVisitModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  preselectedProject?: string;
+}
+
+export const ScheduleVisitModal: React.FC<ScheduleVisitModalProps> = ({
+  isOpen,
+  onClose,
+  preselectedProject
+}) => {
+  const { settings } = useSiteSettings();
+  const [selectedProject, setSelectedProject] = useState(preselectedProject || NOIDA_PROPERTIES[0].title);
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [preferredDate, setPreferredDate] = useState('');
+  const [timeSlot, setTimeSlot] = useState('11:00 AM');
+  const [pickupRequired, setPickupRequired] = useState(true);
+  const [pickupCity, setPickupCity] = useState('Noida');
+  const [customPickupCity, setCustomPickupCity] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const message = `*New Site Visit Booking*
+Name: ${fullName}
+Phone: ${phoneNumber}
+Email: ${email}
+Project: ${selectedProject}
+Date: ${preferredDate}
+Time Slot: ${timeSlot}
+Pickup Required: ${pickupRequired ? `Yes (${pickupCity === 'Others' ? customPickupCity : pickupCity})` : 'No'}`;
+
+    const cleanPhone = (settings.agency.phone || '+91 78704 33580').replace(/[^0-9]/g, '');
+    const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    try {
+      await fetch('/api/schedule-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName,
+          phoneNumber,
+          email,
+          project: selectedProject,
+          date: preferredDate,
+          timeSlot,
+          pickupRequired,
+          pickupCity: pickupCity === 'Others' ? customPickupCity : pickupCity
+        })
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    setSubmitted(true);
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+    >
+      <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+        <div 
+          className="relative w-full max-w-xl rounded-3xl border border-slate-300 bg-white shadow-2xl overflow-hidden p-6 sm:p-8 text-slate-900 text-left my-8"
+          onClick={(e) => e.stopPropagation()}
+        >
+        
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 text-slate-800 hover:text-slate-900 transition-colors cursor-pointer"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {submitted ? (
+          <div className="text-center py-8 space-y-4 animate-in fade-in duration-300">
+            <div className="mx-auto h-16 w-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+              <CheckCircle2 className="h-10 w-10" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 font-display">
+              Site Visit Confirmed
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-800 max-w-md mx-auto leading-relaxed">
+              We have reserved your visit to <span className="text-amber-400 font-semibold">{selectedProject}</span> on <span className="text-slate-900 font-semibold">{preferredDate || 'your selected date'} at {timeSlot}</span>.
+            </p>
+            <div className="p-4 rounded-xl bg-[#FDFBF7]/80 border border-slate-300 text-xs text-slate-800 text-left space-y-1">
+              <div>• You have been redirected to WhatsApp to confirm your booking.</div>
+              <div>• You can chat directly with our advisory desk at: <span className="text-slate-800 font-semibold">{settings.agency.phone || '+91 78704 33580'}</span></div>
+              {pickupRequired && <div>• Chauffeur coordination details will be confirmed on WhatsApp.</div>}
+            </div>
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                onClose();
+              }}
+              className="mt-4 px-6 py-2.5 text-xs font-semibold text-neutral-950 bg-amber-400 rounded-xl hover:bg-amber-300 cursor-pointer"
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-wider mb-2">
+              <Calendar className="h-4 w-4" />
+              <span>Complimentary VIP Site Visit</span>
+            </div>
+            <h3 className="font-display text-2xl font-bold text-slate-900 tracking-tight">
+              Schedule Your Guided Property Tour
+            </h3>
+            <p className="mt-1 text-xs sm:text-sm text-slate-800">
+              Includes private walkthrough, masterplan model viewing, and optional complimentary luxury chauffeur pickup across Delhi NCR.
+            </p>
+
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              
+              {/* Project Selection */}
+              <div>
+                <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                  Target Project *
+                </label>
+                <select
+                  value={selectedProject}
+                  onChange={(e) => setSelectedProject(e.target.value)}
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                >
+                  {NOIDA_PROPERTIES.map((p) => (
+                    <option key={p.id} value={p.title}>
+                      {p.title} ({p.sector}, {p.locality})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Personal Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                    Phone Number (WhatsApp) *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="name@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              {/* Date & Time Slot */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                    Preferred Date *
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    value={preferredDate}
+                    onChange={(e) => setPreferredDate(e.target.value)}
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 [&::-webkit-calendar-picker-indicator]:invert cursor-pointer"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                    Time Slot
+                  </label>
+                  <select
+                    value={timeSlot}
+                    onChange={(e) => setTimeSlot(e.target.value)}
+                    className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                  >
+                    <option value="10:00 AM">10:00 AM (Morning Session)</option>
+                    <option value="12:00 PM">12:00 PM (Noon)</option>
+                    <option value="03:00 PM">03:00 PM (Afternoon)</option>
+                    <option value="05:00 PM">05:00 PM (Sunset / Evening View)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Complimentary Pickup */}
+              <div className="p-3.5 rounded-xl bg-[#FDFBF7]/70 border border-slate-300 space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-slate-900 flex items-center gap-1.5 cursor-pointer">
+                    <Car className="h-4 w-4 text-amber-400" />
+                    Complimentary Chauffeur Cab Pick & Drop
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={pickupRequired}
+                    onChange={(e) => setPickupRequired(e.target.checked)}
+                    className="h-4 w-4 rounded accent-amber-400 cursor-pointer"
+                  />
+                </div>
+                {pickupRequired && (
+                  <div className="pt-2 border-t border-slate-200 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] text-slate-800 shrink-0">Pickup Zone:</span>
+                      <select
+                        value={pickupCity}
+                        onChange={(e) => setPickupCity(e.target.value)}
+                        className="flex-1 px-2 py-1 text-xs rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                      >
+                        <option value="Noida">Noida / Greater Noida</option>
+                        <option value="South Delhi">South Delhi (GK, Saket, Vasant Kunj, Def Col)</option>
+                        <option value="East Delhi">East Delhi (Mayur Vihar, Preet Vihar)</option>
+                        <option value="Gurgaon">Gurgaon / Cyber Hub</option>
+                        <option value="Ghaziabad">Ghaziabad / Indirapuram / Vaishali</option>
+                        <option value="Others">Others (Custom Location)</option>
+                      </select>
+                    </div>
+                    {pickupCity === 'Others' && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] text-slate-800 shrink-0 opacity-0 select-none">Pickup Zone:</span>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Enter your exact pickup location"
+                          value={customPickupCity}
+                          onChange={(e) => setCustomPickupCity(e.target.value)}
+                          className="flex-1 px-2 py-1.5 text-xs rounded-lg bg-[#FDFBF7] border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Submit CTA */}
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 disabled:opacity-50 rounded-xl transition-all shadow-lg shadow-amber-500/20 cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Confirming Site Visit...</span>
+                    </>
+                  ) : (
+                    <span>Confirm Free Site Visit Booking</span>
+                  )}
+                </button>
+              </div>
+
+            </form>
+          </div>
+        )}
+
+      </div>
+      </div>
+    </div>
+  );
+};

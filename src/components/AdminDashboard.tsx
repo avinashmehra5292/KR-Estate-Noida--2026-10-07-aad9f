@@ -59,6 +59,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   // Brochure Inquiries state
   const [brochureLeads, setBrochureLeads] = useState<any[]>([]);
   const [loadingLeads, setLoadingLeads] = useState(false);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<string>('');
 
   // Password change state
   const [newPassword, setNewPassword] = useState('');
@@ -82,6 +83,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         }
       })
       .catch(() => { });
+    
+    // Also preload brochure & site leads count
+    fetchBrochureLeads();
   }, []);
 
   const handleLogout = async () => {
@@ -98,26 +102,64 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     onClose();
   };
 
-  // Fetch brochure leads when inquiries tab opened
+  // Fetch brochure leads when inquiries tab opened or refresh button clicked
   const fetchBrochureLeads = async () => {
     setLoadingLeads(true);
     try {
-      const res = await fetch('/api/admin/brochure-requests', {
+      const minSpinPromise = new Promise(resolve => setTimeout(resolve, 850));
+      const fetchPromise = fetch('/api/admin/brochure-requests', {
         headers: getAdminAuthHeaders(),
         credentials: 'include'
       });
+      const [res] = await Promise.all([fetchPromise, minSpinPromise]);
       if (res.status === 401) {
         handleLogout();
         return;
       }
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data)) setBrochureLeads(data);
+        if (Array.isArray(data)) {
+          setBrochureLeads(data);
+          const now = new Date();
+          setLastRefreshedAt(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+        }
       }
     } catch (e) {
       console.error(e);
     } finally {
       setLoadingLeads(false);
+    }
+  };
+
+  const handleDeleteLead = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this lead inquiry?')) return;
+    try {
+      const res = await fetch(`/api/admin/brochure-requests/${id}`, {
+        method: 'DELETE',
+        headers: getAdminAuthHeaders(),
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setBrochureLeads(prev => prev.filter(l => l.id !== id));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleClearAllLeads = async () => {
+    if (!window.confirm('Are you sure you want to clear all lead inquiries? This cannot be undone.')) return;
+    try {
+      const res = await fetch('/api/admin/brochure-requests', {
+        method: 'DELETE',
+        headers: getAdminAuthHeaders(),
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setBrochureLeads([]);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -345,7 +387,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const activeLocality = localitiesList[selectedLocalityIdx] || localitiesList[0];
 
   return (
-    <div className="fixed inset-0 z-50 flex bg-[#FDFBF7] animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-50 flex bg-slate-50 animate-in fade-in duration-300">
 
       {/* Mobile Backdrop Overlay */}
       {mobileMenuOpen && (
@@ -431,11 +473,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
           <button
             onClick={() => { setActiveTab('inquiries'); setMobileMenuOpen(false); }}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${activeTab === 'inquiries' ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' : 'hover:bg-slate-800 hover:text-white'
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${activeTab === 'inquiries' ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' : 'hover:bg-slate-800 hover:text-white'
               }`}
           >
-            <Users className="w-4 h-4 shrink-0" />
-            <span>Brochure & Site Leads</span>
+            <div className="flex items-center gap-3">
+              <Users className="w-4 h-4 shrink-0" />
+              <span>Brochure & Site Leads</span>
+            </div>
+            {brochureLeads.length > 0 && (
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${activeTab === 'inquiries' ? 'bg-slate-950 text-amber-400' : 'bg-slate-800 text-amber-300 border border-slate-700'}`}>
+                {brochureLeads.length}
+              </span>
+            )}
           </button>
 
           <button
@@ -1294,16 +1343,42 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900">Lead Inbox: PDF Brochure & Cost Sheet Requests</h2>
+                  <div className="flex items-center gap-2.5">
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900">Lead Inbox: PDF Brochure & Site Visit Requests</h2>
+                    {brochureLeads.length > 0 && (
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 shadow-xs">
+                        {brochureLeads.length} Total
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-slate-500">Live inquiries sent directly to owner WhatsApp with immediate client name, contact & comments.</p>
                 </div>
-                <div className="flex gap-2 self-start sm:self-auto">
+                <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
+                  {lastRefreshedAt && (
+                    <span className="text-[11px] text-slate-500 font-medium">
+                      Updated {lastRefreshedAt}
+                    </span>
+                  )}
+                  {brochureLeads.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={handleClearAllLeads}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white border border-red-200 text-red-600 rounded-lg shadow-xs hover:bg-red-50 hover:border-red-300 transition-all cursor-pointer"
+                      title="Clear all leads from database"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Clear All</span>
+                    </button>
+                  )}
                   <button
+                    type="button"
                     onClick={fetchBrochureLeads}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white border border-slate-200 text-slate-700 rounded-lg shadow-xs hover:bg-slate-50 cursor-pointer"
+                    disabled={loadingLeads}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white border border-slate-200 text-slate-700 rounded-lg shadow-xs hover:bg-slate-50 hover:border-amber-400 hover:text-amber-900 active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed transition-all cursor-pointer"
+                    title="Refresh latest leads"
                   >
-                    <RefreshCw className={`w-3.5 h-3.5 ${loadingLeads ? 'animate-spin' : ''}`} />
-                    Refresh
+                    <RefreshCw className={`w-3.5 h-3.5 text-amber-500 transition-transform ${loadingLeads ? 'animate-spin' : ''}`} />
+                    <span>{loadingLeads ? 'Refreshing...' : 'Refresh'}</span>
                   </button>
                 </div>
               </div>
@@ -1315,10 +1390,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <tr className="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
                         <th className="p-4 font-semibold">Client Details</th>
                         <th className="p-4 font-semibold">Contact Info</th>
-                        <th className="p-4 font-semibold">Property of Interest</th>
-                        <th className="p-4 font-semibold">Client Comment</th>
+                        <th className="p-4 font-semibold">Property / Interest</th>
+                        <th className="p-4 font-semibold">Client Comment / Schedule</th>
                         <th className="p-4 font-semibold">Status</th>
-                        <th className="p-4 font-semibold text-right">Quick Contact</th>
+                        <th className="p-4 font-semibold text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -1326,7 +1401,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         brochureLeads.map((lead, i) => (
                           <tr key={lead.id || i} className="hover:bg-slate-50/80 transition-colors">
                             <td className="p-4">
-                              <div className="font-semibold text-sm text-slate-900">{lead.name}</div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-sm text-slate-900">{lead.name}</span>
+                                {lead.leadType === 'Site Visit' ? (
+                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200 shrink-0">
+                                    Site Visit
+                                  </span>
+                                ) : (
+                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
+                                    Brochure
+                                  </span>
+                                )}
+                              </div>
                               <div className="text-[11px] text-slate-500">
                                 {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : 'Today'}
                               </div>
@@ -1343,27 +1429,41 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               <p className="line-clamp-2">{lead.comment || 'Complete digital brochure requested.'}</p>
                             </td>
                             <td className="p-4">
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-blue-100 text-blue-700 border border-blue-200">
-                                {lead.status || 'New'}
+                              <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${
+                                lead.leadType === 'Site Visit' || lead.status === 'Visit Booked'
+                                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                  : 'bg-blue-100 text-blue-700 border border-blue-200'
+                              }`}>
+                                {lead.status || (lead.leadType === 'Site Visit' ? 'Visit Booked' : 'New')}
                               </span>
                             </td>
                             <td className="p-4 text-right">
-                              <a
-                                href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200"
-                              >
-                                <MessageCircle className="w-3.5 h-3.5" />
-                                WhatsApp
-                              </a>
+                              <div className="inline-flex items-center gap-2 justify-end">
+                                <a
+                                  href={`https://wa.me/${(lead.phone || '').replace(/[^0-9]/g, '')}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-200 transition-colors"
+                                >
+                                  <MessageCircle className="w-3.5 h-3.5" />
+                                  WhatsApp
+                                </a>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteLead(lead.id)}
+                                  className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                  title="Delete lead"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
                           <td colSpan={6} className="p-8 text-center text-sm text-slate-500">
-                            No brochure inquiries yet. When clients request a brochure on any property, their contact information will automatically show here!
+                            No inquiries yet. When clients request a brochure or book a site visit on any property, their contact information will automatically show here!
                           </td>
                         </tr>
                       )}

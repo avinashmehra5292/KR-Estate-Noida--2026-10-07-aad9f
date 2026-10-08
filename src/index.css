@@ -3,11 +3,34 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
+
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #0a0a0c;
-    color: #f3f4f6;
+    background-color: #070a10;
+    color: #f1f5f9;
+    overflow-x: hidden;
+  }
+
+  /* Custom Luxury Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #070a10;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 9999px;
+    border: 2px solid #070a10;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f59e0b;
   }
 }
 
@@ -21,21 +44,82 @@
 
 /* Glassmorphism and architectural accents */
 .glass-panel {
-  background: rgba(18, 18, 22, 0.75);
+  background: rgba(13, 18, 31, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(15, 20, 35, 0.70);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.glass-card {
-  background: rgba(24, 24, 30, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+/* Vibrant Gold & Emerald Glows */
+.gold-glow {
+  box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.45);
+}
+
+.gold-glow-lg {
+  box-shadow: 0 0 45px -5px rgba(245, 158, 11, 0.60);
+}
+
+.emerald-glow {
+  box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.45);
+}
+
+.vibrant-card {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.85) 0%, rgba(11, 15, 25, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vibrant-card:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(245, 158, 11, 0.25);
+  transform: translateY(-3px);
 }
 
 .gold-gradient-text {
-  background: linear-gradient(135deg, #f9df94 0%, #d4af37 50%, #aa7c11 100%);
+  background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 35%, #f59e0b 70%, #d97706 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-btn {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  color: #030712;
+  font-weight: 700;
+  box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.45);
+  transition: all 0.3s ease;
+}
+
+.gold-gradient-btn:hover {
+  background: linear-gradient(135deg, #fef08a 0%, #fbbf24 50%, #f59e0b 100%);
+  box-shadow: 0 0 35px -2px rgba(245, 158, 11, 0.65);
+  transform: translateY(-1px);
+}
+
+/* Subtle Shimmer Animation */
+@keyframes shimmerPulse {
+
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(1.05);
+  }
+}
+
+.animate-shimmer-pulse {
+  animation: shimmerPulse 8s ease-in-out infinite;
 }

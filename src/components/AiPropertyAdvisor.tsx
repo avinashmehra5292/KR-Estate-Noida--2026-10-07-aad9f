@@ -52,23 +52,24 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
   };
 
   return (
-    <section id="advisor" className="py-20 lg:py-28 border-b border-slate-200 bg-white/90 relative overflow-hidden">
+    <section id="advisor" className="py-20 lg:py-28 border-b border-slate-800/80 bg-[#070A10] relative overflow-hidden">
       
-      {/* Decorative gradient glow */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
+      {/* Decorative radiant nebula glows */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/12 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/3 right-0 w-[450px] h-[450px] bg-indigo-600/10 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         
         {/* Header */}
         <div className="max-w-2xl mb-12">
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
-            <Sparkles className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">
+            <Sparkles className="h-4 w-4 text-amber-400 animate-pulse" />
             <span>AI Real Estate Matchmaker</span>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+          <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
             KR Estate Smart Property Advisory
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-slate-800">
+          <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
             Powered by Gemini intelligence trained on real-time Noida micro-market transactions, RERA records, and infrastructure timelines.
           </p>
         </div>
@@ -76,8 +77,8 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Query Configuration Form (Col 5) */}
-          <div className="lg:col-span-5 rounded-3xl border border-slate-300 bg-white/90 p-6 sm:p-8 backdrop-blur-xl shadow-xl">
-            <h3 className="text-sm font-semibold text-slate-900 mb-6 flex items-center gap-2">
+          <div className="lg:col-span-5 rounded-3xl border border-slate-800/90 bg-[#0D121F]/85 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
+            <h3 className="text-sm font-bold text-white mb-6 flex items-center gap-2">
               <Bot className="h-4 w-4 text-amber-400" />
               Specify Your Investment Criteria
             </h3>
@@ -86,71 +87,71 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
               
               {/* Goal */}
               <div>
-                <label className="text-xs font-medium text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-slate-300 block mb-1.5">
                   Primary Objective
                 </label>
                 <select
                   value={goal}
                   onChange={(e) => setGoal(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#131A2B] border border-slate-700/80 text-slate-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
                 >
-                  <option value="end_use">Family Living / End-Use Residence</option>
-                  <option value="rental_income">High Rental Income & Corporate Tenants</option>
-                  <option value="capital_growth">Long-Term Capital Compounding (Jewar Airport Belt)</option>
-                  <option value="commercial_retail">Commercial High-Street Retail / Office ROI</option>
+                  <option value="end_use" className="bg-[#0D121F] text-slate-100">Family Living / End-Use Residence</option>
+                  <option value="rental_income" className="bg-[#0D121F] text-slate-100">High Rental Income &amp; Corporate Tenants</option>
+                  <option value="capital_growth" className="bg-[#0D121F] text-slate-100">Long-Term Capital Compounding (Jewar Airport Belt)</option>
+                  <option value="commercial_retail" className="bg-[#0D121F] text-slate-100">Commercial High-Street Retail / Office ROI</option>
                 </select>
               </div>
 
               {/* Budget */}
               <div>
-                <label className="text-xs font-medium text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-slate-300 block mb-1.5">
                   Budget Allocation
                 </label>
                 <select
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#131A2B] border border-slate-700/80 text-slate-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
                 >
-                  <option value="under_1cr">Under ₹1.00 Crore</option>
-                  <option value="1.5cr_3cr">₹1.50 Cr – ₹3.00 Cr</option>
-                  <option value="3cr_6cr">₹3.00 Cr – ₹6.00 Cr</option>
-                  <option value="ultra_luxury">Ultra-Luxury (₹6.00 Cr – ₹20.00 Cr+)</option>
+                  <option value="under_1cr" className="bg-[#0D121F] text-slate-100">Under ₹1.00 Crore</option>
+                  <option value="1.5cr_3cr" className="bg-[#0D121F] text-slate-100">₹1.50 Cr – ₹3.00 Cr</option>
+                  <option value="3cr_6cr" className="bg-[#0D121F] text-slate-100">₹3.00 Cr – ₹6.00 Cr</option>
+                  <option value="ultra_luxury" className="bg-[#0D121F] text-slate-100">Ultra-Luxury (₹6.00 Cr – ₹20.00 Cr+)</option>
                 </select>
               </div>
 
               {/* Configuration */}
               <div>
-                <label className="text-xs font-medium text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-slate-300 block mb-1.5">
                   Desired Configuration
                 </label>
                 <select
                   value={config}
                   onChange={(e) => setConfig(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#131A2B] border border-slate-700/80 text-slate-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
                 >
-                  <option value="2bhk">2 BHK Apartment / Suite</option>
-                  <option value="3bhk">3 BHK Luxury Residence</option>
-                  <option value="4bhk">4 BHK Sky Mansion / Penthouse</option>
-                  <option value="plot">Freehold Plotted Villa Land</option>
-                  <option value="commercial_office">Lockable Grade-A Commercial Space</option>
+                  <option value="2bhk" className="bg-[#0D121F] text-slate-100">2 BHK Apartment / Suite</option>
+                  <option value="3bhk" className="bg-[#0D121F] text-slate-100">3 BHK Luxury Residence</option>
+                  <option value="4bhk" className="bg-[#0D121F] text-slate-100">4 BHK Sky Mansion / Penthouse</option>
+                  <option value="plot" className="bg-[#0D121F] text-slate-100">Freehold Plotted Villa Land</option>
+                  <option value="commercial_office" className="bg-[#0D121F] text-slate-100">Lockable Grade-A Commercial Space</option>
                 </select>
               </div>
 
               {/* Priority */}
               <div>
-                <label className="text-xs font-medium text-slate-800 block mb-1">
+                <label className="text-xs font-semibold text-slate-300 block mb-1.5">
                   Non-Negotiable Priority
                 </label>
                 <select
                   value={preference}
                   onChange={(e) => setPreference(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-[#FDFBF7] border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#131A2B] border border-slate-700/80 text-slate-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
                 >
-                  <option value="greens">Maximum Greenery & Sports Infrastructure (Sec 150)</option>
-                  <option value="metro">Walking Distance to Metro Station</option>
-                  <option value="ready">Ready to Move / Instant Possession</option>
-                  <option value="golf">Golf-Facing Ultra-Luxury (Sec 128 / Sec 43)</option>
-                  <option value="airport">Fastest Access to Jewar International Airport</option>
+                  <option value="greens" className="bg-[#0D121F] text-slate-100">Maximum Greenery &amp; Sports Infrastructure (Sec 150)</option>
+                  <option value="metro" className="bg-[#0D121F] text-slate-100">Walking Distance to Metro Station</option>
+                  <option value="ready" className="bg-[#0D121F] text-slate-100">Ready to Move / Instant Possession</option>
+                  <option value="golf" className="bg-[#0D121F] text-slate-100">Golf-Facing Ultra-Luxury (Sec 128 / Sec 43)</option>
+                  <option value="airport" className="bg-[#0D121F] text-slate-100">Fastest Access to Jewar International Airport</option>
                 </select>
               </div>
 
@@ -159,7 +160,7 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 disabled:opacity-50 text-neutral-950 font-semibold text-xs transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:via-amber-400 hover:to-amber-500 disabled:opacity-50 text-slate-950 font-bold text-xs transition-all shadow-[0_0_25px_rgba(245,158,11,0.35)] hover:shadow-[0_0_35px_rgba(245,158,11,0.55)] flex items-center justify-center gap-2 cursor-pointer hover:-translate-y-0.5"
                 >
                   {loading ? (
                     <>
@@ -179,33 +180,33 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
           </div>
 
           {/* AI Output Executive Report (Col 7) */}
-          <div className="lg:col-span-7 rounded-3xl border border-slate-300 bg-[#FDFBF7] p-6 sm:p-8 backdrop-blur-xl shadow-2xl min-h-[380px] flex flex-col justify-between">
+          <div className="lg:col-span-7 rounded-3xl border border-amber-500/30 bg-gradient-to-br from-[#0F1424] via-[#12192B] to-[#0A0D16] p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(245,158,11,0.15)] min-h-[420px] flex flex-col justify-between">
             
             {advisoryReport ? (
               <div className="space-y-6 animate-in fade-in duration-300">
                 
-                <div className="flex items-center justify-between pb-4 border-b border-slate-300">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                    <span className="text-xs font-semibold text-slate-900">KR Estate Executive Appraisal</span>
+                    <span className="text-xs font-bold text-white">KR Estate Executive Appraisal</span>
                   </div>
                   <button
                     onClick={handleGenerateReport}
-                    className="flex items-center gap-1 text-[11px] text-slate-800 hover:text-slate-900 cursor-pointer"
+                    className="flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300 font-medium cursor-pointer"
                   >
                     <RefreshCw className="h-3 w-3" />
                     Regenerate
                   </button>
                 </div>
 
-                <div className="prose prose-invert prose-sm text-slate-800 leading-relaxed max-w-none text-xs sm:text-sm whitespace-pre-line">
+                <div className="text-slate-200 leading-relaxed text-xs sm:text-sm whitespace-pre-line font-light">
                   {advisoryReport}
                 </div>
 
                 {/* Recommended Projects Pills */}
                 {recommendedProjects.length > 0 && (
-                  <div className="pt-4 border-t border-slate-300">
-                    <span className="text-xs font-semibold text-amber-400 block mb-2">
+                  <div className="pt-4 border-t border-slate-800/80">
+                    <span className="text-xs font-bold text-amber-400 block mb-2">
                       Matching Curated Projects:
                     </span>
                     <div className="flex flex-wrap gap-2">
@@ -213,10 +214,10 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
                         <button
                           key={idx}
                           onClick={() => onSelectPropertyByName(proj)}
-                          className="px-3 py-1.5 rounded-lg bg-white border border-amber-500/30 text-xs font-medium text-amber-300 hover:bg-slate-100 hover:text-amber-200 transition-colors flex items-center gap-1.5 cursor-pointer"
+                          className="px-3.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/40 text-xs font-semibold text-amber-300 hover:text-amber-200 transition-all shadow-[0_0_12px_rgba(245,158,11,0.2)] flex items-center gap-1.5 cursor-pointer"
                         >
                           <span>{proj}</span>
-                          <ArrowRight className="h-3 w-3" />
+                          <ArrowRight className="h-3 w-3 text-amber-400" />
                         </button>
                       ))}
                     </div>
@@ -226,15 +227,15 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
                 <div className="pt-4 flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => onOpenScheduleModal()}
-                    className="px-4 py-2 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all cursor-pointer"
+                    className="px-4 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 rounded-xl transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] cursor-pointer hover:-translate-y-0.5"
                   >
                     Schedule Consultation with Senior Broker
                   </button>
                   <a
                     href="https://wa.me/917870433580?text=Hi%20KR%20Estate%20Noida%2C%20I%20just%20ran%20the%20AI%20Property%20Advisor%20and%20want%20to%20discuss%20options%20(krestatenoida.com)"
                     target="_blank"
-                    rel="noreferrer"
-                    className="px-4 py-2 text-xs font-semibold text-slate-900 border border-slate-300 hover:border-slate-300/80 rounded-xl transition-all cursor-pointer"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 text-xs font-semibold text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 hover:text-white border border-slate-700 rounded-xl transition-all cursor-pointer"
                   >
                     WhatsApp Advisory Desk
                   </a>
@@ -243,13 +244,13 @@ export const AiPropertyAdvisor: React.FC<AiAdvisorProps> = ({
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-center py-16 px-4">
-                <div className="h-14 w-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-4">
-                  <Bot className="h-7 w-7" />
+                <div className="h-16 w-16 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-300 flex items-center justify-center mb-4 shadow-[0_0_25px_rgba(245,158,11,0.25)]">
+                  <Bot className="h-8 w-8 text-amber-400" />
                 </div>
-                <h4 className="text-base font-semibold text-slate-900">
+                <h4 className="text-base font-bold text-white font-display">
                   Instant Algorithmic Property Advisory
                 </h4>
-                <p className="mt-2 text-xs sm:text-sm text-slate-800 max-w-md">
+                <p className="mt-2 text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
                   Select your criteria on the left to receive a custom investment memo detailing recommended developments, projected rental yields, and sector infrastructure catalysts.
                 </p>
               </div>

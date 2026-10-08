@@ -16,9 +16,93 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: '1000mb' }));
-app.use(express.urlencoded({ limit: '1000mb', extended: true }));
+// 1. Strict HTTP Security Headers
+app.use((_req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  next();
+});
+
+// 2. Web Application Firewall (WAF) - Blocks sensitive file downloads & traversal attempts
+app.use((req: Request, res: Response, next: NextFunction) => {
+  let normalizedPath = '';
+  try {
+    normalizedPath = decodeURI(req.path).toLowerCase();
+  } catch {
+    normalizedPath = req.path.toLowerCase();
+  }
+
+  const blockedPatterns = [
+    /^\/admin-auth\.json/i,
+    /^\/totp\.json/i,
+    /^\/\.env/i,
+    /^\/server\.ts/i,
+    /^\/package\.json/i,
+    /^\/tsconfig\.json/i,
+    /^\/vite\.config\.ts/i,
+    /^\/\.git/i,
+    /brochurerequests\.json/i,
+  ];
+
+  if (blockedPatterns.some((pattern) => pattern.test(normalizedPath))) {
+    return res.status(403).json({ error: 'Access denied: protected system file.' });
+  }
+
+  next();
+});
+
+// 3. Safe Body Parser Limits (25mb max to prevent heap-exhaustion DoS while supporting base64 uploads)
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ limit: '25mb', extended: true }));
 app.use('/uploads', express.static(path.resolve(__dirname, 'public', 'uploads')));
+
+// 4. HTML Entity Sanitizer (Prevents HTML & Email Injection)
+function escapeHtml(str: any): string {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getClientIp(req: Request): string {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string') return forwarded.split(',')[0].trim();
+  return req.socket.remoteAddress || '127.0.0.1';
+}
+
+// 5. Rate Limiter for Public Endpoints (DoS, Spam & Quota Abuse Prevention)
+interface RateLimitRecord {
+  count: number;
+  resetAt: number;
+}
+const publicApiLimiter = new Map<string, RateLimitRecord>();
+
+function checkPublicRateLimit(req: Request, res: Response, maxRequests: number, windowMs: number): boolean {
+  const clientIp = getClientIp(req);
+  const key = `${clientIp}:${req.path}`;
+  const now = Date.now();
+  const record = publicApiLimiter.get(key);
+
+  if (!record || record.resetAt < now) {
+    publicApiLimiter.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+
+  if (record.count >= maxRequests) {
+    const waitSecs = Math.ceil((record.resetAt - now) / 1000);
+    res.status(429).json({ error: `Too many requests. Please try again in ${waitSecs} second(s).` });
+    return false;
+  }
+
+  record.count += 1;
+  return true;
+}
 
 // --- SECURE SERVER-SIDE AUTHENTICATION ENGINE ---
 interface AdminCredentials {
@@ -68,12 +152,6 @@ function parseCookies(req: Request): Record<string, string> {
     if (name) list[name] = decodeURIComponent(parts.slice(1).join('=').trim());
   });
   return list;
-}
-
-function getClientIp(req: Request): string {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (typeof forwarded === 'string') return forwarded.split(',')[0].trim();
-  return req.socket.remoteAddress || '127.0.0.1';
 }
 
 // Authentication Middleware for all /api/admin/* endpoints
@@ -343,6 +421,7 @@ const valuationRequests: any[] = [];
 
 // API Route: Generate Bespoke Real Estate Noida Expressway Video Script for Client
 app.post('/api/generate-client-video-script', async (req: Request, res: Response) => {
+  if (!checkPublicRateLimit(req, res, 15, 5 * 60 * 1000)) return;
   try {
     const { clientName, focus, budget, highlights } = req.body;
 
@@ -454,6 +533,7 @@ Return your response in clean JSON format with keys:
 
 // API Route: AI Real Estate Advisor
 app.post('/api/advisor', async (req: Request, res: Response) => {
+  if (!checkPublicRateLimit(req, res, 20, 5 * 60 * 1000)) return;
   try {
     const { goal, budget, config, preference } = req.body;
 
@@ -521,6 +601,7 @@ Expected rental yield on high-rise residential in this corridor is 4.2% – 5.5%
 
 // API Route: Schedule VIP Site Visit
 app.post('/api/schedule-visit', async (req: Request, res: Response) => {
+  if (!checkPublicRateLimit(req, res, 15, 10 * 60 * 1000)) return;
   const visitData = {
     ...req.body,
     receivedAt: new Date().toISOString(),
@@ -529,22 +610,54 @@ app.post('/api/schedule-visit', async (req: Request, res: Response) => {
   leadInquiries.push(visitData);
   console.log('Site Visit Booked for KR Estate (Target: avinashmehra5292@gmail.com):', visitData);
 
+  // Persist to brochureRequests.json for Admin Dashboard "Brochure & Site Leads"
+  try {
+    const fs = await import('fs/promises');
+    const brochurePath = path.resolve(__dirname, 'src', 'data', 'brochureRequests.json');
+    let list: any[] = [];
+    try {
+      const data = await fs.readFile(brochurePath, 'utf8');
+      list = JSON.parse(data);
+    } catch {
+      list = [];
+    }
+    const newVisitLead = {
+      id: `VISIT-${Math.floor(100000 + Math.random() * 900000)}`,
+      createdAt: new Date().toISOString(),
+      name: req.body.fullName || 'VIP Client',
+      phone: req.body.phoneNumber || 'N/A',
+      email: req.body.email || 'N/A',
+      leadType: 'Site Visit',
+      comment: `VIP Site Visit on ${req.body.date || 'TBD'} (${req.body.timeSlot || 'Slot TBD'}). Pickup: ${req.body.pickupRequired ? (req.body.pickupCity || 'Yes') : 'No'}`,
+      propertyId: '',
+      propertyTitle: req.body.project || 'KR Estate VIP Site Visit',
+      sector: 'Noida',
+      developer: 'KR Estate VIP Escort',
+      priceDisplay: 'Scheduled Visit',
+      status: 'Visit Booked'
+    };
+    list.unshift(newVisitLead);
+    await fs.writeFile(brochurePath, JSON.stringify(list, null, 2), 'utf8');
+  } catch (persistErr) {
+    console.error('Failed to persist site visit request:', persistErr);
+  }
+
   try {
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       await transporter.sendMail({
         from: `"KR Estate Bookings" <${process.env.SMTP_USER}>`,
         to: 'avinashmehra5292@gmail.com',
-        subject: `New Site Visit Booking: ${visitData.project}`,
+        subject: `New Site Visit Booking: ${escapeHtml(visitData.project)}`,
         html: `
           <h2>New Site Visit Booking</h2>
-          <p><strong>Name:</strong> ${visitData.fullName}</p>
-          <p><strong>Phone:</strong> ${visitData.phoneNumber}</p>
-          <p><strong>Email:</strong> ${visitData.email}</p>
-          <p><strong>Project:</strong> ${visitData.project}</p>
-          <p><strong>Date:</strong> ${visitData.date}</p>
-          <p><strong>Time Slot:</strong> ${visitData.timeSlot}</p>
+          <p><strong>Name:</strong> ${escapeHtml(visitData.fullName)}</p>
+          <p><strong>Phone:</strong> ${escapeHtml(visitData.phoneNumber)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(visitData.email)}</p>
+          <p><strong>Project:</strong> ${escapeHtml(visitData.project)}</p>
+          <p><strong>Date:</strong> ${escapeHtml(visitData.date)}</p>
+          <p><strong>Time Slot:</strong> ${escapeHtml(visitData.timeSlot)}</p>
           <p><strong>Pickup Required:</strong> ${visitData.pickupRequired ? 'Yes' : 'No'}</p>
-          ${visitData.pickupRequired ? `<p><strong>Pickup City:</strong> ${visitData.pickupCity}</p>` : ''}
+          ${visitData.pickupRequired ? `<p><strong>Pickup City:</strong> ${escapeHtml(visitData.pickupCity)}</p>` : ''}
         `,
       });
       console.log('Email sent successfully to avinashmehra5292@gmail.com');
@@ -564,6 +677,7 @@ app.post('/api/schedule-visit', async (req: Request, res: Response) => {
 
 // API Route: Property Valuation / Resale Listing
 app.post('/api/valuation', (req: Request, res: Response) => {
+  if (!checkPublicRateLimit(req, res, 15, 10 * 60 * 1000)) return;
   const valuationData = {
     ...req.body,
     receivedAt: new Date().toISOString(),
@@ -579,46 +693,74 @@ app.post('/api/valuation', (req: Request, res: Response) => {
   });
 });
 
-// API Route: Request Property PDF Brochure & Cost Sheet
+// API Route: Request Property PDF Brochure & Cost Sheet (Records lead and sends email)
 app.post('/api/request-brochure', async (req: Request, res: Response) => {
-  const brochureLead = {
-    ...req.body,
-    receivedAt: new Date().toISOString(),
-    recipientEmail: 'avinashmehra5292@gmail.com',
-  };
-  leadInquiries.push(brochureLead);
-  console.log('PDF Brochure Requested for KR Estate (Target: avinashmehra5292@gmail.com):', brochureLead);
+  if (!checkPublicRateLimit(req, res, 20, 10 * 60 * 1000)) return;
 
+  const newLead = {
+    id: `BRC-${Math.floor(100000 + Math.random() * 900000)}`,
+    createdAt: new Date().toISOString(),
+    name: req.body.name || 'Anonymous Client',
+    phone: req.body.phone || 'N/A',
+    email: req.body.email || 'N/A',
+    comment: req.body.comment || 'Requested complete digital brochure and cost sheet.',
+    propertyId: req.body.propertyId || '',
+    propertyTitle: req.body.propertyTitle || 'General Noida Inquiry',
+    sector: req.body.sector || 'Noida',
+    developer: req.body.developer || 'KR Estate',
+    priceDisplay: req.body.priceDisplay || 'On Request',
+    leadType: 'Brochure Request',
+    status: 'New'
+  };
+
+  // 1. Persist to brochureRequests.json for Admin Dashboard
+  try {
+    const fs = await import('fs/promises');
+    const brochurePath = path.resolve(__dirname, 'src', 'data', 'brochureRequests.json');
+    let list: any[] = [];
+    try {
+      const data = await fs.readFile(brochurePath, 'utf8');
+      list = JSON.parse(data);
+    } catch {
+      list = [];
+    }
+    list.unshift(newLead);
+    await fs.writeFile(brochurePath, JSON.stringify(list, null, 2), 'utf8');
+  } catch (persistErr) {
+    console.error('Failed to persist brochure request:', persistErr);
+  }
+
+  // 2. Send Email Notification
   try {
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       await transporter.sendMail({
         from: `"KR Estate Brochure Inquiries" <${process.env.SMTP_USER}>`,
         to: 'avinashmehra5292@gmail.com',
-        subject: `New PDF Brochure & Cost Sheet Request: ${brochureLead.propertyTitle || 'Property'}`,
+        subject: `New PDF Brochure & Cost Sheet Request: ${escapeHtml(newLead.propertyTitle)}`,
         html: `
           <h2>New PDF Brochure & Cost Sheet Request</h2>
-          <p><strong>Property:</strong> ${brochureLead.propertyTitle} (${brochureLead.sector || 'Noida'})</p>
-          <p><strong>Customer Name:</strong> ${brochureLead.name}</p>
-          <p><strong>Contact Number:</strong> ${brochureLead.phone}</p>
-          <p><strong>Email:</strong> ${brochureLead.email}</p>
-          <p><strong>Comment / Requirement:</strong> ${brochureLead.comment || 'N/A'}</p>
+          <p><strong>Property:</strong> ${escapeHtml(newLead.propertyTitle)} (${escapeHtml(newLead.sector)})</p>
+          <p><strong>Customer Name:</strong> ${escapeHtml(newLead.name)}</p>
+          <p><strong>Contact Number:</strong> ${escapeHtml(newLead.phone)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(newLead.email)}</p>
+          <p><strong>Comment / Requirement:</strong> ${escapeHtml(newLead.comment)}</p>
           <p><strong>Requested At:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
         `,
       });
       console.log('Brochure request email sent successfully to avinashmehra5292@gmail.com');
     }
-  } catch (error) {
-    console.error('Failed to send brochure request email:', error);
+  } catch (emailErr) {
+    console.error('Failed to send brochure request email:', emailErr);
   }
 
   res.json({
     success: true,
     message: 'Brochure request recorded successfully',
-    requestId: `BRC-${Date.now().toString().slice(-6)}`,
+    requestId: newLead.id,
   });
 });
 
-// API Route: Upload Property Video (No storage or duration limit)
+// API Route: Upload Property Video (Strict extension whitelist & sanitization)
 app.post('/api/admin/upload-video', async (req: Request, res: Response) => {
   if (process.env.NODE_ENV === 'production') {
     return res.status(403).json({ error: 'Admin writes disabled in production' });
@@ -631,11 +773,20 @@ app.post('/api/admin/upload-video', async (req: Request, res: Response) => {
 
     if (req.body && req.body.base64) {
       const { name, base64 } = req.body;
+      const rawExt = (name && name.split('.').pop()?.toLowerCase()) || 'mp4';
+      const ALLOWED_VIDEO_EXTS = ['mp4', 'webm', 'mov', 'mkv'];
+
+      if (!ALLOWED_VIDEO_EXTS.includes(rawExt)) {
+        return res.status(400).json({
+          success: false,
+          error: `Invalid video format (.${escapeHtml(rawExt)}). Only MP4, WebM, MOV, and MKV video files are permitted.`
+        });
+      }
+
       const matches = base64.match(/^data:([A-Za-z0-9\-+\/]+);base64,(.+)$/);
       const buffer = matches ? Buffer.from(matches[2], 'base64') : Buffer.from(base64, 'base64');
-      const ext = (name && name.split('.').pop()?.toLowerCase()) || 'mp4';
       const cleanName = (name ? name.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_') : 'tour');
-      const fileName = `video-${cleanName}-${Date.now()}.${ext}`;
+      const fileName = `video-${cleanName.slice(0, 40)}-${Date.now()}.${rawExt}`;
       const filePath = path.resolve(videosDir, fileName);
       await fs.writeFile(filePath, buffer);
 
@@ -687,16 +838,23 @@ app.post('/api/admin/site-settings', async (req: Request, res: Response) => {
   }
 });
 
-// API Route: Get Localities
+// API Route: Get Localities (Safe JSON parse, no eval)
 app.get('/api/localities', async (req: Request, res: Response) => {
   try {
     const fs = await import('fs/promises');
-    const file = path.resolve(__dirname, 'src', 'data', 'localities.ts');
-    const content = await fs.readFile(file, 'utf8');
-    const match = content.match(/export const NOIDA_LOCALITIES:\s*LocalityInfo\[\]\s*=\s*(\[\s*[\s\S]*\]);?\s*$/);
-    if (!match) throw new Error('Could not parse localities.ts');
-    const localities = eval(match[1]);
-    return res.json(localities);
+    const jsonPath = path.resolve(__dirname, 'src', 'data', 'localities.json');
+    try {
+      const data = await fs.readFile(jsonPath, 'utf8');
+      return res.json(JSON.parse(data));
+    } catch {
+      const tsPath = path.resolve(__dirname, 'src', 'data', 'localities.ts');
+      const tsContent = await fs.readFile(tsPath, 'utf8');
+      const match = tsContent.match(/export const NOIDA_LOCALITIES:\s*LocalityInfo\[\]\s*=\s*(\[\s*[\s\S]*\]);?\s*$/);
+      if (match) {
+        return res.json(JSON.parse(match[1]));
+      }
+      return res.status(500).json({ error: 'Localities not found' });
+    }
   } catch (e: any) {
     console.error('Error reading localities:', e);
     return res.status(500).json({ error: 'Failed to read localities' });
@@ -714,6 +872,11 @@ app.post('/api/admin/localities', async (req: Request, res: Response) => {
     const file = path.resolve(__dirname, 'src', 'data', 'localities.ts');
     const newContent = `import { LocalityInfo } from '../types';\n\nexport const NOIDA_LOCALITIES: LocalityInfo[] = ${JSON.stringify(req.body, null, 2)};\n`;
     await fs.writeFile(file, newContent, 'utf8');
+    
+    // Also keep localities.json synchronized
+    const jsonPath = path.resolve(__dirname, 'src', 'data', 'localities.json');
+    await fs.writeFile(jsonPath, JSON.stringify(req.body, null, 2), 'utf8');
+
     return res.json({ success: true });
   } catch (e: any) {
     console.error('Error updating localities:', e);
@@ -721,7 +884,7 @@ app.post('/api/admin/localities', async (req: Request, res: Response) => {
   }
 });
 
-// Helper to read properties.ts safely
+// Helper to read properties.ts safely (Pure JSON.parse, zero eval)
 async function getPropertiesArray() {
   const fs = await import('fs/promises');
   const propertyFile = path.resolve(__dirname, 'src', 'data', 'properties.ts');
@@ -730,7 +893,7 @@ async function getPropertiesArray() {
   if (!match) {
     throw new Error('Could not parse properties.ts structure');
   }
-  const properties = eval(match[1]);
+  const properties = JSON.parse(match[1]);
   return { properties, propertyFile };
 }
 
@@ -741,12 +904,13 @@ async function writePropertiesArray(properties: any[], propertyFile: string) {
   await fs.writeFile(propertyFile, newContent, 'utf8');
 }
 
-// Process Base64 image uploads helper
+// Process Base64 image uploads helper with strict extension whitelisting
 async function processUploadedImages(body: any) {
   const fs = await import('fs/promises');
   const uploadsDir = path.resolve(__dirname, 'public', 'uploads');
   await fs.mkdir(uploadsDir, { recursive: true });
 
+  const ALLOWED_IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
   const uploadedUrls: string[] = [];
 
   if (Array.isArray(body.uploadedImages) && body.uploadedImages.length > 0) {
@@ -757,8 +921,12 @@ async function processUploadedImages(body: any) {
         const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
         if (matches && matches.length === 3) {
           const imageBuffer = Buffer.from(matches[2], 'base64');
-          const ext = name.split('.').pop() || 'jpg';
-          const fileName = `upload-${Date.now()}-${i + 1}.${ext}`;
+          const rawExt = (name && name.split('.').pop()?.toLowerCase()) || 'jpg';
+          if (!ALLOWED_IMAGE_EXTS.includes(rawExt)) {
+            console.warn(`Blocked non-whitelisted image upload extension: .${rawExt}`);
+            continue;
+          }
+          const fileName = `upload-${Date.now()}-${i + 1}.${rawExt}`;
           const filePath = path.resolve(uploadsDir, fileName);
           await fs.writeFile(filePath, imageBuffer);
           uploadedUrls.push(`/uploads/${fileName}`);
@@ -774,11 +942,13 @@ async function processUploadedImages(body: any) {
       const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
       if (matches && matches.length === 3) {
         const imageBuffer = Buffer.from(matches[2], 'base64');
-        const ext = name.split('.').pop() || 'jpg';
-        const fileName = `upload-${Date.now()}.${ext}`;
-        const filePath = path.resolve(uploadsDir, fileName);
-        await fs.writeFile(filePath, imageBuffer);
-        uploadedUrls.push(`/uploads/${fileName}`);
+        const rawExt = (name && name.split('.').pop()?.toLowerCase()) || 'jpg';
+        if (ALLOWED_IMAGE_EXTS.includes(rawExt)) {
+          const fileName = `upload-${Date.now()}.${rawExt}`;
+          const filePath = path.resolve(uploadsDir, fileName);
+          await fs.writeFile(filePath, imageBuffer);
+          uploadedUrls.push(`/uploads/${fileName}`);
+        }
       }
     } catch (imgError) {
       console.error('Error saving uploaded image:', imgError);
@@ -1013,284 +1183,6 @@ app.delete('/api/admin/properties/:id', async (req: Request, res: Response) => {
   }
 });
 
-// API Route: Secure Admin - Change Password
-app.post('/api/admin/change-password', async (req: Request, res: Response) => {
-  try {
-    const { newPassword, token: totpToken } = req.body;
-    
-    if (!newPassword || newPassword.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
-    }
-
-    const fs = await import('fs/promises');
-    
-    // Verify TOTP if it's set up
-    try {
-      const totpData = await fs.readFile(path.resolve(__dirname, 'totp.json'), 'utf8');
-      const { secret } = JSON.parse(totpData);
-      if (secret) {
-        if (!totpToken) {
-          return res.status(401).json({ error: '2FA Authenticator TOTP token is required.' });
-        }
-        const isValid = authenticator.check(totpToken, secret);
-        if (!isValid) {
-          return res.status(401).json({ error: 'Invalid 2FA code.' });
-        }
-      }
-    } catch {
-      // If totp.json doesn't exist, TOTP is not configured yet.
-    }
-
-    // Securely update admin-auth.json with PBKDF2 hash
-    const creds = await getOrInitAdminCredentials();
-    const newSalt = crypto.randomBytes(16).toString('hex');
-    const newHash = hashPassword(newPassword, newSalt);
-
-    creds.salt = newSalt;
-    creds.hash = newHash;
-    creds.updatedAt = new Date().toISOString();
-
-    await fs.writeFile(ADMIN_AUTH_FILE, JSON.stringify(creds, null, 2), 'utf8');
-
-    // Invalidate existing sessions for security
-    activeAdminSessions.clear();
-
-    // Issue fresh session token for the current session
-    const sessionToken = crypto.randomBytes(32).toString('hex');
-    activeAdminSessions.set(sessionToken, { username: creds.username, expiresAt: Date.now() + 24 * 3600 * 1000 });
-    res.setHeader('Set-Cookie', `kr_admin_token=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
-
-    res.json({
-      success: true,
-      token: sessionToken,
-      message: 'Password updated and secured successfully!'
-    });
-  } catch (error: any) {
-    console.error('Error changing password:', error);
-    res.status(500).json({ error: 'Failed to update admin password.' });
-  }
-});
-
-// API Route: TOTP Generate Secret & QR
-app.get('/api/admin/totp-generate', async (req: Request, res: Response) => {
-  try {
-    const secret = authenticator.generateSecret();
-    const otpauth = authenticator.keyuri('admin', 'KR Estate Admin', secret);
-    const qrCodeUrl = await QRCode.toDataURL(otpauth);
-    res.json({ secret, qrCodeUrl });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to generate TOTP' });
-  }
-});
-
-// API Route: TOTP Setup Confirm
-app.post('/api/admin/totp-setup', async (req: Request, res: Response) => {
-  try {
-    const { secret, token } = req.body;
-    const isValid = authenticator.check(token, secret);
-    if (isValid) {
-      const fs = await import('fs/promises');
-      await fs.writeFile(path.resolve(__dirname, 'totp.json'), JSON.stringify({ secret }));
-      res.json({ success: true });
-    } else {
-      res.status(400).json({ error: 'Invalid token' });
-    }
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to setup TOTP' });
-  }
-});
-
-// API Route: TOTP Verify Only
-app.post('/api/admin/totp-verify', async (req: Request, res: Response) => {
-  try {
-    const { token } = req.body;
-    const fs = await import('fs/promises');
-    try {
-      const totpData = await fs.readFile(path.resolve(__dirname, 'totp.json'), 'utf8');
-      const { secret } = JSON.parse(totpData);
-      const isValid = authenticator.check(token, secret);
-      if (isValid) {
-        return res.json({ success: true });
-      } else {
-        return res.status(400).json({ error: 'Invalid code.' });
-      }
-    } catch (e) {
-      // If TOTP isn't configured, we allow it (for fallback) or fail it?
-      // Since they are verifying for login, if no TOTP is set, we return success so they can login.
-      return res.json({ success: true, message: 'No TOTP configured.' });
-    }
-  } catch (err) {
-    res.status(500).json({ error: 'Verification failed.' });
-  }
-});
-
-// API Route: Admin Video Upload (No file size or duration limit)
-app.post('/api/admin/upload-video', async (req: Request, res: Response) => {
-  try {
-    const { name, base64 } = req.body;
-    if (!name || !base64) {
-      return res.status(400).json({ error: 'Video file name and base64 data are required.' });
-    }
-
-    const fs = await import('fs/promises');
-    const videosDir = path.resolve(__dirname, 'public', 'uploads', 'videos');
-    await fs.mkdir(videosDir, { recursive: true });
-
-    // Extract base64 binary
-    const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    const buffer = matches && matches.length === 3
-      ? Buffer.from(matches[2], 'base64')
-      : Buffer.from(base64, 'base64');
-
-    const extMatch = name.match(/\.([0-9a-z]+)$/i);
-    const ext = extMatch ? extMatch[1] : 'mp4';
-    const cleanBase = name.replace(/[^a-zA-Z0-9_-]/g, '_').replace(new RegExp(`\\.${ext}$`), '');
-    const filename = `video-${Date.now()}-${cleanBase.slice(0, 30)}.${ext}`;
-    const filePath = path.join(videosDir, filename);
-
-    await fs.writeFile(filePath, buffer);
-
-    const sizeMb = (buffer.length / (1024 * 1024)).toFixed(2);
-    const videoUrl = `/uploads/videos/${filename}`;
-
-    res.json({
-      success: true,
-      videoUrl,
-      sizeMb,
-      filename,
-      message: 'Video uploaded successfully!'
-    });
-  } catch (error: any) {
-    console.error('Error uploading video:', error);
-    res.status(500).json({ error: error.message || 'Failed to save video upload.' });
-  }
-});
-
-// API Route: Get Site Settings (supports /api/site-settings and /api/settings)
-const handleGetSiteSettings = async (req: Request, res: Response) => {
-  try {
-    const fs = await import('fs/promises');
-    const settingsPath = path.resolve(__dirname, 'src', 'data', 'siteSettings.json');
-    const data = await fs.readFile(settingsPath, 'utf8');
-    res.json(JSON.parse(data));
-  } catch (error: any) {
-    console.error('Error fetching site settings:', error);
-    res.status(500).json({ error: 'Failed to read site settings' });
-  }
-};
-app.get('/api/site-settings', handleGetSiteSettings);
-app.get('/api/settings', handleGetSiteSettings);
-
-// API Route: Update Site Settings (supports /api/admin/site-settings and /api/admin/settings)
-const handlePostSiteSettings = async (req: Request, res: Response) => {
-  if (process.env.NODE_ENV === 'production') {
-    return res.status(403).json({ error: 'Admin writes disabled in production' });
-  }
-  try {
-    const fs = await import('fs/promises');
-    const settingsPath = path.resolve(__dirname, 'src', 'data', 'siteSettings.json');
-    await fs.writeFile(settingsPath, JSON.stringify(req.body, null, 2), 'utf8');
-    res.json({ success: true, message: 'Site settings updated successfully!' });
-  } catch (error: any) {
-    console.error('Error updating site settings:', error);
-    res.status(500).json({ error: error.message || 'Failed to save site settings' });
-  }
-};
-app.post('/api/admin/site-settings', handlePostSiteSettings);
-app.post('/api/admin/settings', handlePostSiteSettings);
-
-// API Route: Get Locality Guides
-app.get('/api/localities', async (req: Request, res: Response) => {
-  try {
-    const fs = await import('fs/promises');
-    const jsonPath = path.resolve(__dirname, 'src', 'data', 'localities.json');
-    try {
-      const data = await fs.readFile(jsonPath, 'utf8');
-      return res.json(JSON.parse(data));
-    } catch (e) {
-      // Fallback: parse from localities.ts
-      const tsPath = path.resolve(__dirname, 'src', 'data', 'localities.ts');
-      const tsContent = await fs.readFile(tsPath, 'utf8');
-      const match = tsContent.match(/export const NOIDA_LOCALITIES:\s*LocalityInfo\[\]\s*=\s*(\[[\s\S]*?\]);/);
-      if (match) {
-        // Safe evaluation / parse or create localities.json
-        const jsonStr = match[1]
-          .replace(/'/g, '"')
-          .replace(/,\s*([\]}])/g, '$1');
-        return res.json(JSON.parse(jsonStr));
-      }
-      return res.status(500).json({ error: 'Localities not found' });
-    }
-  } catch (error: any) {
-    console.error('Error getting localities:', error);
-    res.status(500).json({ error: 'Failed to retrieve localities' });
-  }
-});
-
-// API Route: Update Locality Guides
-app.post('/api/admin/localities', async (req: Request, res: Response) => {
-  if (process.env.NODE_ENV === 'production') {
-    return res.status(403).json({ error: 'Admin writes disabled in production' });
-  }
-  try {
-    const localities = req.body;
-    if (!Array.isArray(localities)) {
-      return res.status(400).json({ error: 'Localities must be an array.' });
-    }
-    const fs = await import('fs/promises');
-    const jsonPath = path.resolve(__dirname, 'src', 'data', 'localities.json');
-    await fs.writeFile(jsonPath, JSON.stringify(localities, null, 2), 'utf8');
-
-    // Also update localities.ts
-    const tsPath = path.resolve(__dirname, 'src', 'data', 'localities.ts');
-    const tsFileContent = `import { LocalityInfo } from '../types';\n\nexport const NOIDA_LOCALITIES: LocalityInfo[] = ${JSON.stringify(localities, null, 2)};\n`;
-    await fs.writeFile(tsPath, tsFileContent, 'utf8');
-
-    res.json({ success: true, message: 'Locality guides updated successfully!' });
-  } catch (error: any) {
-    console.error('Error updating localities:', error);
-    res.status(500).json({ error: error.message || 'Failed to save locality guides' });
-  }
-});
-
-// API Route: Digital Brochure & Cost Sheet Requests
-app.post('/api/request-brochure', async (req: Request, res: Response) => {
-  try {
-    const fs = await import('fs/promises');
-    const brochurePath = path.resolve(__dirname, 'src', 'data', 'brochureRequests.json');
-    let list: any[] = [];
-    try {
-      const data = await fs.readFile(brochurePath, 'utf8');
-      list = JSON.parse(data);
-    } catch {
-      list = [];
-    }
-
-    const newLead = {
-      id: `BRC-${Math.floor(100000 + Math.random() * 900000)}`,
-      createdAt: new Date().toISOString(),
-      name: req.body.name || 'Anonymous Client',
-      phone: req.body.phone || 'N/A',
-      email: req.body.email || 'N/A',
-      comment: req.body.comment || 'Requested complete digital brochure and cost sheet.',
-      propertyId: req.body.propertyId || '',
-      propertyTitle: req.body.propertyTitle || 'General Noida Inquiry',
-      sector: req.body.sector || 'Noida',
-      developer: req.body.developer || 'KR Estate',
-      priceDisplay: req.body.priceDisplay || 'On Request',
-      status: 'New'
-    };
-
-    list.unshift(newLead);
-    await fs.writeFile(brochurePath, JSON.stringify(list, null, 2), 'utf8');
-
-    res.json({ success: true, requestId: newLead.id, message: 'Brochure request logged successfully.' });
-  } catch (err: any) {
-    console.error('Error in /api/request-brochure:', err);
-    res.status(500).json({ error: err.message || 'Failed to record brochure request.' });
-  }
-});
-
 // API Route: Admin fetch brochure leads
 app.get('/api/admin/brochure-requests', async (req: Request, res: Response) => {
   try {
@@ -1302,6 +1194,38 @@ app.get('/api/admin/brochure-requests', async (req: Request, res: Response) => {
     } catch {
       res.json([]);
     }
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// API Route: Admin delete single brochure/site lead
+app.delete('/api/admin/brochure-requests/:id', async (req: Request, res: Response) => {
+  try {
+    const fs = await import('fs/promises');
+    const brochurePath = path.resolve(__dirname, 'src', 'data', 'brochureRequests.json');
+    let list: any[] = [];
+    try {
+      const data = await fs.readFile(brochurePath, 'utf8');
+      list = JSON.parse(data);
+    } catch {
+      list = [];
+    }
+    const filtered = list.filter((item: any) => item.id !== req.params.id);
+    await fs.writeFile(brochurePath, JSON.stringify(filtered, null, 2), 'utf8');
+    res.json({ success: true, message: 'Lead deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// API Route: Admin clear all leads
+app.delete('/api/admin/brochure-requests', async (req: Request, res: Response) => {
+  try {
+    const fs = await import('fs/promises');
+    const brochurePath = path.resolve(__dirname, 'src', 'data', 'brochureRequests.json');
+    await fs.writeFile(brochurePath, '[]', 'utf8');
+    res.json({ success: true, message: 'All leads cleared successfully' });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

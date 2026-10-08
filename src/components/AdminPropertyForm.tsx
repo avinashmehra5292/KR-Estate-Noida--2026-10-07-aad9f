@@ -767,7 +767,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
   }
 
   const formContent = (
-    <div className={`bg-[#FDFBF7] flex flex-col relative w-full h-full ${inlineMode ? '' : 'rounded-3xl max-w-5xl max-h-[92vh] overflow-hidden shadow-2xl border border-slate-300'}`}>
+    <div className={`bg-slate-50 flex flex-col relative w-full h-full ${inlineMode ? '' : 'rounded-3xl max-w-5xl max-h-[92vh] overflow-hidden shadow-2xl border border-slate-300'}`}>
 
       {/* Top Header */}
       <div className="flex items-center justify-between p-6 border-b border-slate-200 bg-white/70 backdrop-blur-sm">

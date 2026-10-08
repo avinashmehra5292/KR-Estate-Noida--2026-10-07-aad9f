@@ -56,54 +56,55 @@ export const ValuationForm: React.FC = () => {
   };
 
   return (
-    <section id="valuation" className="py-20 lg:py-28 border-b border-slate-200 bg-[#FDFBF7]">
+    <section id="valuation" className="py-20 lg:py-28 border-b border-slate-800/80 bg-[#070A10]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        <div className="rounded-3xl border border-slate-300 bg-gradient-to-b from-neutral-900 to-[#FDFBF7] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+        <div className="rounded-3xl border border-slate-800/90 bg-gradient-to-br from-[#0F1424] via-[#12192C] to-[#0A0D15] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
             
             {/* Left Narrative (Col 5) */}
             <div className="lg:col-span-5 space-y-4">
-              <div className="text-xs font-semibold uppercase tracking-wider text-amber-400">
-                Owners & Investors Desk
+              <div className="text-xs font-bold uppercase tracking-wider text-amber-400">
+                Owners &amp; Investors Desk
               </div>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
                 Selling or Renting Your Property in Noida?
               </h2>
-              <p className="text-sm text-slate-800 leading-relaxed">
-                Connect with KR Estate’s dedicated resale and leasing desk. We provide institutional valuation grounded in actual circle rates, active transaction velocity, and verified NRI & domestic buyer pools.
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Connect with KR Estate’s dedicated resale and leasing desk. We provide institutional valuation grounded in actual circle rates, active transaction velocity, and verified NRI &amp; domestic buyer pools.
               </p>
 
-              <div className="space-y-3 pt-4 border-t border-slate-300 text-xs text-slate-800">
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <div className="space-y-3 pt-4 border-t border-slate-800/80 text-xs text-slate-300">
+                <div className="flex items-center gap-2.5">
+                  <div className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
                   <span>Free certified market valuation within 24 hours</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                  <span>Pre-qualified corporate tenant matching & legal documentation</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                  <span>Pre-qualified corporate tenant matching &amp; legal documentation</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                  <span>Direct escrow & bank loan assistance for prospective buyers</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                  <span>Direct escrow &amp; bank loan assistance for prospective buyers</span>
                 </div>
               </div>
 
               <div className="pt-2 text-xs text-slate-400">
-                Inquiries routed directly to: <span className="text-slate-800 font-mono">{settings.agency.email || 'avinashmehra5292@gmail.com'}</span>
+                Inquiries routed directly to: <span className="text-amber-400 font-mono font-medium">{settings.agency.email || 'avinashmehra5292@gmail.com'}</span>
               </div>
             </div>
 
             {/* Right Form (Col 7) */}
-            <div className="lg:col-span-7 rounded-2xl bg-[#FDFBF7]/80 border border-slate-300 p-6 sm:p-8 backdrop-blur-xl">
+            <div className="lg:col-span-7 rounded-2xl bg-[#080B14]/85 border border-slate-800/90 p-6 sm:p-8 backdrop-blur-xl shadow-xl">
               {submitted ? (
                 <div className="text-center py-10 space-y-4 animate-in fade-in duration-300">
-                  <div className="mx-auto h-14 w-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
-                    <CheckCircle2 className="h-8 w-8" />
+                  <div className="mx-auto h-16 w-16 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                    <CheckCircle2 className="h-9 w-9 text-emerald-400" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900">Valuation Request Received</h3>
-                  <p className="text-xs sm:text-sm text-slate-800 max-w-md mx-auto">
+                  <h3 className="text-2xl font-bold text-white font-display">Valuation Request Received</h3>
+                  <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
                     Thank you, {formData.ownerName}. Our senior valuation analyst has received your details for {formData.societyName || formData.sector} and will contact you at {formData.phoneNumber} with a comprehensive valuation report.
                   </p>
                   <button
@@ -122,7 +123,7 @@ export const ValuationForm: React.FC = () => {
                         intent: 'sell',
                       });
                     }}
-                    className="mt-4 px-4 py-2 text-xs font-semibold text-neutral-950 bg-amber-400 rounded-lg hover:bg-amber-300 cursor-pointer"
+                    className="mt-4 px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl hover:from-amber-300 hover:to-amber-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer"
                   >
                     Submit Another Property
                   </button>
@@ -132,7 +133,7 @@ export const ValuationForm: React.FC = () => {
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Your Full Name *
                       </label>
                       <input
@@ -141,12 +142,12 @@ export const ValuationForm: React.FC = () => {
                         placeholder="e.g. Vikram Sharma"
                         value={formData.ownerName}
                         onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Phone Number (WhatsApp) *
                       </label>
                       <input
@@ -155,14 +156,14 @@ export const ValuationForm: React.FC = () => {
                         placeholder="+91 98765 43210"
                         value={formData.phoneNumber}
                         onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Email Address *
                       </label>
                       <input
@@ -171,29 +172,29 @@ export const ValuationForm: React.FC = () => {
                         placeholder="you@domain.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         I Want To *
                       </label>
                       <select
                         value={formData.intent}
                         onChange={(e) => setFormData({ ...formData, intent: e.target.value as any })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
                       >
-                        <option value="sell">Sell Property</option>
-                        <option value="rent">Rent Out Property</option>
-                        <option value="valuation_only">Get Market Valuation Only</option>
+                        <option value="sell" className="bg-[#0D121F] text-slate-100">Sell Property</option>
+                        <option value="rent" className="bg-[#0D121F] text-slate-100">Rent Out Property</option>
+                        <option value="valuation_only" className="bg-[#0D121F] text-slate-100">Get Market Valuation Only</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Sector / Location *
                       </label>
                       <input
@@ -202,12 +203,12 @@ export const ValuationForm: React.FC = () => {
                         placeholder="e.g. Sector 137"
                         value={formData.sector}
                         onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Society / Project Name *
                       </label>
                       <input
@@ -216,32 +217,32 @@ export const ValuationForm: React.FC = () => {
                         placeholder="e.g. Purvanchal Royal Park"
                         value={formData.societyName}
                         onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Configuration
                       </label>
                       <select
                         value={formData.configuration}
                         onChange={(e) => setFormData({ ...formData, configuration: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400 cursor-pointer"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
                       >
-                        <option value="2 BHK">2 BHK</option>
-                        <option value="3 BHK">3 BHK</option>
-                        <option value="4 BHK">4 BHK</option>
-                        <option value="Penthouse">Penthouse</option>
-                        <option value="Plot / Villa">Plot / Villa</option>
-                        <option value="Commercial">Commercial</option>
+                        <option value="2 BHK" className="bg-[#0D121F] text-slate-100">2 BHK</option>
+                        <option value="3 BHK" className="bg-[#0D121F] text-slate-100">3 BHK</option>
+                        <option value="4 BHK" className="bg-[#0D121F] text-slate-100">4 BHK</option>
+                        <option value="Penthouse" className="bg-[#0D121F] text-slate-100">Penthouse</option>
+                        <option value="Plot / Villa" className="bg-[#0D121F] text-slate-100">Plot / Villa</option>
+                        <option value="Commercial" className="bg-[#0D121F] text-slate-100">Commercial</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Super Area (Sq.Ft)
                       </label>
                       <input
@@ -249,12 +250,12 @@ export const ValuationForm: React.FC = () => {
                         placeholder="1650"
                         value={formData.superAreaSqFt || ''}
                         onChange={(e) => setFormData({ ...formData, superAreaSqFt: Number(e.target.value) })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400 font-mono"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 font-mono transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="text-[11px] font-medium text-slate-800 block mb-1">
+                      <label className="text-[11px] font-semibold text-slate-300 block mb-1.5">
                         Expected Price (Optional)
                       </label>
                       <input
@@ -262,7 +263,7 @@ export const ValuationForm: React.FC = () => {
                         placeholder="e.g. ₹1.85 Cr"
                         value={formData.expectedPrice}
                         onChange={(e) => setFormData({ ...formData, expectedPrice: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl bg-[#121829] border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
                       />
                     </div>
                   </div>
@@ -270,7 +271,7 @@ export const ValuationForm: React.FC = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 disabled:opacity-50 rounded-xl transition-all shadow-lg shadow-amber-500/20 cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-3.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:via-amber-400 hover:to-amber-500 disabled:opacity-50 rounded-xl transition-all shadow-[0_0_25px_rgba(245,158,11,0.35)] hover:shadow-[0_0_35px_rgba(245,158,11,0.55)] cursor-pointer flex items-center justify-center gap-2 hover:-translate-y-0.5"
                   >
                     {loading ? (
                       <>
@@ -280,7 +281,7 @@ export const ValuationForm: React.FC = () => {
                     ) : (
                       <>
                         <span>Get Free Certified Valuation</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <ArrowRight className="h-4 w-4" />
                       </>
                     )}
                   </button>

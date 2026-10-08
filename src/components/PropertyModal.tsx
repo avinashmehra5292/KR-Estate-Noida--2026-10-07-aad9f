@@ -126,30 +126,30 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200">
         <div 
-          className="relative w-full max-w-7xl h-[92vh] sm:h-[95vh] max-h-[96vh] flex flex-col lg:flex-row rounded-3xl border border-slate-700/60 bg-white shadow-2xl overflow-hidden text-slate-900"
+          className="relative w-full max-w-7xl h-[92vh] sm:h-[95vh] max-h-[96vh] flex flex-col lg:flex-row rounded-3xl border border-amber-500/30 bg-[#0A0E18] shadow-[0_25px_70px_rgba(0,0,0,0.85)] ring-1 ring-amber-500/20 overflow-hidden text-slate-100"
           onClick={(e) => e.stopPropagation()}
         >
           {/* ======================================================== */}
           {/* LEFT COLUMN: Property Details & Specifications           */}
           {/* ======================================================== */}
-          <div className="w-full lg:w-[50%] xl:w-[52%] flex flex-col h-full bg-[#FDFBF7] order-2 lg:order-1 overflow-hidden border-t lg:border-t-0 lg:border-r border-slate-200">
+          <div className="w-full lg:w-[50%] xl:w-[52%] flex flex-col h-full bg-[#0A0E18] order-2 lg:order-1 overflow-hidden border-t lg:border-t-0 lg:border-r border-slate-800">
             
             {/* Scrollable Details Content */}
             <div className="flex-1 overflow-y-auto p-5 sm:p-7 lg:p-8 space-y-7">
               
               {/* Property Title & Header */}
-              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-slate-200">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-slate-800">
                 <div>
-                  <span className="text-amber-500 text-xs font-bold uppercase tracking-wider block mb-2">
+                  <span className="text-amber-400 text-xs font-bold uppercase tracking-wider block mb-2 drop-shadow-sm">
                     {[property.developer, property.sector || property.locality].filter(Boolean).join(' · ') || 'Exclusive Noida Listing'}
                   </span>
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
+                  <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
                     {property.title}
                   </h1>
                 </div>
-                <div className="bg-white px-4 py-3 sm:px-5 sm:py-4 rounded-2xl border border-slate-200 shadow-sm shrink-0 self-start sm:self-auto">
-                  <span className="text-[11px] text-slate-500 uppercase tracking-wider block mb-0.5">Investment</span>
-                  <span className="font-mono text-xl sm:text-2xl font-bold text-amber-500 tabular-nums">
+                <div className="bg-[#111728]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl border border-amber-500/30 shadow-lg shadow-amber-500/5 shrink-0 self-start sm:self-auto">
+                  <span className="text-[11px] text-slate-400 uppercase tracking-wider block mb-0.5 font-medium">Investment</span>
+                  <span className="font-mono text-xl sm:text-2xl font-bold text-amber-400 tabular-nums drop-shadow-sm">
                     {property.priceDisplay || (property.priceNumInCrores ? `₹${property.priceNumInCrores} Cr` : 'Price on Request')}
                   </span>
                 </div>
@@ -158,10 +158,10 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               {/* 01. Executive Overview */}
               {property.fullDescription && (
                 <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500 mb-2.5">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 mb-2.5">
                     01. Project Architecture & Overview
                   </h3>
-                  <p className="text-slate-800 text-sm sm:text-base leading-relaxed">
+                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
                     {property.fullDescription}
                   </p>
                 </div>
@@ -169,41 +169,41 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
 
               {/* 02. Key Specifications Bento */}
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500 mb-2.5">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 mb-2.5">
                   02. Project Invariants & Metrics
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
-                    <span className="text-xs text-slate-500 block mb-1">Total Campus</span>
-                    <span className="font-mono text-base sm:text-lg font-bold text-slate-900">{property.totalAcres ? `${property.totalAcres} Acres` : 'Bespoke Plot'}</span>
+                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#111728]/80 border border-slate-800/80 shadow-xs hover:border-amber-400/30 transition-colors">
+                    <span className="text-xs text-slate-400 block mb-1">Total Campus</span>
+                    <span className="font-mono text-base sm:text-lg font-bold text-white">{property.totalAcres ? `${property.totalAcres} Acres` : 'Bespoke Plot'}</span>
                   </div>
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
-                    <span className="text-xs text-slate-500 block mb-1">Open Greens</span>
-                    <span className="font-mono text-base sm:text-lg font-bold text-emerald-600">{property.openGreensPercentage ? `${property.openGreensPercentage}% Green` : 'Landscaped'}</span>
+                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#111728]/80 border border-slate-800/80 shadow-xs hover:border-emerald-500/30 transition-colors">
+                    <span className="text-xs text-slate-400 block mb-1">Open Greens</span>
+                    <span className="font-mono text-base sm:text-lg font-bold text-emerald-400">{property.openGreensPercentage ? `${property.openGreensPercentage}% Green` : 'Landscaped'}</span>
                   </div>
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
-                    <span className="text-xs text-slate-500 block mb-1">Rate / Sq.Ft</span>
-                    <span className="font-mono text-base sm:text-lg font-bold text-amber-500">{property.pricePerSqFt ? `₹${property.pricePerSqFt.toLocaleString('en-IN')}` : 'On Request'}</span>
+                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#111728]/80 border border-slate-800/80 shadow-xs hover:border-amber-400/30 transition-colors">
+                    <span className="text-xs text-slate-400 block mb-1">Rate / Sq.Ft</span>
+                    <span className="font-mono text-base sm:text-lg font-bold text-amber-400">{property.pricePerSqFt ? `₹${property.pricePerSqFt.toLocaleString('en-IN')}` : 'On Request'}</span>
                   </div>
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
-                    <span className="text-xs text-slate-500 block mb-1">RERA Number</span>
-                    <span className="text-xs font-mono font-bold text-emerald-600 truncate block mt-0.5">{property.reraNumber || 'Verified Registration'}</span>
+                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#111728]/80 border border-slate-800/80 shadow-xs hover:border-emerald-500/30 transition-colors">
+                    <span className="text-xs text-slate-400 block mb-1">RERA Number</span>
+                    <span className="text-xs font-mono font-bold text-emerald-400 truncate block mt-0.5">{property.reraNumber || 'Verified Registration'}</span>
                   </div>
                 </div>
               </div>
 
               {/* Video Walkthrough Callout Banner */}
               {property.videoTour && (
-                <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-white border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-[#111728] to-[#111728] border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="h-11 w-11 rounded-xl bg-amber-400 text-neutral-950 flex items-center justify-center shrink-0 shadow-md">
+                    <div className="h-11 w-11 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
                       <Play className="h-5 w-5 fill-current translate-x-0.5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-slate-900 text-sm">
+                      <h4 className="font-semibold text-white text-sm">
                         {property.videoTour.title}
                       </h4>
-                      <p className="text-xs text-slate-600 mt-0.5">
+                      <p className="text-xs text-slate-400 mt-0.5">
                         {property.videoTour.description}
                       </p>
                     </div>
@@ -216,7 +216,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                         onClose();
                         onWatchVideo(property.videoTour);
                       }}
-                      className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-semibold text-xs transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-sm"
+                      className="px-4 py-2 rounded-xl gold-gradient-btn text-slate-950 font-bold text-xs transition-all cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-md hover:shadow-amber-500/25"
                     >
                       Play Drone Flythrough
                     </button>
@@ -228,20 +228,20 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               {property.floorPlans && property.floorPlans.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
                       03. Floor Plans & Layout Dimensions
                     </h3>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 p-1.5 bg-white rounded-xl border border-slate-200 mb-3 shadow-xs">
+                  <div className="flex flex-wrap items-center gap-2 p-1.5 bg-[#111728] rounded-xl border border-slate-800 mb-3 shadow-xs">
                     {property.floorPlans.map((plan, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedPlanTab(index)}
                         className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
                           selectedPlanTab === index
-                            ? 'bg-amber-400 text-neutral-950 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
+                            ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                            : 'text-slate-400 hover:text-white'
                         }`}
                       >
                         {plan.name}
@@ -250,22 +250,22 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                   </div>
 
                   {activePlan && (
-                    <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[#111728]/80 border border-slate-800 shadow-xs grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                       <div>
-                        <span className="text-xs text-slate-500 block mb-1">Configuration</span>
-                        <span className="font-medium text-slate-900 text-sm sm:text-base">
+                        <span className="text-xs text-slate-400 block mb-1">Configuration</span>
+                        <span className="font-medium text-white text-sm sm:text-base">
                           {activePlan.bedrooms > 0 ? `${activePlan.bedrooms} BHK (${activePlan.bathrooms} Baths)` : 'Commercial Suite'}
                         </span>
                       </div>
                       <div>
-                        <span className="text-xs text-slate-500 block mb-1">Area Breakdown</span>
-                        <span className="font-mono text-slate-900 text-sm sm:text-base">
+                        <span className="text-xs text-slate-400 block mb-1">Area Breakdown</span>
+                        <span className="font-mono text-white text-sm sm:text-base">
                           {activePlan.carpetAreaSqFt} Carpet / {activePlan.superAreaSqFt} Super Sq.Ft
                         </span>
                       </div>
                       <div>
-                        <span className="text-xs text-slate-500 block mb-1">Estimated Investment</span>
-                        <span className="font-mono text-amber-500 text-base sm:text-lg font-bold">
+                        <span className="text-xs text-slate-400 block mb-1">Estimated Investment</span>
+                        <span className="font-mono text-amber-400 text-base sm:text-lg font-bold">
                           {activePlan.priceEstimate}
                         </span>
                       </div>
@@ -279,20 +279,20 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                 (property.distanceToMetro || property.distanceToAirport || property.distanceToExpressway) ||
                 (property.highlights && property.highlights.length > 0)) && (
                 <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500 mb-2.5">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 mb-2.5">
                     04. Location Advantage & Strategic Transit
                   </h3>
 
                   {property.locationAdvantages && property.locationAdvantages.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                       {property.locationAdvantages.map((item, idx) => (
-                        <div key={idx} className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-amber-300 transition-colors">
+                        <div key={idx} className="p-3.5 rounded-xl bg-[#111728]/80 border border-slate-800 shadow-xs hover:border-amber-400/40 transition-colors">
                           {item.label && (
-                            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                            <span className="text-xs font-semibold text-amber-400/90 uppercase tracking-wider block mb-1">
                               {item.label}
                             </span>
                           )}
-                          <span className="text-xs sm:text-sm font-medium text-slate-900 leading-snug break-words">
+                          <span className="text-xs sm:text-sm font-medium text-slate-200 leading-snug break-words">
                             {item.value}
                           </span>
                         </div>
@@ -303,31 +303,31 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                       {(property.distanceToMetro || property.distanceToAirport || property.distanceToExpressway) && (
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-3">
                           {property.distanceToMetro && (
-                            <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-                              <span className="text-xs text-slate-500 block mb-0.5">Metro Network</span>
-                              <span className="text-xs sm:text-sm font-medium text-slate-900">{property.distanceToMetro}</span>
+                            <div className="p-3.5 rounded-xl bg-[#111728]/80 border border-slate-800 shadow-xs">
+                              <span className="text-xs text-slate-400 block mb-0.5">Metro Network</span>
+                              <span className="text-xs sm:text-sm font-medium text-slate-200">{property.distanceToMetro}</span>
                             </div>
                           )}
                           {property.distanceToAirport && (
-                            <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-                              <span className="text-xs text-slate-500 block mb-0.5">Jewar International Airport</span>
-                              <span className="text-xs sm:text-sm font-medium text-slate-900">{property.distanceToAirport}</span>
+                            <div className="p-3.5 rounded-xl bg-[#111728]/80 border border-slate-800 shadow-xs">
+                              <span className="text-xs text-slate-400 block mb-0.5">Jewar International Airport</span>
+                              <span className="text-xs sm:text-sm font-medium text-slate-200">{property.distanceToAirport}</span>
                             </div>
                           )}
                           {property.distanceToExpressway && (
-                            <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-xs">
-                              <span className="text-xs text-slate-500 block mb-0.5">Expressway Access</span>
-                              <span className="text-xs sm:text-sm font-medium text-slate-900">{property.distanceToExpressway}</span>
+                            <div className="p-3.5 rounded-xl bg-[#111728]/80 border border-slate-800 shadow-xs">
+                              <span className="text-xs text-slate-400 block mb-0.5">Expressway Access</span>
+                              <span className="text-xs sm:text-sm font-medium text-slate-200">{property.distanceToExpressway}</span>
                             </div>
                           )}
                         </div>
                       )}
 
                       {property.highlights && property.highlights.length > 0 && (
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-300 bg-[#111728]/80 p-3.5 rounded-xl border border-slate-800 shadow-xs">
                           {property.highlights.map((highlight, idx) => (
                             <li key={idx} className="flex items-start gap-2">
-                              <Check className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
+                              <Check className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                               <span className="leading-snug break-words">{highlight}</span>
                             </li>
                           ))}
@@ -341,13 +341,13 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               {/* 05. Curated Amenities */}
               {property.amenities && property.amenities.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-500 mb-2.5">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 mb-2.5">
                     05. Lifestyle Amenities
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {property.amenities.map((amenity, idx) => (
-                      <div key={idx} className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-slate-200 shadow-xs text-xs text-slate-800">
-                        <div className="h-2 w-2 rounded-full bg-amber-400 shrink-0" />
+                      <div key={idx} className="flex items-center gap-2 p-2.5 rounded-xl bg-[#111728]/80 border border-slate-800 shadow-xs text-xs text-slate-200">
+                        <div className="h-2 w-2 rounded-full bg-amber-400 shrink-0 shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
                         <span className="leading-snug break-words">{amenity}</span>
                       </div>
                     ))}
@@ -356,22 +356,22 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               )}
 
               {/* Instant Brochure Download */}
-              <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#12192c] to-[#0A0E18] border border-amber-500/30 shadow-lg">
                 {!brochureRequested ? (
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <h4 className="font-semibold text-slate-900 text-base flex items-center gap-2">
-                        <FileDown className="h-5 w-5 text-amber-500" />
+                      <h4 className="font-semibold text-white text-base flex items-center gap-2">
+                        <FileDown className="h-5 w-5 text-amber-400" />
                         Complete Digital Brochure & Cost Sheet
                       </h4>
-                      <p className="text-xs text-slate-600 mt-1">
+                      <p className="text-xs text-slate-300 mt-1">
                         Download official payment schedule, high-resolution layout catalogue, and developer approvals.
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={() => setBrochureRequested(true)}
-                      className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-2 cursor-pointer transition-colors whitespace-nowrap self-start sm:self-auto shadow-sm"
+                      className="px-4 py-2.5 rounded-xl gold-gradient-btn text-slate-950 text-xs font-bold flex items-center gap-2 cursor-pointer transition-all whitespace-nowrap self-start sm:self-auto shadow-md"
                     >
                       <FileDown className="h-4 w-4" />
                       <span>Request PDF Brochure</span>
@@ -379,13 +379,13 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
                       <div>
-                        <h4 className="font-semibold text-slate-900 text-sm sm:text-base flex items-center gap-2">
-                          <FileDown className="h-5 w-5 text-amber-500" />
+                        <h4 className="font-semibold text-white text-sm sm:text-base flex items-center gap-2">
+                          <FileDown className="h-5 w-5 text-amber-400" />
                           Request Complete Digital Brochure & Cost Sheet
                         </h4>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-slate-400 mt-0.5">
                           Instant WhatsApp alert will be sent to the KR Estate advisor desk for <strong>{property.title}</strong>.
                         </p>
                       </div>
@@ -395,7 +395,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                           setBrochureRequested(false);
                           setBrochureSuccess(false);
                         }}
-                        className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+                        className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
                         title="Close form"
                       >
                         <X className="w-4 h-4" />
@@ -403,24 +403,24 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                     </div>
 
                     {brochureSuccess ? (
-                      <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-2.5">
+                      <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 space-y-2.5">
                         <div className="flex items-start gap-2.5">
-                          <Check className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                          <Check className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
                           <div>
-                            <p className="text-xs font-bold text-emerald-900">
+                            <p className="text-xs font-bold text-emerald-300">
                               Brochure Request Sent Successfully!
                             </p>
-                            <p className="text-[11px] text-emerald-700 mt-0.5 leading-relaxed">
+                            <p className="text-[11px] text-emerald-200 mt-0.5 leading-relaxed">
                               Your request for <strong>{property.title}</strong> has been forwarded to the owner's WhatsApp desk (<strong>{settings.agency.phone || '+91 78704 33580'}</strong>). The owner/advisory team will contact you directly via phone at <strong>{brochurePhone}</strong> or email at <strong>{brochureEmail}</strong>.
                             </p>
                           </div>
                         </div>
-                        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-emerald-200/60">
+                        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-emerald-500/30">
                           <a
                             href={`https://wa.me/${(settings.agency.phone || '+91 78704 33580').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`*Brochure Request Follow-up*\nProperty: ${property.title}\nName: ${brochureName}\nMobile: ${brochurePhone}\nEmail: ${brochureEmail}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"
                           >
                             <span>Open WhatsApp Chat</span>
                           </a>
@@ -434,7 +434,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                               setBrochurePhone('');
                               setBrochureComment('');
                             }}
-                            className="px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 text-xs font-medium hover:bg-white cursor-pointer"
+                            className="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 text-xs font-medium hover:bg-slate-800 cursor-pointer"
                           >
                             Done
                           </button>
@@ -445,8 +445,8 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                           {/* Name */}
                           <div>
-                            <label className="text-[11px] font-semibold text-slate-700 block mb-1">
-                              Your Name <span className="text-rose-500">*</span>
+                            <label className="text-[11px] font-semibold text-slate-300 block mb-1">
+                              Your Name <span className="text-rose-400">*</span>
                             </label>
                             <input
                               type="text"
@@ -454,14 +454,14 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                               placeholder="e.g. Rahul Sharma"
                               value={brochureName}
                               onChange={(e) => setBrochureName(e.target.value)}
-                              className="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                              className="w-full px-3 py-2 text-xs rounded-xl bg-[#0A0E18] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             />
                           </div>
 
                           {/* Email */}
                           <div>
-                            <label className="text-[11px] font-semibold text-slate-700 block mb-1">
-                              Email Address <span className="text-rose-500">*</span>
+                            <label className="text-[11px] font-semibold text-slate-300 block mb-1">
+                              Email Address <span className="text-rose-400">*</span>
                             </label>
                             <input
                               type="email"
@@ -469,14 +469,14 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                               placeholder="e.g. rahul@example.com"
                               value={brochureEmail}
                               onChange={(e) => setBrochureEmail(e.target.value)}
-                              className="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                              className="w-full px-3 py-2 text-xs rounded-xl bg-[#0A0E18] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             />
                           </div>
 
                           {/* Contact Number */}
                           <div>
-                            <label className="text-[11px] font-semibold text-slate-700 block mb-1">
-                              Contact Number <span className="text-rose-500">*</span>
+                            <label className="text-[11px] font-semibold text-slate-300 block mb-1">
+                              Contact Number <span className="text-rose-400">*</span>
                             </label>
                             <input
                               type="tel"
@@ -484,14 +484,14 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                               placeholder="e.g. +91 98765 43210"
                               value={brochurePhone}
                               onChange={(e) => setBrochurePhone(e.target.value)}
-                              className="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                              className="w-full px-3 py-2 text-xs rounded-xl bg-[#0A0E18] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             />
                           </div>
                         </div>
 
                         {/* Comment */}
                         <div>
-                          <label className="text-[11px] font-semibold text-slate-700 block mb-1">
+                          <label className="text-[11px] font-semibold text-slate-300 block mb-1">
                             Comment / Specific Requirements (Optional)
                           </label>
                           <textarea
@@ -499,27 +499,27 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                             placeholder="e.g. Looking for high floor unit with payment plan details..."
                             value={brochureComment}
                             onChange={(e) => setBrochureComment(e.target.value)}
-                            className="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition-all"
+                            className="w-full px-3 py-2 text-xs rounded-xl bg-[#0A0E18] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                           />
                         </div>
 
                         {/* Action buttons */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-slate-100">
-                          <p className="text-[11px] text-slate-500">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-slate-800">
+                          <p className="text-[11px] text-slate-400">
                             Instant WhatsApp message to owner · Direct callback on mobile & email
                           </p>
                           <div className="flex items-center gap-2 self-end sm:self-auto">
                             <button
                               type="button"
                               onClick={() => setBrochureRequested(false)}
-                              className="px-3 py-1.5 text-xs text-slate-600 hover:text-slate-900 cursor-pointer"
+                              className="px-3 py-1.5 text-xs text-slate-400 hover:text-white cursor-pointer"
                             >
                               Cancel
                             </button>
                             <button
                               type="submit"
                               disabled={brochureLoading}
-                              className="px-4 py-2 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 disabled:opacity-50 rounded-xl transition-colors cursor-pointer shadow-sm flex items-center gap-1.5"
+                              className="px-4 py-2 text-xs font-bold text-slate-950 gold-gradient-btn disabled:opacity-50 rounded-xl transition-all cursor-pointer shadow-md flex items-center gap-1.5"
                             >
                               <FileDown className="h-4 w-4" />
                               <span>{brochureLoading ? 'Sending...' : 'Send Request via WhatsApp'}</span>
@@ -535,10 +535,10 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
             </div>
 
             {/* Modal Sticky Bottom Action Footer (inside details column) */}
-            <div className="shrink-0 p-4 sm:p-5 border-t border-slate-200 bg-white/95 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] z-10">
+            <div className="shrink-0 p-4 sm:p-5 border-t border-slate-800 bg-[#080B13]/95 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] z-10">
               <div>
-                <span className="text-[11px] text-slate-500 block">KR Estate Exclusive Pricing</span>
-                <span className="font-mono font-bold text-amber-500 text-base sm:text-lg tabular-nums">
+                <span className="text-[11px] text-slate-400 block font-medium">KR Estate Exclusive Pricing</span>
+                <span className="font-mono font-bold text-amber-400 text-base sm:text-lg tabular-nums drop-shadow-sm">
                   {property.priceDisplay || (property.priceNumInCrores ? `₹${property.priceNumInCrores} Cr` : 'Price on Request')}
                 </span>
               </div>
@@ -547,8 +547,8 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                 <a
                   href={`https://wa.me/917870433580?text=Hi%20KR%20Estate%20Noida%2C%20I%20am%20interested%20in%20${encodeURIComponent(property.title)}%20at%20${encodeURIComponent(property.sector || 'Noida')}%20(krestatenoida.com)`}
                   target="_blank"
-                  rel="noreferrer"
-                  className="px-3.5 py-2.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-2.5 text-xs font-semibold bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-500/20"
                 >
                   <span>WhatsApp Advisor</span>
                 </a>
@@ -558,7 +558,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                     onClose();
                     onOpenScheduleModal(property.title);
                   }}
-                  className="px-4 py-2.5 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-xl shadow-lg shadow-amber-500/20 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2.5 text-xs font-bold text-slate-950 gold-gradient-btn rounded-xl shadow-lg shadow-amber-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <Calendar className="h-4 w-4" />
                   <span>Book Site Visit</span>

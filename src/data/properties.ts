@@ -22,7 +22,7 @@ export const NOIDA_PROPERTIES: Property[] = [
     "reraNumber": "UPRERAPRJ704730",
     "totalAcres": 11,
     "openGreensPercentage": 78,
-    "coverImage": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+    "coverImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
     "galleryImages": [
       {
         "url": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
@@ -65,10 +65,13 @@ export const NOIDA_PROPERTIES: Property[] = [
       "Kids Forest Adventure Zone"
     ],
     "highlights": [
-      "Adjacent to Noida Golf Course & Sector 44",
-      "3 Mins from Botanical Garden Metro Station",
-      "10 Mins to South Delhi via DND Flyway",
-      "Private deck with forest and city skyline vistas"
+      "Metro Network Distance - 900 Meters (Botanical Garden Metro)",
+      "Jewar International Airport Distance - 42 Mins (Jewar International Airport)",
+      "Expressway Access Distance - 2 Mins (Noida-Greater Noida Expressway)",
+      "Location Advantage - Adjacent to Noida Golf Course & Sector 44",
+      "Location Advantage - 3 Mins from Botanical Garden Metro Station",
+      "Location Advantage - 10 Mins to South Delhi via DND Flyway",
+      "Location Advantage - Private deck with forest and city skyline vistas"
     ],
     "floorPlans": [
       {
@@ -103,7 +106,37 @@ export const NOIDA_PROPERTIES: Property[] = [
       "gradient": "from-emerald-950 via-slate-900 to-emerald-900",
       "accentColor": "#10b981",
       "iconType": "tree"
-    }
+    },
+    "locationAdvantages": [
+      {
+        "label": "Metro Network Distance",
+        "value": "900 Meters (Botanical Garden Metro)"
+      },
+      {
+        "label": "Jewar International Airport Distance",
+        "value": "42 Mins (Jewar International Airport)"
+      },
+      {
+        "label": "Expressway Access Distance",
+        "value": "2 Mins (Noida-Greater Noida Expressway)"
+      },
+      {
+        "label": "Location Advantage",
+        "value": "Adjacent to Noida Golf Course & Sector 44"
+      },
+      {
+        "label": "Location Advantage",
+        "value": "3 Mins from Botanical Garden Metro Station"
+      },
+      {
+        "label": "Location Advantage",
+        "value": "10 Mins to South Delhi via DND Flyway"
+      },
+      {
+        "label": "Location Advantage",
+        "value": "Private deck with forest and city skyline vistas"
+      }
+    ]
   },
   {
     "id": "ats-knightsbridge-sec124",

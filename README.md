@@ -1,19 +1,31 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# KR Estate Noida - Luxury Real Estate Portal
 
-# Run and deploy your AI Studio app
+A full-stack luxury real estate web platform for Noida, Greater Noida, and Yamuna Expressway corridor properties.
 
-This contains everything you need to run your app locally.
-https://ai.studio/apps/bb1b0d39-867a-4697-97aa-79aab6dbb6fa
+## Features
+- **Curated Property Showcase:** Luxury residences, villas, commercial tech parks, and plots.
+- **AI Property Advisor:** Personalized project recommendations powered by Google Gemini.
+- **Expressway Client Video Showcase:** Dynamic presentation engine for client pitches.
+- **Brochure & Site Visit Management:** Lead capture with email alerts and administrative CRM logging.
+- **EMI & Valuation Calculators:** Interactive financial planning tools for buyers.
+- **Administrative Portal:** Secure dashboard with 2FA TOTP authentication for managing listings, leads, and site settings.
 
-## Run Locally
+## Getting Started
 
-**Prerequisites:**  Node.js
+### Local Development
+```bash
+npm install
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
+### Production Build
+```bash
+npm run build
+npm run start
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Deployment
+Configured for instant deployment on [Render](https://render.com) or any Node.js cloud platform:
+- **Build Command:** `npm install && npm run build`
+- **Start Command:** `npm run start`

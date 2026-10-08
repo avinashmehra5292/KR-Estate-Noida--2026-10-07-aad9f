@@ -334,49 +334,49 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-slate-900/92 backdrop-blur-2xl animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
       <div 
-        className="relative w-full max-w-6xl rounded-3xl border border-slate-300 bg-[#FDFBF7] shadow-2xl overflow-hidden flex flex-col text-slate-900 max-h-[96vh]"
+        className="relative w-full max-w-6xl rounded-3xl border border-amber-500/30 bg-[#0A0E18] shadow-[0_25px_70px_rgba(0,0,0,0.85)] ring-1 ring-amber-500/20 overflow-hidden flex flex-col text-slate-100 max-h-[96vh]"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* Top Bar Header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-300 bg-white/80">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-[#0D121F]/90">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-400 text-neutral-950 font-bold text-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg gold-gradient-btn text-slate-950 font-black text-xs shadow-md shadow-amber-500/20">
               KR
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-400">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-400 drop-shadow-sm">
                   Noida Expressway Client Video Presentation
                 </span>
               </div>
-              <span className="text-[11px] text-slate-800 block truncate max-w-md">
-                Exclusively Prepared for: <strong className="text-slate-900 font-medium">{clientName}</strong> · KR Estate Noida
+              <span className="text-[11px] text-slate-300 block truncate max-w-md">
+                Exclusively Prepared for: <strong className="text-white font-semibold">{clientName}</strong> · KR Estate Noida
               </span>
             </div>
           </div>
 
           {/* Mode Switcher Tabs */}
-          <div className="hidden sm:flex items-center gap-1 p-1 bg-white rounded-xl border border-slate-300">
+          <div className="hidden sm:flex items-center gap-1 p-1 bg-[#080B14] rounded-xl border border-slate-800">
             <button
               onClick={() => setActiveTab('video')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'video'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'gold-gradient-btn text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
               4K Video Reel
             </button>
             <button
               onClick={() => setActiveTab('customize')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'customize'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'gold-gradient-btn text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
               <Sliders className="h-3 w-3" />
@@ -384,10 +384,10 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
             </button>
             <button
               onClick={() => setActiveTab('share')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'share'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'gold-gradient-btn text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
               <Share2 className="h-3 w-3" />
@@ -397,7 +397,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full bg-slate-100 text-slate-800 hover:text-slate-900 transition-colors cursor-pointer"
+            className="p-1.5 rounded-full bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
@@ -410,7 +410,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
             <div className="flex flex-col">
               
               {/* Cinematic Video Player Viewport */}
-              <div className="relative aspect-[16/9] w-full bg-slate-900 group overflow-hidden">
+              <div className="relative aspect-[16/9] w-full bg-black group overflow-hidden">
                 <video
                   ref={videoRef}
                   src={activeChapter.videoUrl}
@@ -425,32 +425,32 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
                 {/* Dynamic Client Watermark & VIP Badge */}
                 <div className="absolute top-4 left-4 z-20 pointer-events-none flex flex-col gap-1.5">
-                  <div className="flex items-center gap-2 text-[11px] font-mono text-slate-900 bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-amber-400/30 shadow-lg">
-                    <span className="h-2 w-2 rounded-full bg-amber-400" />
+                  <div className="flex items-center gap-2 text-[11px] font-mono text-slate-200 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-lg border border-amber-400/40 shadow-lg">
+                    <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
                     <span className="uppercase tracking-wider">
                       PRIVATE DOSSIER: <span className="text-amber-300 font-bold">{clientName}</span>
                     </span>
                   </div>
 
                   {/* Flight Telemetry HUD */}
-                  <div className="text-[10px] font-mono text-slate-900/80 bg-slate-900/40 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-300 flex items-center gap-2">
+                  <div className="text-[10px] font-mono text-slate-300 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-700 flex items-center gap-2">
                     <Compass className="h-3 w-3 text-amber-400" />
                     <span>{activeChapter.telemetry}</span>
                   </div>
                 </div>
 
                 {/* Right Top HUD: Sector GPS Coordinates */}
-                <div className="absolute top-4 right-4 z-20 pointer-events-none hidden sm:flex items-center gap-2 text-[10px] font-mono text-amber-300/90 bg-slate-900/60 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-300">
+                <div className="absolute top-4 right-4 z-20 pointer-events-none hidden sm:flex items-center gap-2 text-[10px] font-mono text-amber-300 bg-black/75 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-700">
                   <span>{activeChapter.coordinates}</span>
                 </div>
 
                 {/* Karaoke Subtitle / Narration Bar */}
                 <div className="absolute bottom-16 inset-x-4 sm:inset-x-8 z-20 pointer-events-none">
-                  <div className="max-w-3xl mx-auto p-3 rounded-xl bg-slate-900/75 backdrop-blur-md border border-slate-300 text-center shadow-2xl">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 block mb-0.5">
+                  <div className="max-w-3xl mx-auto p-3 rounded-xl bg-black/85 backdrop-blur-md border border-amber-500/30 text-center shadow-2xl">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 block mb-0.5 font-bold">
                       Chapter {activeChapterIndex + 1}: {activeChapter.title}
                     </span>
-                    <p className="text-xs sm:text-sm text-slate-900 font-medium leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-100 font-medium leading-relaxed">
                       "{scriptData?.scenes?.[activeChapterIndex]?.narrationText || activeChapter.narration}"
                     </p>
                   </div>
@@ -462,7 +462,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                     {/* Play/Pause */}
                     <button
                       onClick={togglePlay}
-                      className="p-2 sm:p-2.5 rounded-full bg-amber-400 text-neutral-950 hover:bg-amber-300 transition-colors cursor-pointer shadow-lg"
+                      className="p-2 sm:p-2.5 rounded-full gold-gradient-btn text-slate-950 font-bold transition-all cursor-pointer shadow-lg shadow-amber-500/20"
                       title={isPlaying ? 'Pause' : 'Play'}
                     >
                       {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-current" />}
@@ -471,7 +471,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                     {/* Mute/Unmute */}
                     <button
                       onClick={toggleMute}
-                      className="p-2 rounded-full bg-white/10 text-slate-900 hover:bg-white/20 transition-colors cursor-pointer"
+                      className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
                       title={isMuted ? 'Unmute' : 'Mute'}
                     >
                       {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
@@ -482,14 +482,14 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                       onClick={() => setIsVoiceoverEnabled(!isVoiceoverEnabled)}
                       className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1.5 border ${
                         isVoiceoverEnabled
-                          ? 'bg-amber-400/20 text-amber-300 border-amber-400/40'
-                          : 'bg-white/10 text-slate-800 border-slate-300 hover:bg-white/20'
+                          ? 'bg-amber-400/25 text-amber-300 border-amber-400/60 shadow-[0_0_10px_rgba(251,191,36,0.3)]'
+                          : 'bg-white/10 text-slate-300 border-slate-700 hover:bg-white/20'
                       }`}
                       title="Read script with audio voiceover"
                     >
                       <Headphones className="h-3 w-3" />
                       <span className="hidden sm:inline">Voice Narration</span>
-                      <span>{isVoiceoverEnabled ? 'ON' : 'OFF'}</span>
+                      <span className="font-bold">{isVoiceoverEnabled ? 'ON' : 'OFF'}</span>
                     </button>
 
                     {/* Ambient Architectural Score Toggle */}
@@ -497,14 +497,14 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                       onClick={toggleAmbientAudio}
                       className={`px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1.5 border ${
                         isAmbientAudioOn
-                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40'
-                          : 'bg-white/10 text-slate-800 border-slate-300 hover:bg-white/20'
+                          ? 'bg-emerald-500/25 text-emerald-300 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                          : 'bg-white/10 text-slate-300 border-slate-700 hover:bg-white/20'
                       }`}
                       title="Play ambient architectural soundtrack"
                     >
                       <Sparkles className="h-3 w-3" />
                       <span className="hidden sm:inline">Ambient Music</span>
-                      <span>{isAmbientAudioOn ? 'ON' : 'OFF'}</span>
+                      <span className="font-bold">{isAmbientAudioOn ? 'ON' : 'OFF'}</span>
                     </button>
 
                     {/* Speed Selector */}
@@ -514,7 +514,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                         setPlaybackSpeed(newSpeed);
                         if (videoRef.current) videoRef.current.playbackRate = newSpeed;
                       }}
-                      className="px-2 py-1 rounded bg-white/10 text-[10px] font-mono text-slate-800 hover:text-slate-900"
+                      className="px-2 py-1 rounded bg-white/10 text-[10px] font-mono text-slate-300 hover:text-white"
                       title="Playback Speed"
                     >
                       {playbackSpeed}x
@@ -525,23 +525,23 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handlePrevChapter}
-                      className="px-2.5 py-1 text-xs text-slate-800 bg-white/10 hover:bg-white/20 rounded-md transition-colors cursor-pointer"
+                      className="px-2.5 py-1 text-xs text-slate-300 bg-white/10 hover:bg-white/20 rounded-md transition-colors cursor-pointer"
                     >
                       Prev Chapter
                     </button>
-                    <span className="text-[11px] font-mono text-amber-400">
+                    <span className="text-[11px] font-mono text-amber-400 font-bold">
                       {activeChapterIndex + 1}/{DEFAULT_CHAPTERS.length}
                     </span>
                     <button
                       onClick={handleNextChapter}
-                      className="px-2.5 py-1 text-xs text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-md font-semibold transition-colors cursor-pointer"
+                      className="px-2.5 py-1 text-xs text-slate-950 gold-gradient-btn rounded-md font-bold transition-all cursor-pointer shadow-sm"
                     >
                       Next Chapter
                     </button>
 
                     <button
                       onClick={handleFullscreen}
-                      className="p-1.5 rounded-full bg-white/10 text-slate-900 hover:bg-white/20 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
                       title="Fullscreen"
                     >
                       <Maximize2 className="h-4 w-4" />
@@ -552,15 +552,15 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
               </div>
 
               {/* Chapter Timeline & Project Details Below Player */}
-              <div className="p-4 sm:p-6 bg-[#FDFBF7] border-t border-slate-300 space-y-6">
+              <div className="p-4 sm:p-6 bg-[#0D121F]/95 border-t border-slate-800 space-y-6">
                 
                 {/* 4 Interactive Chapter Segments */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-800">
+                    <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
                       Noida Expressway Inspection Chapters:
                     </span>
-                    <span className="text-xs text-amber-400 font-mono">
+                    <span className="text-xs text-amber-300 font-mono">
                       Current: {activeChapter.sector}
                     </span>
                   </div>
@@ -578,20 +578,20 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                         }}
                         className={`p-3 rounded-2xl border transition-all cursor-pointer ${
                           activeChapterIndex === idx
-                            ? 'bg-amber-500/10 border-amber-400/50 shadow-md'
-                            : 'bg-white/90 border-slate-200 hover:border-slate-300'
+                            ? 'bg-amber-500/15 border-amber-400/60 shadow-lg shadow-amber-500/10'
+                            : 'bg-[#13192B]/80 border-slate-800/80 hover:border-amber-400/30 hover:bg-[#161F36]'
                         }`}
                       >
                         <div className="flex items-center justify-between text-[11px] mb-1">
-                          <span className={`font-mono font-bold ${activeChapterIndex === idx ? 'text-amber-400' : 'text-slate-800'}`}>
+                          <span className={`font-mono font-bold ${activeChapterIndex === idx ? 'text-amber-400' : 'text-slate-400'}`}>
                             0{idx + 1}. CHAPTER
                           </span>
                           <span className="text-slate-400 font-mono text-[10px]">{ch.duration}</span>
                         </div>
-                        <h4 className="text-xs font-semibold text-slate-900 line-clamp-1">
+                        <h4 className="text-xs font-semibold text-white line-clamp-1">
                           {ch.title}
                         </h4>
-                        <span className="text-[11px] text-slate-800 block line-clamp-1 mt-0.5">
+                        <span className="text-[11px] text-slate-300 block line-clamp-1 mt-0.5">
                           {ch.sector}
                         </span>
                       </div>
@@ -600,18 +600,18 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                 </div>
 
                 {/* Chapter Deep Dive: Key Projects & Investment Highlights */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2 border-t border-slate-200">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2 border-t border-slate-800">
                   
                   {/* Column 1: Projects Inspected */}
                   <div className="space-y-2">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                    <span className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                       <Building className="h-3.5 w-3.5" />
                       Key Projects Featured in this Scene
                     </span>
                     <div className="space-y-1.5">
                       {activeChapter.keyProjects.map((p, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-slate-800 bg-white/80 px-3 py-2 rounded-xl border border-slate-200">
-                          <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                        <div key={i} className="flex items-center gap-2 text-xs text-slate-200 bg-[#13192B]/80 px-3 py-2 rounded-xl border border-slate-800">
+                          <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]" />
                           <span className="font-medium">{p}</span>
                         </div>
                       ))}
@@ -620,13 +620,13 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
                   {/* Column 2: Infrastructure Catalysts */}
                   <div className="space-y-2">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                       <TreePine className="h-3.5 w-3.5" />
                       Corridor Advantage
                     </span>
                     <div className="space-y-1.5">
                       {activeChapter.keyHighlights.map((h, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-slate-800 bg-white/80 px-3 py-2 rounded-xl border border-slate-200">
+                        <div key={i} className="flex items-center gap-2 text-xs text-slate-200 bg-[#13192B]/80 px-3 py-2 rounded-xl border border-slate-800">
                           <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                           <span>{h}</span>
                         </div>
@@ -635,12 +635,12 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                   </div>
 
                   {/* Column 3: Client Action Box */}
-                  <div className="flex flex-col justify-between p-4 rounded-2xl bg-gradient-to-br from-amber-500/10 via-neutral-900 to-neutral-900 border border-amber-400/20 space-y-3">
+                  <div className="flex flex-col justify-between p-4 rounded-2xl bg-gradient-to-br from-[#12192c] to-[#0A0E18] border border-amber-500/30 space-y-3 shadow-lg">
                     <div>
-                      <span className="text-xs font-semibold text-slate-900 block">
+                      <span className="text-xs font-bold text-white block">
                         Interested in {activeChapter.sector}?
                       </span>
-                      <p className="text-[11px] text-slate-800 mt-1">
+                      <p className="text-[11px] text-slate-300 mt-1">
                         Book a chauffeur-driven private site inspection for {clientName} with KR Estate Senior Advisory Desk.
                       </p>
                     </div>
@@ -651,7 +651,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                           onClose();
                           onOpenScheduleModal(activeChapter.keyProjects[0] || 'Noida Expressway');
                         }}
-                        className="flex-1 py-2.5 px-3 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-md shadow-amber-500/20 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                        className="flex-1 py-2.5 px-3 text-xs font-bold text-slate-950 gold-gradient-btn rounded-xl transition-all shadow-md shadow-amber-500/20 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
                       >
                         <Calendar className="h-3.5 w-3.5" />
                         <span>Book Site Visit</span>
@@ -659,7 +659,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
                       <button
                         onClick={handleShareWhatsApp}
-                        className="py-2.5 px-3 text-xs font-semibold text-slate-900 bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="py-2.5 px-3 text-xs font-semibold text-white bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-emerald-500/20"
                         title="Send this video to client on WhatsApp"
                       >
                         <Send className="h-3.5 w-3.5" />
@@ -679,13 +679,13 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
           {activeTab === 'customize' && (
             <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-8">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 block mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">
                   Client Video Personalization Studio
                 </span>
-                <h3 className="font-display text-2xl font-bold text-slate-900">
+                <h3 className="font-display text-2xl font-bold text-white">
                   Customize Presentation for Your Buyer / Investor
                 </h3>
-                <p className="text-sm text-slate-800 mt-1">
+                <p className="text-sm text-slate-300 mt-1">
                   Adjust client details, investment objective, and generate an AI-tailored 60-second video voiceover narrative.
                 </p>
               </div>
@@ -694,7 +694,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                 
                 {/* Client Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-800">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                     Client / Investor Name:
                   </label>
                   <input
@@ -702,7 +702,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="e.g. Mr. & Mrs. R. Kapoor"
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-700 bg-[#080B14] px-4 py-3 text-sm text-white focus:border-amber-400 focus:outline-none"
                   />
                   <span className="text-[11px] text-slate-400">
                     Displayed dynamically on the video watermark and WhatsApp proposal.
@@ -711,13 +711,13 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
                 {/* Investment Objective */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-800">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                     Primary Investment Focus:
                   </label>
                   <select
                     value={clientFocus}
                     onChange={(e) => setClientFocus(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-700 bg-[#080B14] px-4 py-3 text-sm text-white focus:border-amber-400 focus:outline-none"
                   >
                     <option value="Luxury Living & High Capital Growth">Luxury Living & High Capital Growth</option>
                     <option value="Sector 150 Sports City 80% Green Sanctuary">Sector 150 Sports City (Low-Density Green Living)</option>
@@ -729,13 +729,13 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
                 {/* Budget Bracket */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-800">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                     Client Budget Bracket:
                   </label>
                   <select
                     value={clientBudget}
                     onChange={(e) => setClientBudget(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-700 bg-[#080B14] px-4 py-3 text-sm text-white focus:border-amber-400 focus:outline-none"
                   >
                     <option value="₹1.50 Cr – ₹3.00 Cr">₹1.50 Cr – ₹3.00 Cr (2 & 3 BHK Premium)</option>
                     <option value="₹2.50 Cr – ₹6.00 Cr">₹2.50 Cr – ₹6.00 Cr (3 & 4 BHK Luxury)</option>
@@ -747,7 +747,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
                 {/* Key Selling Points to Emphasize */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-800">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                     Selling Points Highlighted in Video:
                   </label>
                   <div className="grid grid-cols-2 gap-2 text-xs">
@@ -771,10 +771,10 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                               setSelectedHighlights([...selectedHighlights, point]);
                             }
                           }}
-                          className={`p-2 rounded-lg text-left border transition-all text-[11px] ${
+                          className={`p-2 rounded-lg text-left border transition-all text-[11px] cursor-pointer ${
                             isChecked
-                              ? 'bg-amber-400/15 border-amber-400/40 text-amber-200'
-                              : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
+                              ? 'bg-amber-400/20 border-amber-400/60 text-amber-200 font-semibold'
+                              : 'bg-[#13192B] border-slate-800 text-slate-300 hover:border-slate-700'
                           }`}
                         >
                           {point}
@@ -788,28 +788,28 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
 
               {/* Advisor Executive Brief / Note */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-800">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                   Advisor Executive Note for Client:
                 </label>
                 <textarea
                   rows={3}
                   value={advisorNote}
                   onChange={(e) => setAdvisorNote(e.target.value)}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-amber-400 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-700 bg-[#080B14] px-4 py-3 text-sm text-white focus:border-amber-400 focus:outline-none"
                 />
               </div>
 
               {/* AI Script Re-generation Action */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="p-4 rounded-2xl bg-[#13192B]/90 border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center shrink-0">
                     <Sparkles className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-slate-900 block">
+                    <span className="text-xs font-bold text-white block">
                       AI Script Engine (Gemini 3.8 Flash)
                     </span>
-                    <span className="text-[11px] text-slate-800">
+                    <span className="text-[11px] text-slate-400">
                       Generates a tailored 4-scene video script synchronized with drone footage.
                     </span>
                   </div>
@@ -819,11 +819,11 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                   type="button"
                   onClick={handleGenerateAiScript}
                   disabled={isGeneratingAiScript}
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-semibold text-xs transition-all shadow-md shadow-amber-500/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl gold-gradient-btn text-slate-950 font-bold text-xs transition-all shadow-md shadow-amber-500/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isGeneratingAiScript ? (
                     <>
-                      <div className="h-4 w-4 rounded-full border-2 border-neutral-950 border-t-transparent animate-spin" />
+                      <div className="h-4 w-4 rounded-full border-2 border-slate-950 border-t-transparent animate-spin" />
                       <span>Writing Bespoke Script...</span>
                     </>
                   ) : (
@@ -842,13 +842,13 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
           {activeTab === 'share' && (
             <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-8">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 block mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">
                   Deliver to Client
                 </span>
-                <h3 className="font-display text-2xl font-bold text-slate-900">
+                <h3 className="font-display text-2xl font-bold text-white">
                   Send Video & Investment Dossier to {clientName}
                 </h3>
-                <p className="text-sm text-slate-800 mt-1">
+                <p className="text-sm text-slate-300 mt-1">
                   Share via direct WhatsApp link, copy a private personalized URL, or print the executive PDF briefing.
                 </p>
               </div>
@@ -857,38 +857,38 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 {/* 1. Send via WhatsApp */}
-                <div className="p-5 rounded-2xl bg-white border border-slate-300 flex flex-col justify-between space-y-4">
+                <div className="p-5 rounded-2xl bg-[#13192B]/90 border border-slate-800 flex flex-col justify-between space-y-4">
                   <div>
                     <div className="h-10 w-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
                       <Send className="h-5 w-5" />
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900">Send on WhatsApp</h4>
-                    <p className="text-xs text-slate-800 mt-1">
+                    <h4 className="text-sm font-semibold text-white">Send on WhatsApp</h4>
+                    <p className="text-xs text-slate-400 mt-1">
                       Directly opens WhatsApp with pre-composed executive message and personalized video link.
                     </p>
                   </div>
                   <button
                     onClick={handleShareWhatsApp}
-                    className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-slate-900 font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-emerald-500/20"
                   >
                     <span>Launch WhatsApp Message</span>
                   </button>
                 </div>
 
                 {/* 2. Copy Shareable Video Link */}
-                <div className="p-5 rounded-2xl bg-white border border-slate-300 flex flex-col justify-between space-y-4">
+                <div className="p-5 rounded-2xl bg-[#13192B]/90 border border-slate-800 flex flex-col justify-between space-y-4">
                   <div>
                     <div className="h-10 w-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-3">
                       <Copy className="h-5 w-5" />
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900">Copy Client Video Link</h4>
-                    <p className="text-xs text-slate-800 mt-1">
+                    <h4 className="text-sm font-semibold text-white">Copy Client Video Link</h4>
+                    <p className="text-xs text-slate-400 mt-1">
                       URL includes client name parameter so the video opens in personalized VIP mode.
                     </p>
                   </div>
                   <button
                     onClick={handleCopyLink}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-slate-900 font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer border border-slate-300"
+                    className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer border border-slate-700"
                   >
                     {copiedLink ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
                     <span>{copiedLink ? 'Link Copied to Clipboard!' : 'Copy Private URL'}</span>
@@ -896,19 +896,19 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                 </div>
 
                 {/* 3. Print / PDF Investment Dossier */}
-                <div className="p-5 rounded-2xl bg-white border border-slate-300 flex flex-col justify-between space-y-4">
+                <div className="p-5 rounded-2xl bg-[#13192B]/90 border border-slate-800 flex flex-col justify-between space-y-4">
                   <div>
                     <div className="h-10 w-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-3">
                       <Printer className="h-5 w-5" />
                     </div>
-                    <h4 className="text-sm font-semibold text-slate-900">Print Dossier / PDF</h4>
-                    <p className="text-xs text-slate-800 mt-1">
+                    <h4 className="text-sm font-semibold text-white">Print Dossier / PDF</h4>
+                    <p className="text-xs text-slate-400 mt-1">
                       Formatted 1-page printable summary with KR Estate advisory credentials and key project matrices.
                     </p>
                   </div>
                   <button
                     onClick={handlePrintDossier}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-slate-900 font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer border border-slate-300"
+                    className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer border border-slate-700"
                   >
                     <Printer className="h-4 w-4" />
                     <span>Print Dossier Brief</span>
@@ -918,39 +918,39 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
               </div>
 
               {/* Printable Dossier Preview Container */}
-              <div className="p-6 rounded-2xl bg-white/90 border border-slate-300 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-300 pb-4">
+              <div className="p-6 rounded-2xl bg-[#0D121F] border border-amber-500/30 space-y-4 shadow-xl">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                   <div>
-                    <span className="font-display text-lg font-bold text-slate-900">
+                    <span className="font-display text-lg font-bold text-white">
                       KR ESTATE NOIDA · CLIENT VIDEO DOSSIER
                     </span>
-                    <span className="text-xs text-slate-800 block">
+                    <span className="text-xs text-slate-400 block">
                       Target Corridor: Noida-Greater Noida Expressway, UP
                     </span>
                   </div>
-                  <div className="text-right text-xs font-mono text-slate-800">
+                  <div className="text-right text-xs font-mono text-slate-400">
                     <span>DATE: {new Date().toLocaleDateString('en-GB')}</span>
-                    <span className="block text-amber-400">RERA AUTHORIZED ADVISORY</span>
+                    <span className="block text-amber-400 font-bold">RERA AUTHORIZED ADVISORY</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                  <div className="p-3 rounded-xl bg-[#FDFBF7] border border-slate-200">
-                    <span className="text-slate-800 block text-[11px]">Prepared For:</span>
-                    <span className="text-slate-900 font-semibold text-sm">{clientName}</span>
-                    <span className="text-slate-800 block mt-1">Requirement: {clientFocus}</span>
-                    <span className="text-amber-400 font-mono block">Budget: {clientBudget}</span>
+                  <div className="p-3 rounded-xl bg-[#13192B] border border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">Prepared For:</span>
+                    <span className="text-white font-bold text-sm">{clientName}</span>
+                    <span className="text-slate-300 block mt-1">Requirement: {clientFocus}</span>
+                    <span className="text-amber-400 font-mono font-bold block">Budget: {clientBudget}</span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-[#FDFBF7] border border-slate-200">
-                    <span className="text-slate-800 block text-[11px]">Advisory Office:</span>
-                    <span className="text-slate-900 font-semibold">KR Estate Property Consultants</span>
-                    <span className="text-slate-800 block mt-1">Sector 150 & Expressway, Noida</span>
-                    <span className="text-slate-800 font-mono block">Call: +91 78704 33580 · avinashmehra5292@gmail.com</span>
+                  <div className="p-3 rounded-xl bg-[#13192B] border border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">Advisory Office:</span>
+                    <span className="text-white font-bold">KR Estate Property Consultants</span>
+                    <span className="text-slate-300 block mt-1">Sector 150 & Expressway, Noida</span>
+                    <span className="text-slate-400 font-mono block">Call: +91 78704 33580 · avinashmehra5292@gmail.com</span>
                   </div>
                 </div>
 
-                <div className="pt-2 text-xs text-slate-800 leading-relaxed italic bg-[#FDFBF7]/80 p-3 rounded-xl border border-slate-200">
+                <div className="pt-2 text-xs text-slate-300 leading-relaxed italic bg-[#13192B]/60 p-3 rounded-xl border border-slate-800">
                   "{advisorNote}"
                 </div>
               </div>
@@ -960,7 +960,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
         </div>
 
         {/* Footer Bar */}
-        <div className="flex items-center justify-between px-6 py-3.5 border-t border-slate-300 bg-white/80 text-xs text-slate-800">
+        <div className="flex items-center justify-between px-6 py-3.5 border-t border-slate-800 bg-[#080B13]/95 text-xs text-slate-300">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
             <span>Verified Drone Footage & Survey by KR Estate Survey Desk</span>
@@ -972,7 +972,7 @@ export const NoidaExpresswayClientVideoModal: React.FC<NoidaExpresswayClientVide
                 onClose();
                 onOpenScheduleModal('Noida Expressway');
               }}
-              className="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-neutral-950 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-xl gold-gradient-btn text-slate-950 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-amber-500/20"
             >
               <Calendar className="h-3.5 w-3.5" />
               <span>Book Chauffeur Site Inspection for {clientName.split(' ')[0]}</span>

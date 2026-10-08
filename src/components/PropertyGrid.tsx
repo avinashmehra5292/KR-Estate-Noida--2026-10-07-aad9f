@@ -90,7 +90,7 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
     searchFilterParams.budget !== 'all';
 
   return (
-    <section id="properties" className="py-20 lg:py-28 border-b border-slate-200 bg-[#FDFBF7]">
+    <section id="properties" className="py-20 lg:py-28 border-b border-slate-800/80 bg-[#070A10]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -99,18 +99,18 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
             <div className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
               Verified Portfolios
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-              Curated Properties in Noida & Jewar Corridor
+            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
+              Curated Properties in Noida &amp; Jewar Corridor
             </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-800 max-w-2xl">
+            <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
               Hand-vetted residential landmarks and commercial assets with clean land titles, RERA approvals, and institutional developer track records.
             </p>
           </div>
 
           {/* Active Result Count */}
           <div className="flex items-center gap-3">
-            <span className="text-xs text-slate-800">
-              Showing <span className="font-mono font-bold text-amber-400 tabular-nums">{filteredProperties.length}</span> of {properties.length} listings
+            <span className="text-xs text-slate-400">
+              Showing <span className="font-mono font-bold text-amber-400 tabular-nums text-sm">{filteredProperties.length}</span> of {properties.length} listings
             </span>
             {hasActiveFilters && (
               <button
@@ -119,7 +119,7 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
                   setKeyword('');
                   onResetFilters();
                 }}
-                className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 underline cursor-pointer"
+                className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 font-medium underline cursor-pointer"
               >
                 <RotateCcw className="h-3 w-3" />
                 Reset Filters
@@ -129,59 +129,59 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
         </div>
 
         {/* Filter Bar & Controls */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-300">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-800/80">
           
           {/* Functional Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white/90 rounded-xl border border-slate-300">
+          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#0D121F]/80 rounded-2xl border border-slate-800/90 shadow-lg">
             <button
               onClick={() => setActiveCategory('all')}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
                 activeCategory === 'all'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
               }`}
             >
               All Listings
             </button>
             <button
               onClick={() => setActiveCategory('luxury')}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
                 activeCategory === 'luxury'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
               }`}
             >
               Luxury Condos
             </button>
             <button
               onClick={() => setActiveCategory('expressway')}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
                 activeCategory === 'expressway'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
               }`}
             >
               Expressway Hub
             </button>
             <button
               onClick={() => setActiveCategory('commercial')}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
                 activeCategory === 'commercial'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
               }`}
             >
               Commercial Retail
             </button>
             <button
               onClick={() => setActiveCategory('plots')}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
                 activeCategory === 'plots'
-                  ? 'bg-amber-400 text-neutral-950 font-semibold shadow-md'
-                  : 'text-slate-800 hover:text-slate-900'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
               }`}
             >
-              Airport Plots & Villas
+              Airport Plots &amp; Villas
             </button>
           </div>
 
@@ -193,21 +193,21 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Search builder, sector..."
-                className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-neutral-500 focus:outline-none focus:border-amber-400"
+                className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#0D121F]/90 border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
               />
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <SlidersHorizontal className="h-4 w-4 text-slate-800 shrink-0 hidden sm:block" />
+              <SlidersHorizontal className="h-4 w-4 text-amber-400 shrink-0 hidden sm:block" />
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value as any)}
-                className="w-full sm:w-auto px-3 py-2 text-xs rounded-xl bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-amber-400 cursor-pointer"
+                className="w-full sm:w-auto px-3.5 py-2 text-xs rounded-xl bg-[#0D121F] border border-slate-700/80 text-slate-200 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
               >
-                <option value="featured">Featured Curations</option>
-                <option value="price_low">Price: Low to High</option>
-                <option value="price_high">Price: High to Low</option>
-                <option value="greens">Maximum Greenery %</option>
+                <option value="featured" className="bg-[#0D121F] text-slate-100">Featured Curations</option>
+                <option value="price_low" className="bg-[#0D121F] text-slate-100">Price: Low to High</option>
+                <option value="price_high" className="bg-[#0D121F] text-slate-100">Price: High to Low</option>
+                <option value="greens" className="bg-[#0D121F] text-slate-100">Maximum Greenery %</option>
               </select>
             </div>
           </div>
@@ -233,9 +233,9 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
             ))}
           </div>
         ) : (
-          <div className="p-16 rounded-3xl border border-slate-300 bg-white/90 text-center max-w-xl mx-auto">
-            <h3 className="text-lg font-semibold text-slate-900">No properties match your current filters</h3>
-            <p className="text-xs text-slate-800 mt-2">
+          <div className="p-16 rounded-3xl border border-slate-800 bg-[#0D121F]/80 text-center max-w-xl mx-auto shadow-2xl">
+            <h3 className="text-lg font-bold text-white">No properties match your current filters</h3>
+            <p className="text-xs text-slate-400 mt-2 leading-relaxed">
               Try adjusting your sector, budget, or keyword criteria, or contact KR Estate directly for unlisted off-market options.
             </p>
             <button
@@ -244,7 +244,7 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
                 setKeyword('');
                 onResetFilters();
               }}
-              className="mt-6 px-4 py-2 text-xs font-semibold text-neutral-950 bg-amber-400 rounded-lg hover:bg-amber-300 transition-colors"
+              className="mt-6 px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl hover:from-amber-300 hover:to-amber-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer"
             >
               Reset All Filters
             </button>

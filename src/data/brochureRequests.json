@@ -1,30 +1,17 @@
 [
   {
-    "id": "BRC-770915",
-    "createdAt": "2026-10-08T01:50:00.000Z",
-    "name": "Vikramaditya Singhania",
-    "phone": "+91 98101 23456",
-    "email": "singhania.v@investcorp.in",
-    "comment": "Interested in 4 BHK Penthouse at Cleo County. Please provide immediate cost sheet with GST breakdown and club charges.",
-    "propertyId": "cleo-county-sector-121",
-    "propertyTitle": "Cleo County Resort Residences",
-    "sector": "Sector 121, Central Noida",
-    "developer": "ABA Corp",
-    "priceDisplay": "₹3.85 Cr – ₹7.20 Cr",
-    "status": "New"
-  },
-  {
-    "id": "BRC-652391",
-    "createdAt": "2026-10-07T18:20:00.000Z",
-    "name": "Dr. Sunita Kapoor",
-    "phone": "+91 99710 88992",
-    "email": "dr.sunita@apollo.org",
-    "comment": "Need floor plans and corner unit availability for ACE Starlit Sector 150.",
-    "propertyId": "ace-starlit-sector-150",
-    "propertyTitle": "ACE Starlit Sports City",
-    "sector": "Sector 150 Sports City",
-    "developer": "ACE Group",
-    "priceDisplay": "₹2.10 Cr – ₹3.90 Cr",
-    "status": "Contacted"
+    "id": "VISIT-127937",
+    "createdAt": "2026-10-08T10:52:52.240Z",
+    "name": "Avinash Mehra",
+    "phone": "+916204124200",
+    "email": "avinaash7870433580@gmail.com",
+    "leadType": "Site Visit",
+    "comment": "VIP Site Visit on 2026-10-16 (12:00 PM). Pickup: No",
+    "propertyId": "",
+    "propertyTitle": "Bhutani Cyberthum",
+    "sector": "Noida",
+    "developer": "KR Estate VIP Escort",
+    "priceDisplay": "Scheduled Visit",
+    "status": "Visit Booked"
   }
 ]

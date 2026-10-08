@@ -153,13 +153,15 @@ export default function App() {
 
   return (
     <SiteSettingsProvider>
-      <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col font-sans-body selection:bg-amber-500/20 selection:text-amber-200 relative">
+      <div className="min-h-screen bg-[#070A10] text-slate-100 flex flex-col font-sans-body selection:bg-amber-500/30 selection:text-amber-200 relative overflow-x-hidden">
       
-      {/* Decorative ambient background mesh for glassmorphism */}
+      {/* Decorative ambient background lighting mesh for glassmorphism */}
       <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-amber-400/10 blur-[120px] mix-blend-multiply animate-pulse" />
-        <div className="absolute top-[20%] right-[-10%] w-[40%] h-[60%] rounded-full bg-blue-400/10 blur-[120px] mix-blend-multiply" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-[-20%] left-[20%] w-[60%] h-[50%] rounded-full bg-rose-400/10 blur-[120px] mix-blend-multiply" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-amber-500/15 blur-[140px] animate-shimmer-pulse" />
+        <div className="absolute top-[25%] right-[-15%] w-[50%] h-[65%] rounded-full bg-indigo-600/12 blur-[150px]" style={{ animationDelay: '2.5s' }} />
+        <div className="absolute bottom-[-15%] left-[20%] w-[60%] h-[55%] rounded-full bg-emerald-500/10 blur-[140px]" style={{ animationDelay: '5s' }} />
+        {/* Subtle radial architectural spotlight */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,158,11,0.06),transparent_70%)]" />
       </div>
 
       {/* Strict 3-zone Header */}

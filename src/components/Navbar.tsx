@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Menu, X, Phone, Calendar, Video, Lock } from 'lucide-react';
-import { useSiteSettings } from '../context/SiteSettingsContext';
+import React, { useState, useEffect } from 'react';
+import { Calendar, ShieldCheck, Menu, X, Lock } from 'lucide-react';
 
 interface NavbarProps {
   onOpenScheduleModal: (projectName?: string) => void;
@@ -10,151 +9,158 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenScheduleModal,
-  onOpenDomainModal,
+  onOpenDomainModal: _onOpenDomainModal,
   onOpenAdminLogin,
 }) => {
-  const { settings } = useSiteSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Home');
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#070A10]/85 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.7)] transition-all">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
-
-        {/* Zone 1: Brand Wordmark (Single clean text element) */}
-        <div className="flex lg:flex-1">
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400/25 via-amber-500/15 to-transparent border border-amber-400/50 text-amber-300 font-display font-bold text-xl group-hover:border-amber-400 group-hover:shadow-[0_0_20px_rgba(245,158,11,0.35)] transition-all">
-              KR
-            </div>
-            <span className="font-display text-xl font-bold tracking-tight text-white group-hover:text-amber-400 transition-colors">
-              {settings.agency.name || 'KR Estate'}
+    <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-[#FFF3EB]/95 backdrop-blur-xl border-b border-orange-200/60 shadow-sm' 
+        : 'bg-[#FFF3EB]/90 backdrop-blur-md border-b border-orange-200/40'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+        
+        {/* Left: Brand Monogram & Title */}
+        <a href="#home" className="flex items-center gap-3 group shrink-0">
+          <img 
+            src="/kr-logo.png" 
+            alt="KR Estate Logo" 
+            className="h-10 w-auto object-contain filter drop-shadow-[0_0_12px_rgba(245,158,11,0.3)]"
+          />
+          <div className="flex flex-col">
+            <span className="font-serif text-xl font-bold tracking-tight text-slate-900 group-hover:text-amber-700 transition-colors leading-tight">
+              KR Estate
             </span>
-          </a>
-        </div>
+            <span className="text-[11px] font-semibold tracking-wider text-amber-700">
+              Noida
+            </span>
+          </div>
+        </a>
 
-        {/* Zone 2: Perfectly Centered Navigation Links */}
-        <nav className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-8 text-sm font-medium text-slate-300">
-          <a href="#properties" className="hover:text-amber-400 transition-colors">
-            Properties
-          </a>
-          <a href="#localities" className="hover:text-amber-400 transition-colors">
-            Noida Sectors
-          </a>
-          <a href="#calculator" className="hover:text-amber-400 transition-colors">
-            EMI Calculator
-          </a>
-          <a href="#advisor" className="hover:text-amber-400 transition-colors flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)] animate-pulse" />
-            AI Advisor
-          </a>
+        {/* Center: Clean Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-slate-700">
+          {[
+            { name: 'Home', href: '#home' },
+            { name: 'Properties', href: '#properties' },
+            { name: 'Services', href: '#services' },
+            { name: 'About', href: '#impact' },
+            { name: 'Contact', href: '#contact' }
+          ].map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              onClick={() => setActiveTab(item.name)}
+              className={`relative py-1.5 transition-colors duration-200 hover:text-amber-700 ${
+                activeTab === item.name ? 'text-amber-700 font-bold' : 'text-slate-700'
+              }`}
+            >
+              {item.name}
+              {activeTab === item.name && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full shadow-[0_0_8px_rgba(217,119,6,0.5)]" />
+              )}
+            </a>
+          ))}
         </nav>
 
-        {/* Zone 3: 1-2 Primary Actions */}
-        <div className="hidden md:flex lg:flex-1 items-center justify-end gap-3">
-          <a
-            href={`tel:${settings.agency.phone.replace(/[^0-9+]/g, '')}`}
-            className="hidden lg:flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-amber-300 transition-all py-2.5 px-3.5 rounded-xl border border-slate-800 hover:border-amber-500/40 bg-slate-900/60 shadow-xs"
-          >
-            <Phone className="h-3.5 w-3.5 text-amber-400" />
-            <span>{settings.agency.phone || '+91 78704 33580'}</span>
-          </a>
+        {/* Right: Regulatory Shield and VIP Visit Button */}
+        <div className="hidden lg:flex items-center gap-6 shrink-0">
+          
+          {/* UP RERA Verified */}
+          <div className="flex items-center gap-1.5 text-xs text-slate-700 font-semibold">
+            <ShieldCheck className="w-4 h-4 text-amber-600" />
+            <span>UP RERA Verified</span>
+          </div>
 
+          {/* Book VIP Visit */}
           <button
             onClick={() => onOpenScheduleModal()}
-            className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:via-amber-400 hover:to-amber-500 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_30px_rgba(245,158,11,0.55)] transition-all cursor-pointer whitespace-nowrap hover:-translate-y-0.5"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold text-xs shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
           >
-            <Calendar className="h-3.5 w-3.5" />
-            <span>Book Visit</span>
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Book VIP Visit</span>
           </button>
 
+          {/* Admin Icon button */}
           <button
             onClick={onOpenAdminLogin}
-            title="Owner Login"
-            className="flex items-center justify-center h-9 w-9 rounded-full border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-amber-300 hover:border-amber-400/50 transition-all ml-1 cursor-pointer"
+            title="Admin Portal"
+            className="p-2 text-slate-500 hover:text-amber-700 transition-colors cursor-pointer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+            <Lock className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        {/* Mobile menu button */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile menu trigger */}
+        <div className="flex lg:hidden items-center gap-3">
           <button
             onClick={() => onOpenScheduleModal()}
-            className="px-3.5 py-1.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg shadow-sm"
+            className="px-3.5 py-1.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-lg shadow-sm"
           >
-            Visit
+            Book VIP
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-slate-300 hover:text-white rounded-lg focus:outline-none"
+            className="p-2 text-slate-700 hover:text-slate-950 rounded-lg focus:outline-none bg-white/80 border border-orange-200"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
+
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-800 bg-[#0B0F1A]/95 backdrop-blur-2xl px-5 pt-3 pb-6 space-y-4">
-          <div className="flex flex-col space-y-3 text-sm font-medium text-slate-200">
-            <a
-              href="#properties"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-2 py-1.5 hover:text-amber-400"
-            >
-              Verified Properties
-            </a>
-            <a
-              href="#localities"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-2 py-1.5 hover:text-amber-400"
-            >
-              Noida Sector Guide
-            </a>
-            <a
-              href="#calculator"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-2 py-1.5 hover:text-amber-400"
-            >
-              EMI Calculator
-            </a>
-            <a
-              href="#advisor"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-2 py-1.5 hover:text-amber-400 flex items-center gap-2"
-            >
-              <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
-              AI Property Advisor
-            </a>
-
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAdminLogin();
-              }}
-              className="text-left px-2 py-1.5 text-xs text-slate-300 hover:text-amber-400 flex items-center gap-2 cursor-pointer font-medium"
-            >
-              <Lock className="h-3.5 w-3.5 text-amber-400" />
-              <span>Admin Panel</span>
-            </button>
+        <div className="lg:hidden border-b border-orange-200 bg-[#FFF3EB]/98 backdrop-blur-2xl px-6 pt-4 pb-6 space-y-4 shadow-xl animate-in slide-in-from-top-4 duration-300">
+          <div className="flex flex-col space-y-3 text-sm font-semibold text-slate-800">
+            {[
+              { name: 'Home', href: '#home' },
+              { name: 'Properties', href: '#properties' },
+              { name: 'Services', href: '#services' },
+              { name: 'About', href: '#impact' },
+              { name: 'Contact', href: '#contact' }
+            ].map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={() => {
+                  setActiveTab(item.name);
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-3 py-2 rounded-lg hover:bg-orange-100/50 transition-colors ${
+                  activeTab === item.name ? 'text-amber-800 font-bold bg-orange-100/60' : 'text-slate-700'
+                }`}
+              >
+                {item.name}
+              </a>
+            ))}
           </div>
-          <div className="pt-2 flex flex-col gap-2">
-            <a
-              href={`tel:${settings.agency.phone.replace(/[^0-9+]/g, '')}`}
-              className="flex items-center justify-center gap-2 w-full py-2.5 text-sm font-medium text-slate-200 border border-slate-800 bg-slate-900/60 rounded-xl"
-            >
-              <Phone className="h-4 w-4 text-amber-400" />
-              <span>Call {settings.agency.phone || '+91 78704 33580'}</span>
-            </a>
+
+          <div className="pt-3 border-t border-orange-200/80 flex flex-col gap-2.5 text-xs">
+            <div className="flex items-center gap-2 text-slate-700 px-3 py-1 font-semibold">
+              <ShieldCheck className="w-4 h-4 text-amber-600" />
+              <span>UP RERA Verified</span>
+            </div>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenScheduleModal();
               }}
-              className="w-full py-2.5 text-sm font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.35)]"
+              className="w-full py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-xl shadow-md"
             >
-              Schedule Free Site Visit
+              Book VIP Visit
             </button>
           </div>
         </div>
@@ -162,4 +168,3 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
-

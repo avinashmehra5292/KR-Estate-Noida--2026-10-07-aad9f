@@ -1,102 +1,138 @@
 import React from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import { useSiteSettings } from '../context/SiteSettingsContext';
+import { Phone, Mail, MapPin, MessageSquare, Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 interface FooterProps {
   onOpenScheduleModal: () => void;
   onOpenDomainModal?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenScheduleModal }) => {
-  const { settings } = useSiteSettings();
+export const Footer: React.FC<FooterProps> = () => {
+  const phone = '+91 78704 33580';
+  const email = 'info@krestate.in';
 
   return (
-    <footer className="border-t border-slate-800/90 bg-[#05070D] text-slate-400 text-xs">
+    <footer id="contact" className="bg-[#F3DDD0] text-slate-800 text-xs border-t border-orange-300/60">
       
-      {/* Top Footer Grid */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      {/* Main 5-Column Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
           
-          {/* Brand & Overview (Col 2) */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Col 1: Brand & Monogram */}
+          <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400/25 via-amber-500/15 to-transparent border border-amber-400/40 text-amber-300 font-display font-bold text-lg shadow-[0_0_15px_rgba(245,158,11,0.25)]">
-                KR
+              <img 
+                src="/kr-logo.png" 
+                alt="KR Estate" 
+                className="h-9 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(217,119,6,0.3)]"
+              />
+              <div className="flex flex-col">
+                <span className="font-serif text-lg font-bold tracking-tight text-slate-950 leading-tight">
+                  KR Estate
+                </span>
+                <span className="text-[11px] font-semibold tracking-wider text-amber-800">
+                  Noida
+                </span>
               </div>
-              <span className="font-display text-lg font-bold tracking-tight text-white">
-                {settings.agency.name || 'KR Estate Noida'}
-              </span>
             </div>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-              {settings.agency.tagline || 'Noida’s premier real estate consultancy. Delivering curated property portfolios across Sector 150 Sports City, Noida Expressway, and the Yamuna Expressway Jewar Airport corridor.'}
+            <p className="text-slate-600 text-xs font-medium">
+              Your Vision. Our Expertise.
             </p>
+          </div>
+
+          {/* Col 2: Quick Links */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-slate-950 tracking-wider">
+              Quick Links
+            </h4>
+            <ul className="space-y-2 text-slate-700 text-xs font-medium">
+              <li><a href="#home" className="hover:text-amber-800 transition-colors">Home</a></li>
+              <li><a href="#properties" className="hover:text-amber-800 transition-colors">Properties</a></li>
+              <li><a href="#services" className="hover:text-amber-800 transition-colors">Services</a></li>
+              <li><a href="#impact" className="hover:text-amber-800 transition-colors">About</a></li>
+              <li><a href="#contact" className="hover:text-amber-800 transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          {/* Col 3: Our Locations */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-slate-950 tracking-wider">
+              Our Locations
+            </h4>
+            <ul className="space-y-2 text-slate-700 text-xs font-medium">
+              <li><span className="hover:text-amber-800 cursor-pointer">Noida</span></li>
+              <li><span className="hover:text-amber-800 cursor-pointer">Greater Noida</span></li>
+              <li><span className="hover:text-amber-800 cursor-pointer">Jewar</span></li>
+            </ul>
+          </div>
+
+          {/* Col 4: Contact */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-slate-950 tracking-wider">
+              Contact
+            </h4>
+            <ul className="space-y-2.5 text-slate-700 text-xs font-medium">
+              <li className="flex items-center gap-2">
+                <Phone className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} className="hover:text-amber-800 transition-colors">
+                  {phone}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                <a href={`mailto:${email}`} className="hover:text-amber-800 transition-colors">
+                  {email}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                <span>Noida, Uttar Pradesh</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 5: Follow Us & WhatsApp */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold text-slate-950 tracking-wider">
+              Follow Us
+            </h4>
             
-            <div className="pt-2 flex flex-col space-y-2.5 text-xs">
-              <a href={`mailto:${settings.agency.email || 'avinashmehra5292@gmail.com'}`} className="flex items-center gap-2 text-slate-300 hover:text-amber-400 transition-colors">
-                <Mail className="h-4 w-4 text-amber-400" />
-                <span>{settings.agency.email || 'avinashmehra5292@gmail.com'}</span>
-              </a>
-              <a href={`tel:${(settings.agency.phone || '+91 78704 33580').replace(/[^0-9+]/g, '')}`} className="flex items-center gap-2 text-slate-300 hover:text-amber-400 transition-colors">
-                <Phone className="h-4 w-4 text-amber-400" />
-                <span>{settings.agency.phone || '+91 78704 33580'}</span>
-              </a>
-              <div className="flex items-start gap-2 text-slate-300">
-                <MapPin className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>{settings.agency.address || 'Corporate Suites, Sector 142 & Expressway, Noida, UP 201305'}</span>
-              </div>
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 text-slate-700">
+              <a href="#" className="hover:text-emerald-700 transition-colors"><MessageSquare className="w-4 h-4" /></a>
+              <a href="#" className="hover:text-amber-800 transition-colors"><Facebook className="w-4 h-4" /></a>
+              <a href="#" className="hover:text-amber-800 transition-colors"><Instagram className="w-4 h-4" /></a>
+              <a href="#" className="hover:text-amber-800 transition-colors"><Linkedin className="w-4 h-4" /></a>
+              <a href="#" className="hover:text-rose-700 transition-colors"><Youtube className="w-4 h-4" /></a>
             </div>
-          </div>
 
-          {/* Micro-Markets & Sectors */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Noida Growth Sectors
-            </h4>
-            <ul className="space-y-2 text-slate-400">
-              <li><a href="#localities" className="hover:text-amber-400 transition-colors">Sector 150 Sports City</a></li>
-              <li><a href="#localities" className="hover:text-amber-400 transition-colors">Sector 128 Wish Town</a></li>
-              <li><a href="#localities" className="hover:text-amber-400 transition-colors">Sector 140A IT Corridor</a></li>
-              <li><a href="#localities" className="hover:text-amber-400 transition-colors">Yamuna Exp. Aerocity</a></li>
-              <li><a href="#localities" className="hover:text-amber-400 transition-colors">Central Noida (Sec 43, 121)</a></li>
-              <li><a href="#localities" className="hover:text-amber-400 transition-colors">Greater Noida West</a></li>
-            </ul>
-          </div>
-
-          {/* Quick Advisory Services */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Advisory Solutions
-            </h4>
-            <ul className="space-y-2 text-slate-400">
-              <li><a href="#properties" className="hover:text-amber-400 transition-colors">Luxury Apartments</a></li>
-              <li><a href="#properties" className="hover:text-amber-400 transition-colors">Commercial &amp; Retail 12% ROI</a></li>
-              <li><a href="#properties" className="hover:text-amber-400 transition-colors">Freehold Plotted Townships</a></li>
-              <li><a href="#calculator" className="hover:text-amber-400 transition-colors">Home Loan EMI Calculator</a></li>
-              <li><a href="#advisor" className="hover:text-amber-400 transition-colors">AI Investment Matchmaker</a></li>
-              <li><a href="#valuation" className="hover:text-amber-400 transition-colors">Sell / Rent Property Listing</a></li>
-            </ul>
+            {/* Chat on WhatsApp Button */}
+            <a
+              href={`https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=Hello%20KR%20Estate,%20I%20am%20interested%20in%20properties.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-xs shadow-md transition-all cursor-pointer whitespace-nowrap"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>Chat on WhatsApp</span>
+            </a>
           </div>
 
         </div>
 
-        {/* Regulatory Disclaimer (UP RERA Compliant) */}
-        <div className="mt-12 pt-8 border-t border-slate-800/80 text-[11px] text-slate-400 leading-relaxed space-y-2">
-          <p>
-            <strong className="text-slate-300">Regulatory Disclaimer:</strong> KR Estate (operating at krestatenoida.com) functions as an authorized real estate advisory and channel partner for RERA-registered real estate projects in Noida, Greater Noida, and Yamuna Expressway. All project images, specifications, floor plans, and pricing displayed are for informational representation and subject to official builder terms and RERA filings. Nothing on this website constitutes a formal offer of sale without physical verification of official allotment documentation.
-          </p>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-4 border-t border-slate-800/80 text-slate-400">
-            <div>
-              {settings.seo.footerCopyright || `© ${new Date().getFullYear()} ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain || 'krestatenoida.com'}). All rights reserved.`}
-            </div>
-            <div className="flex items-center gap-4">
-              <span>Primary Contact: <span className="text-slate-300">{settings.agency.email || 'avinashmehra5292@gmail.com'}</span></span>
-              <span aria-hidden="true" className="text-slate-700">·</span>
-              <span><span className="text-slate-300">{settings.agency.phone || '+91 78704 33580'}</span></span>
-            </div>
+        {/* Bottom Legal Strip */}
+        <div className="mt-12 pt-6 border-t border-orange-200/80 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-600">
+          <div>
+            &copy; 2026 KR Estate. All rights reserved. &nbsp;|&nbsp; UP RERA Verified &nbsp;|&nbsp; No Brokerage on New Bookings
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a>
+            <span>|</span>
+            <a href="#" className="hover:text-slate-900 transition-colors">Terms &amp; Conditions</a>
           </div>
         </div>
 
       </div>
+
     </footer>
   );
 };

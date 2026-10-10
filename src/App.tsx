@@ -8,6 +8,8 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { PropertyGrid } from './components/PropertyGrid';
 import { LocalityGuide } from './components/LocalityGuide';
+import { ServicesSection } from './components/ServicesSection';
+import { TestimonialsSection } from './components/TestimonialsSection';
 import { EmiCalculator } from './components/EmiCalculator';
 import { AiPropertyAdvisor } from './components/AiPropertyAdvisor';
 import { ValuationForm } from './components/ValuationForm';
@@ -132,9 +134,9 @@ export default function App() {
   };
 
   const handleAdminLoginSuccess = () => {
-    const isAlreadyOnAdminRoute = 
-      window.location.pathname === '/admin' || 
-      window.location.pathname === '/admin/' || 
+    const isAlreadyOnAdminRoute =
+      window.location.pathname === '/admin' ||
+      window.location.pathname === '/admin/' ||
       window.location.search.includes('admin=true') ||
       window.location.hash === '#admin';
 
@@ -153,132 +155,152 @@ export default function App() {
 
   return (
     <SiteSettingsProvider>
-      <div className="min-h-screen bg-[#070A10] text-slate-100 flex flex-col font-sans-body selection:bg-amber-500/30 selection:text-amber-200 relative overflow-x-hidden">
-      
-      {/* Decorative ambient background lighting mesh for glassmorphism */}
-      <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-amber-500/15 blur-[140px] animate-shimmer-pulse" />
-        <div className="absolute top-[25%] right-[-15%] w-[50%] h-[65%] rounded-full bg-indigo-600/12 blur-[150px]" style={{ animationDelay: '2.5s' }} />
-        <div className="absolute bottom-[-15%] left-[20%] w-[60%] h-[55%] rounded-full bg-emerald-500/10 blur-[140px]" style={{ animationDelay: '5s' }} />
-        {/* Subtle radial architectural spotlight */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,158,11,0.06),transparent_70%)]" />
-      </div>
+      <div className="min-h-screen bg-[#FFF3EB] text-slate-900 flex flex-col font-sans-body selection:bg-amber-500 selection:text-white relative overflow-x-hidden">
 
-      {/* Strict 3-zone Header */}
-      <Navbar
-        onOpenScheduleModal={() => handleOpenScheduleModal()}
-        onOpenDomainModal={() => setDomainModalOpen(true)}
-        onOpenAdminLogin={() => setAdminLoginOpen(true)}
-      />
+        {/* Decorative ambient background lighting mesh for luxury peach ambiance */}
+        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
+          <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-amber-400/15 blur-[140px] animate-shimmer-pulse" />
+          <div className="absolute top-[25%] right-[-15%] w-[50%] h-[65%] rounded-full bg-orange-300/15 blur-[150px]" style={{ animationDelay: '2.5s' }} />
+          <div className="absolute bottom-[-15%] left-[20%] w-[60%] h-[55%] rounded-full bg-rose-300/10 blur-[140px]" style={{ animationDelay: '5s' }} />
+          {/* Subtle radial architectural spotlight */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,158,11,0.06),transparent_70%)]" />
+        </div>
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <Hero
-          onSearch={(params) => setSearchFilterParams(params)}
+        {/* Strict 3-zone Header */}
+        <Navbar
           onOpenScheduleModal={() => handleOpenScheduleModal()}
-          onWatchVideo={() => handleOpenVideoTour(NOIDA_PROPERTIES[0].videoTour)}
-          onOpenClientVideoModal={() => setClientVideoModalOpen(true)}
+          onOpenDomainModal={() => setDomainModalOpen(true)}
+          onOpenAdminLogin={() => setAdminLoginOpen(true)}
         />
 
-        {/* Curated Properties Portfolio with High-Res Photos & Badges */}
-        <PropertyGrid
-          properties={NOIDA_PROPERTIES}
-          onSelectProperty={(prop) => setSelectedProperty(prop)}
-          onScheduleVisit={(title) => handleOpenScheduleModal(title)}
+        <main className="flex-1">
+          {/* Hero Section */}
+          <Hero
+            onSearch={(params) => setSearchFilterParams(params)}
+            onOpenScheduleModal={() => handleOpenScheduleModal()}
+            onWatchVideo={() => handleOpenVideoTour(NOIDA_PROPERTIES[0].videoTour)}
+            onOpenClientVideoModal={() => setClientVideoModalOpen(true)}
+          />
+
+          {/* Curated Properties Portfolio with High-Res Photos & Badges */}
+          <PropertyGrid
+            properties={NOIDA_PROPERTIES}
+            onSelectProperty={(prop) => setSelectedProperty(prop)}
+            onScheduleVisit={(title) => handleOpenScheduleModal(title)}
+            onWatchVideo={(video) => handleOpenVideoTour(video)}
+            searchFilterParams={searchFilterParams}
+            onResetFilters={() =>
+              setSearchFilterParams({ sector: 'all', type: 'all', budget: 'all' })
+            }
+          />
+
+          {/* Sector & Growth Corridor Guides (Our Impact & Key Growth Corridors) */}
+          <LocalityGuide
+            onSelectLocalityFilter={handleSelectLocalityFilter}
+            onWatchDroneTour={(tour) => handleOpenVideoTour(tour || NOIDA_PROPERTIES[0].videoTour)}
+          />
+
+          {/* End-to-End Real Estate Advisory Services */}
+          <ServicesSection
+            onOpenEmiModal={() => {
+              const el = document.getElementById('calculator');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            onOpenAiAdvisor={() => {
+              const el = document.getElementById('advisor');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            onOpenValuation={() => {
+              const el = document.getElementById('valuation');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+          />
+
+          {/* Client Testimonials */}
+          <TestimonialsSection />
+
+          {/* EMI & Financial Investment Calculator */}
+          <EmiCalculator />
+
+          {/* AI-Powered Smart Property Matchmaker (Gemini 3.8 Flash) */}
+          <AiPropertyAdvisor
+            onSelectPropertyByName={handleSelectPropertyByName}
+            onOpenScheduleModal={handleOpenScheduleModal}
+          />
+
+          {/* Owners & Resale Property Valuation Desk */}
+          <ValuationForm />
+        </main>
+
+        {/* Authority Footer */}
+        <Footer
+          onOpenScheduleModal={() => handleOpenScheduleModal()}
+          onOpenDomainModal={() => setDomainModalOpen(true)}
+        />
+
+        {/* Modals & Overlays */}
+        <PropertyModal
+          property={selectedProperty}
+          onClose={() => setSelectedProperty(null)}
+          onOpenScheduleModal={(title) => handleOpenScheduleModal(title)}
           onWatchVideo={(video) => handleOpenVideoTour(video)}
-          searchFilterParams={searchFilterParams}
-          onResetFilters={() =>
-            setSearchFilterParams({ sector: 'all', type: 'all', budget: 'all' })
-          }
         />
 
-        {/* Sector & Growth Corridor Guides */}
-        <LocalityGuide
-          onSelectLocalityFilter={handleSelectLocalityFilter}
-        />
-
-        {/* EMI & Financial Investment Calculator */}
-        <EmiCalculator />
-
-        {/* AI-Powered Smart Property Matchmaker (Gemini 3.8 Flash) */}
-        <AiPropertyAdvisor
-          onSelectPropertyByName={handleSelectPropertyByName}
+        {/* 4K Drone Aerial & Walkthrough Video Player Modal */}
+        <VideoModal
+          isOpen={videoModalOpen}
+          onClose={() => setVideoModalOpen(false)}
+          initialVideo={activeVideoTour}
           onOpenScheduleModal={handleOpenScheduleModal}
         />
 
-        {/* Owners & Resale Property Valuation Desk */}
-        <ValuationForm />
-      </main>
-
-      {/* Authority Footer */}
-      <Footer
-        onOpenScheduleModal={() => handleOpenScheduleModal()}
-        onOpenDomainModal={() => setDomainModalOpen(true)}
-      />
-
-      {/* Modals & Overlays */}
-      <PropertyModal
-        property={selectedProperty}
-        onClose={() => setSelectedProperty(null)}
-        onOpenScheduleModal={(title) => handleOpenScheduleModal(title)}
-        onWatchVideo={(video) => handleOpenVideoTour(video)}
-      />
-
-      {/* 4K Drone Aerial & Walkthrough Video Player Modal */}
-      <VideoModal
-        isOpen={videoModalOpen}
-        onClose={() => setVideoModalOpen(false)}
-        initialVideo={activeVideoTour}
-        onOpenScheduleModal={handleOpenScheduleModal}
-      />
-
-      {/* Bespoke Real Estate Noida Expressway Video Studio & Client Presentation Reel */}
-      <NoidaExpresswayClientVideoModal
-        isOpen={clientVideoModalOpen}
-        onClose={() => setClientVideoModalOpen(false)}
-        onOpenScheduleModal={handleOpenScheduleModal}
-        initialClientName={clientNameParam}
-      />
-
-      <ScheduleVisitModal
-        isOpen={scheduleModalOpen}
-        onClose={() => {
-          setScheduleModalOpen(false);
-          setPreselectedProjectForVisit(undefined);
-        }}
-        preselectedProject={preselectedProjectForVisit}
-      />
-
-      <DomainSetupModal
-        isOpen={domainModalOpen}
-        onClose={() => setDomainModalOpen(false)}
-      />
-
-      {/* Instant Floating WhatsApp Advisory Connect */}
-      <WhatsAppButton />
-
-      {/* Admin Authentication Modal */}
-      {adminLoginOpen && (
-        <AdminLoginModal 
-          onClose={() => setAdminLoginOpen(false)} 
-          onSuccess={handleAdminLoginSuccess} 
+        {/* Bespoke Real Estate Noida Expressway Video Studio & Client Presentation Reel */}
+        <NoidaExpresswayClientVideoModal
+          isOpen={clientVideoModalOpen}
+          onClose={() => setClientVideoModalOpen(false)}
+          onOpenScheduleModal={handleOpenScheduleModal}
+          initialClientName={clientNameParam}
         />
-      )}
 
-      {/* Developer Admin Form Modal (Triggered via Login or /admin) */}
-      {adminFormOpen && (
-        <AdminDashboard 
+        <ScheduleVisitModal
+          isOpen={scheduleModalOpen}
           onClose={() => {
-            setAdminFormOpen(false);
-            try {
-              localStorage.removeItem('kr_admin_auth');
-            } catch {}
-            if (window.location.pathname === '/admin' || window.location.pathname === '/admin/' || window.location.search.includes('admin=true')) {
-              window.history.replaceState({}, '', '/');
-            }
-          }} 
+            setScheduleModalOpen(false);
+            setPreselectedProjectForVisit(undefined);
+          }}
+          preselectedProject={preselectedProjectForVisit}
         />
-      )}
+
+        <DomainSetupModal
+          isOpen={domainModalOpen}
+          onClose={() => setDomainModalOpen(false)}
+        />
+
+        {/* Instant Floating WhatsApp Advisory Connect */}
+        <WhatsAppButton />
+
+        {/* Admin Authentication Modal */}
+        {adminLoginOpen && (
+          <AdminLoginModal
+            onClose={() => setAdminLoginOpen(false)}
+            onSuccess={handleAdminLoginSuccess}
+          />
+        )}
+
+        {/* Developer Admin Form Modal (Triggered via Login or /admin) */}
+        {adminFormOpen && (
+          <AdminDashboard
+            onClose={() => {
+              setAdminFormOpen(false);
+              try {
+                localStorage.removeItem('kr_admin_auth');
+              } catch { }
+              if (window.location.pathname === '/admin' || window.location.pathname === '/admin/' || window.location.search.includes('admin=true')) {
+                window.history.replaceState({}, '', '/');
+              }
+            }}
+          />
+        )}
       </div>
     </SiteSettingsProvider>
   );

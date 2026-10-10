@@ -143,12 +143,12 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                   <span className="text-amber-400 text-xs font-bold uppercase tracking-wider block mb-2 drop-shadow-sm">
                     {[property.developer, property.sector || property.locality].filter(Boolean).join(' · ') || 'Exclusive Noida Listing'}
                   </span>
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
+                  <h1 className="font-serif-luxury text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight uppercase">
                     {property.title}
                   </h1>
                 </div>
                 <div className="bg-[#111728]/90 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl border border-amber-500/30 shadow-lg shadow-amber-500/5 shrink-0 self-start sm:self-auto">
-                  <span className="text-[11px] text-slate-400 uppercase tracking-wider block mb-0.5 font-medium">Investment</span>
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5 font-semibold">Investment</span>
                   <span className="font-mono text-xl sm:text-2xl font-bold text-amber-400 tabular-nums drop-shadow-sm">
                     {property.priceDisplay || (property.priceNumInCrores ? `₹${property.priceNumInCrores} Cr` : 'Price on Request')}
                   </span>
@@ -158,7 +158,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               {/* 01. Executive Overview */}
               {property.fullDescription && (
                 <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 mb-2.5">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2.5">
                     01. Project Architecture & Overview
                   </h3>
                   <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
@@ -169,7 +169,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
 
               {/* 02. Key Specifications Bento */}
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 mb-2.5">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2.5">
                   02. Project Invariants & Metrics
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
@@ -196,7 +196,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               {property.videoTour && (
                 <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-[#111728] to-[#111728] border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="h-11 w-11 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
+                    <div className="h-11 w-11 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
                       <Play className="h-5 w-5 fill-current translate-x-0.5" />
                     </div>
                     <div>
@@ -216,7 +216,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                         onClose();
                         onWatchVideo(property.videoTour);
                       }}
-                      className="px-4 py-2 rounded-xl gold-gradient-btn text-slate-950 font-bold text-xs transition-all cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-md hover:shadow-amber-500/25"
+                      className="px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs transition-all cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-md"
                     >
                       Play Drone Flythrough
                     </button>
@@ -228,19 +228,19 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               {property.floorPlans && property.floorPlans.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
                       03. Floor Plans & Layout Dimensions
                     </h3>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 p-1.5 bg-[#111728] rounded-xl border border-slate-800 mb-3 shadow-xs">
+                  <div className="flex flex-wrap items-center gap-2 p-1.5 bg-[#111728] rounded-full border border-slate-800 mb-3 shadow-xs">
                     {property.floorPlans.map((plan, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedPlanTab(index)}
-                        className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
+                        className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer whitespace-nowrap ${
                           selectedPlanTab === index
-                            ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                            ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
                             : 'text-slate-400 hover:text-white'
                         }`}
                       >
@@ -548,7 +548,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                   href={`https://wa.me/917870433580?text=Hi%20KR%20Estate%20Noida%2C%20I%20am%20interested%20in%20${encodeURIComponent(property.title)}%20at%20${encodeURIComponent(property.sector || 'Noida')}%20(krestatenoida.com)`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-2.5 text-xs font-semibold bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-500/20"
+                  className="px-4 py-2.5 text-xs font-bold bg-[#00A884] hover:bg-[#008f6f] text-white rounded-full transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-500/20"
                 >
                   <span>WhatsApp Advisor</span>
                 </a>
@@ -558,7 +558,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                     onClose();
                     onOpenScheduleModal(property.title);
                   }}
-                  className="px-4 py-2.5 text-xs font-bold text-slate-950 gold-gradient-btn rounded-xl shadow-lg shadow-amber-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2.5 text-xs font-bold text-slate-950 bg-amber-500 hover:bg-amber-400 rounded-full shadow-lg shadow-amber-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <Calendar className="h-4 w-4" />
                   <span>Book Site Visit</span>
@@ -588,7 +588,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
             <div className="absolute top-3.5 sm:top-4 inset-x-3.5 sm:inset-x-5 z-30 flex items-center justify-between pointer-events-none">
               {/* Left Tags */}
               <div className="flex items-center gap-2 pointer-events-auto">
-                <span className="flex items-center gap-1.5 text-xs font-semibold text-white bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 shadow-lg">
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-white bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 shadow-lg">
                   <Camera className="h-3.5 w-3.5 text-amber-400" />
                   <span>Photo {activePhotoIdx + 1} of {gallery.length}</span>
                 </span>
@@ -600,7 +600,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                       onClose();
                       onWatchVideo(property.videoTour);
                     }}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 px-3 py-1.5 rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-950 bg-amber-400 hover:bg-amber-300 px-3.5 py-1.5 rounded-full transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
                   >
                     <Play className="h-3.5 w-3.5 fill-current" />
                     <span className="hidden sm:inline">Watch 4K Tour</span>
@@ -613,7 +613,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
               <div className="flex items-center gap-2 pointer-events-auto">
                 <button
                   onClick={() => setIsLightboxOpen(true)}
-                  className="p-2.5 rounded-xl bg-black/75 hover:bg-black/90 text-white hover:text-amber-300 backdrop-blur-md border border-white/20 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  className="w-9 h-9 rounded-full bg-black/75 hover:bg-black/90 text-white hover:text-amber-300 backdrop-blur-md border border-white/20 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
                   title="Fullscreen Lightbox"
                   aria-label="Fullscreen Lightbox"
                 >
@@ -621,7 +621,7 @@ _Source: ${settings.agency.name || 'KR Estate Noida'} (${settings.agency.domain 
                 </button>
                 <button
                   onClick={onClose}
-                  className="p-2.5 rounded-xl bg-black/75 hover:bg-black/90 text-white hover:text-rose-400 backdrop-blur-md border border-white/20 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  className="w-9 h-9 rounded-full bg-black/75 hover:bg-black/90 text-white hover:text-rose-400 backdrop-blur-md border border-white/20 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
                   title="Close modal"
                   aria-label="Close modal"
                 >

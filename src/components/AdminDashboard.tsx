@@ -387,7 +387,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const activeLocality = localitiesList[selectedLocalityIdx] || localitiesList[0];
 
   return (
-    <div className="fixed inset-0 z-50 flex bg-slate-50 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-50 flex bg-slate-50 text-slate-900 admin-panel animate-in fade-in duration-300">
 
       {/* Mobile Backdrop Overlay */}
       {mobileMenuOpen && (

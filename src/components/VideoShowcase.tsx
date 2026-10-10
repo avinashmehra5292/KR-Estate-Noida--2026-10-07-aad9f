@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Compass, Eye, ShieldCheck, Video, Sparkles, Send, ArrowRight } from 'lucide-react';
+import { Play, Compass, Eye, ShieldCheck, Video, Sparkles, Send, ArrowRight, Film, Radio } from 'lucide-react';
 import { NOIDA_PROPERTIES } from '../data/properties';
 import { SafeImage } from './SafeImage';
 
@@ -20,25 +20,28 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
   const activeTour = activeProperty.videoTour!;
 
   return (
-    <section id="virtual-tours" className="py-20 lg:py-28 border-b border-slate-800/80 bg-[#070A10] relative overflow-hidden text-slate-100">
+    <section id="virtual-tours" className="py-20 lg:py-28 border-b border-orange-200/60 bg-[#FFF3EB] relative overflow-hidden text-slate-900">
       
       {/* Background ambient lighting */}
-      <div className="absolute top-1/3 right-1/4 w-[600px] h-[350px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[450px] h-[300px] bg-emerald-500/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-[600px] h-[350px] bg-amber-400/15 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[450px] h-[300px] bg-orange-300/20 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400 mb-2 drop-shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-              <span>Immersive Media & Site Inspections</span>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-700 mb-2.5">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
+              </span>
+              <span>Cinema-Grade Immersive Inspections</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
-              4K Drone Aerial Tours & Virtual Walkthroughs
+            <h2 className="font-display text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+              4K Drone Aerial Tours &amp; Architecture Walkthroughs
             </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl">
+            <p className="mt-3 text-sm sm:text-base text-slate-700 max-w-2xl leading-relaxed">
               Inspect actual construction progress, surrounding 80% green belts, expressway accessibility, and sky villa model interiors before your physical visit.
             </p>
           </div>
@@ -47,35 +50,35 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
             {onOpenClientVideoModal && (
               <button
                 onClick={onOpenClientVideoModal}
-                className="px-4 py-2.5 rounded-xl gold-gradient-btn text-slate-950 font-bold text-xs transition-all flex items-center gap-2 cursor-pointer shadow-md shadow-amber-500/20"
+                className="px-5 py-3 rounded-xl gold-gradient-btn text-slate-950 font-bold text-xs transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20 whitespace-nowrap"
               >
                 <Video className="h-4 w-4" />
-                <span>Make Client Expressway Video</span>
+                <span>Expressway Video Studio</span>
               </button>
             )}
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              <span>KR Survey Team Verified</span>
+            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-700 bg-white/80 px-3 py-2 rounded-xl border border-orange-200/80 shadow-sm">
+              <ShieldCheck className="h-4 w-4 text-emerald-600" />
+              <span>KR Aerial Survey Team</span>
             </div>
           </div>
         </div>
 
         {/* Client Video Presentation Feature Card */}
         {onOpenClientVideoModal && (
-          <div className="mb-10 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-amber-500/15 via-[#0D121F] to-[#121829] border border-amber-500/35 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+          <div className="mb-10 p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-amber-500/10 via-[#FFF8F2] to-[#FDEEE4] border border-orange-200/90 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
             <div className="flex items-center gap-4">
-              <div className="h-14 w-14 rounded-2xl gold-gradient-btn text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/25">
-                <Video className="h-7 w-7" />
+              <div className="h-14 w-14 rounded-2xl gold-gradient-btn text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
+                <Film className="h-7 w-7" />
               </div>
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-amber-400 font-bold">
+                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-amber-700 font-bold">
                   <Sparkles className="h-3.5 w-3.5" />
-                  <span>Broker & Advisor Studio</span>
+                  <span>Private Client &amp; Investor Reel Studio</span>
                 </div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-white mt-0.5">
-                  Need a Bespoke Noida Expressway Real Estate Video for Your Client?
+                <h3 className="font-display text-lg sm:text-xl font-bold text-slate-900 mt-1">
+                  Generate a Bespoke Noida Expressway Real Estate Video for Your Clients
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+                <p className="text-xs sm:text-sm text-slate-700 mt-1 max-w-2xl leading-relaxed">
                   Personalize the 4-scene Noida Expressway 4K drone flythrough with your client's name, customized property focus (Sec 128 Golf, Sec 150 Green Living, Sec 140A Commercial), AI voice narration, and direct WhatsApp sharing.
                 </p>
               </div>
@@ -94,14 +97,14 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
         )}
 
         {/* Featured Video Player Spotlight */}
-        <div className="rounded-3xl border border-slate-800/90 bg-[#0D121F]/80 p-4 sm:p-6 backdrop-blur-xl shadow-2xl ring-1 ring-amber-500/15">
+        <div className="rounded-3xl border border-orange-200/90 bg-white/95 p-5 sm:p-7 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Main Video Hero Card (Col 8) */}
             <div className="lg:col-span-8">
               <div 
                 onClick={() => onWatchVideo(activeTour)}
-                className="group relative aspect-[16/9] w-full rounded-2xl overflow-hidden cursor-pointer border border-amber-500/30 shadow-2xl hover:border-amber-400 transition-colors"
+                className="group relative aspect-[16/9] w-full rounded-2xl overflow-hidden cursor-pointer border border-orange-200 shadow-2xl hover:border-amber-400 transition-all"
               >
                 <SafeImage
                   src={activeProperty.coverImage || ''}
@@ -110,10 +113,11 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
                   fallbackGradient={activeProperty.architecturalTheme?.gradient}
                   iconType={activeProperty.architecturalTheme?.iconType}
                   title={activeTour.title}
+                  className="group-hover:scale-105 transition-transform duration-700"
                 />
 
                 {/* Dark Gradient Scrim */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 group-hover:from-black/80 transition-colors" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20 group-hover:from-black/80 transition-colors" />
 
                 {/* Play Button Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -123,7 +127,7 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
                 </div>
 
                 {/* Top Corner Telemetry Badge */}
-                <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-[11px] font-mono text-slate-200 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-lg border border-amber-500/30 shadow-lg">
+                <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-[11px] font-mono text-slate-200 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-amber-500/30 shadow-lg">
                   <Compass className="h-3.5 w-3.5 text-amber-400" />
                   <span>4K DRONE FLYTHROUGH · {activeTour.duration}</span>
                 </div>
@@ -131,7 +135,7 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
                 {/* Bottom Title Bar */}
                 <div className="absolute bottom-4 inset-x-4 z-10 flex items-end justify-between">
                   <div>
-                    <span className="text-xs text-amber-400 font-bold uppercase tracking-wider block drop-shadow-sm">
+                    <span className="text-xs text-amber-300 font-bold uppercase tracking-wider block drop-shadow-sm">
                       {activeProperty.developer} · {activeProperty.sector}
                     </span>
                     <h3 className="font-display text-xl sm:text-2xl font-bold text-white drop-shadow-sm">
@@ -139,7 +143,7 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
                     </h3>
                   </div>
 
-                  <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-xs font-semibold text-white backdrop-blur-md border border-white/20">
+                  <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/70 hover:bg-black/90 text-xs font-semibold text-white backdrop-blur-md border border-white/20">
                     Watch Full Tour
                   </span>
                 </div>
@@ -149,7 +153,7 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
 
             {/* Video Playlist Cards (Col 4) */}
             <div className="lg:col-span-4 flex flex-col justify-between space-y-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-800">
                 Choose Inspection Chapter:
               </span>
 
@@ -158,14 +162,14 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
                   <div
                     key={prop.id}
                     onClick={() => setSelectedIdx(idx)}
-                    className={`flex items-center gap-3 p-2.5 rounded-xl border transition-all cursor-pointer ${
+                    className={`flex items-center gap-3 p-3 rounded-2xl border transition-all cursor-pointer ${
                       selectedIdx === idx
-                        ? 'bg-amber-500/15 border-amber-400/60 shadow-lg shadow-amber-500/10'
-                        : 'bg-[#13192B]/80 border-slate-800/80 hover:border-amber-400/30 hover:bg-[#161F36]'
+                        ? 'bg-amber-500/15 border-amber-500/70 shadow-md shadow-amber-500/10'
+                        : 'bg-[#FFF8F3] border-orange-200/80 hover:border-amber-400/50 hover:bg-white'
                     }`}
                   >
                     {/* Tiny Thumbnail */}
-                    <div className="relative h-14 w-20 rounded-lg overflow-hidden shrink-0 border border-slate-700">
+                    <div className="relative h-14 w-20 rounded-xl overflow-hidden shrink-0 border border-orange-200">
                       <SafeImage
                         src={prop.coverImage || ''}
                         alt={prop.title}
@@ -174,20 +178,20 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
                         iconType={prop.architecturalTheme?.iconType}
                         title={prop.title}
                       />
-                      <div className="absolute inset-0 bg-slate-900/30 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
                         <Play className="h-4 w-4 text-white fill-current" />
                       </div>
                     </div>
 
                     {/* Metadata */}
                     <div className="min-w-0 flex-1 text-xs">
-                      <span className="font-semibold text-white block truncate">
+                      <span className="font-semibold text-slate-900 block truncate">
                         {prop.title}
                       </span>
-                      <span className="text-slate-400 text-[11px] block truncate">
+                      <span className="text-slate-600 text-[11px] block truncate">
                         {prop.sector} · {prop.locality}
                       </span>
-                      <span className="text-amber-400 font-mono text-[10px] font-bold">
+                      <span className="text-amber-700 font-mono text-[10px] font-bold">
                         {prop.videoTour?.duration}
                       </span>
                     </div>
@@ -198,7 +202,7 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
               <div className="pt-2">
                 <button
                   onClick={() => onWatchVideo(activeTour)}
-                  className="w-full py-3 text-xs font-bold text-slate-950 gold-gradient-btn rounded-xl transition-all shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 text-xs font-bold text-slate-950 gold-gradient-btn rounded-xl transition-all shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Eye className="h-4 w-4" />
                   <span>Launch 4K Virtual Walkthrough</span>
@@ -214,3 +218,4 @@ export const VideoShowcase: React.FC<VideoShowcaseProps> = ({ onWatchVideo, onOp
     </section>
   );
 };
+

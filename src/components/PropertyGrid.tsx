@@ -1,16 +1,24 @@
 import React, { useState, useMemo } from 'react';
 import { Property } from '../types';
 import { PropertyCard } from './PropertyCard';
-import { Filter, SlidersHorizontal, RotateCcw } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, RotateCcw } from 'lucide-react';
 
 interface PropertyGridProps {
   properties: Property[];
   onSelectProperty: (property: Property) => void;
   onScheduleVisit: (propertyName: string) => void;
   onWatchVideo?: (video: any) => void;
-  searchFilterParams: { sector: string; type: string; budget: string };
-  onResetFilters: () => void;
+  searchFilterParams?: { sector: string; type: string; budget: string };
+  onResetFilters?: () => void;
 }
+
+const CATEGORY_TABS = [
+  { id: 'all', label: 'All Listings' },
+  { id: 'luxury_condos', label: 'Luxury Condos' },
+  { id: 'expressway_hub', label: 'Expressway Hub' },
+  { id: 'commercial_retail', label: 'Commercial Retail' },
+  { id: 'airport_plots', label: 'Airport Plots & Villas' },
+];
 
 export const PropertyGrid: React.FC<PropertyGridProps> = ({
   properties,
@@ -18,233 +26,227 @@ export const PropertyGrid: React.FC<PropertyGridProps> = ({
   onScheduleVisit,
   onWatchVideo,
   searchFilterParams,
-  onResetFilters
+  onResetFilters,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [sortOption, setSortOption] = useState<'featured' | 'price_low' | 'price_high' | 'greens'>('featured');
-  const [keyword, setKeyword] = useState('');
+  const [activeTab, setActiveTab] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('featured');
 
-  // Category filter mapping
+  // Filter properties by category, search query, and external props
   const filteredProperties = useMemo(() => {
-    return properties.filter((prop) => {
-      // 1. Keyword search (title, developer, sector, locality)
-      if (keyword.trim()) {
-        const q = keyword.toLowerCase();
-        const match =
-          prop.title.toLowerCase().includes(q) ||
-          (prop.developer || '').toLowerCase().includes(q) ||
-          (prop.sector || '').toLowerCase().includes(q) ||
-          (prop.locality || '').toLowerCase().includes(q);
-        if (!match) return false;
-      }
+    let result = [...properties];
 
-      // 2. Category tab
-      if (activeCategory === 'luxury' && prop.propertyType !== 'luxury_apartment' && prop.propertyType !== 'penthouse') {
-        return false;
-      }
-      if (activeCategory === 'commercial' && prop.propertyType !== 'commercial') {
-        return false;
-      }
-      if (activeCategory === 'plots' && prop.propertyType !== 'plots') {
-        return false;
-      }
-      if (activeCategory === 'expressway' && !(prop.locality || '').toLowerCase().includes('expressway')) {
-        return false;
-      }
+    // Category Tab filtering
+    if (activeTab === 'luxury_condos') {
+      result = result.filter(
+        (p) => p.propertyType === 'luxury_apartment' || p.propertyType === 'penthouse'
+      );
+    } else if (activeTab === 'expressway_hub') {
+      result = result.filter(
+        (p) =>
+          p.locality?.toLowerCase().includes('expressway') ||
+          p.sector?.toLowerCase().includes('150') ||
+          p.sector?.toLowerCase().includes('128') ||
+          p.sector?.toLowerCase().includes('124')
+      );
+    } else if (activeTab === 'commercial_retail') {
+      result = result.filter((p) => p.propertyType === 'commercial');
+    } else if (activeTab === 'airport_plots') {
+      result = result.filter(
+        (p) =>
+          p.propertyType === 'plots' ||
+          p.propertyType === 'villa' ||
+          p.locality?.toLowerCase().includes('yamuna') ||
+          p.title?.toLowerCase().includes('jewar')
+      );
+    }
 
-      // 3. Search parameters from Hero (if active)
-      if (searchFilterParams.sector !== 'all') {
-        const secMatch = (prop.sector || '').toLowerCase().includes(searchFilterParams.sector.toLowerCase());
-        const locMatch = (prop.locality || '').toLowerCase().includes(searchFilterParams.sector.toLowerCase());
-        if (!secMatch && !locMatch) {
-          return false;
-        }
+    // Hero search parameters (if applied)
+    if (searchFilterParams) {
+      if (searchFilterParams.sector && searchFilterParams.sector !== 'all') {
+        const sec = searchFilterParams.sector.toLowerCase();
+        result = result.filter(
+          (p) =>
+            p.sector?.toLowerCase().includes(sec) ||
+            p.locality?.toLowerCase().includes(sec) ||
+            p.title?.toLowerCase().includes(sec)
+        );
       }
-      if (searchFilterParams.type !== 'all') {
-        if (prop.propertyType !== searchFilterParams.type) {
-          return false;
-        }
+      if (searchFilterParams.type && searchFilterParams.type !== 'all') {
+        result = result.filter((p) => p.propertyType === searchFilterParams.type);
       }
-      if (searchFilterParams.budget !== 'all') {
-        const pNum = prop.priceNumInCrores || 0;
-        if (searchFilterParams.budget === 'under_1cr' && (pNum <= 0 || pNum >= 1.0)) return false;
-        if (searchFilterParams.budget === '1cr_3cr' && (pNum < 1.0 || pNum > 3.0)) return false;
-        if (searchFilterParams.budget === '3cr_6cr' && (pNum < 3.0 || pNum > 6.0)) return false;
-        if (searchFilterParams.budget === 'above_6cr' && pNum < 6.0) return false;
-      }
+    }
 
-      return true;
-    }).sort((a, b) => {
-      if (sortOption === 'price_low') return (a.priceNumInCrores || 0) - (b.priceNumInCrores || 0);
-      if (sortOption === 'price_high') return (b.priceNumInCrores || 0) - (a.priceNumInCrores || 0);
-      if (sortOption === 'greens') return (b.openGreensPercentage || 0) - (a.openGreensPercentage || 0);
-      return 0; // featured order
-    });
-  }, [properties, activeCategory, sortOption, keyword, searchFilterParams]);
+    // Free-form Search Input
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        (p) =>
+          p.title?.toLowerCase().includes(q) ||
+          p.developer?.toLowerCase().includes(q) ||
+          p.sector?.toLowerCase().includes(q) ||
+          p.locality?.toLowerCase().includes(q) ||
+          p.tagline?.toLowerCase().includes(q)
+      );
+    }
 
-  const hasActiveFilters =
-    activeCategory !== 'all' ||
-    keyword !== '' ||
-    searchFilterParams.sector !== 'all' ||
-    searchFilterParams.type !== 'all' ||
-    searchFilterParams.budget !== 'all';
+    // Sorting
+    if (sortBy === 'price_asc') {
+      result.sort((a, b) => (a.priceNumInCrores || 0) - (b.priceNumInCrores || 0));
+    } else if (sortBy === 'price_desc') {
+      result.sort((a, b) => (b.priceNumInCrores || 0) - (a.priceNumInCrores || 0));
+    } else if (sortBy === 'greens') {
+      result.sort((a, b) => (b.openGreensPercentage || 0) - (a.openGreensPercentage || 0));
+    }
+
+    return result;
+  }, [properties, activeTab, searchQuery, sortBy, searchFilterParams]);
+
+  const handleReset = () => {
+    setActiveTab('all');
+    setSearchQuery('');
+    setSortBy('featured');
+    if (onResetFilters) onResetFilters();
+  };
 
   return (
-    <section id="properties" className="py-20 lg:py-28 border-b border-slate-800/80 bg-[#070A10]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section 
+      id="properties" 
+      className="py-16 lg:py-24 bg-[#FBE8DC] text-slate-900 border-b border-orange-200/60 relative overflow-hidden"
+    >
+      {/* Subtle ambient lighting */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-1/3 w-[600px] h-[350px] bg-amber-400/10 blur-[140px] rounded-full" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[350px] bg-orange-300/10 blur-[150px] rounded-full" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        {/* ================= SECTION HEADER ================= */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
-              Verified Portfolios
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-800 mb-2 font-mono">
+              VERIFIED PORTFOLIOS
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
-              Curated Properties in Noida &amp; Jewar Corridor
+            <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 uppercase leading-[1.15]">
+              CURATED PROPERTIES IN NOIDA &amp; JEWAR CORRIDOR
             </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-slate-700 text-xs sm:text-sm mt-2 max-w-3xl leading-relaxed">
               Hand-vetted residential landmarks and commercial assets with clean land titles, RERA approvals, and institutional developer track records.
             </p>
           </div>
 
-          {/* Active Result Count */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-slate-400">
-              Showing <span className="font-mono font-bold text-amber-400 tabular-nums text-sm">{filteredProperties.length}</span> of {properties.length} listings
-            </span>
-            {hasActiveFilters && (
-              <button
-                onClick={() => {
-                  setActiveCategory('all');
-                  setKeyword('');
-                  onResetFilters();
-                }}
-                className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 font-medium underline cursor-pointer"
-              >
-                <RotateCcw className="h-3 w-3" />
-                Reset Filters
-              </button>
-            )}
+          {/* Listings Counter Badge */}
+          <div className="text-xs text-slate-600 font-medium shrink-0 self-start md:self-end">
+            Showing{' '}
+            <span className="text-amber-800 font-bold font-mono text-sm">
+              {filteredProperties.length}
+            </span>{' '}
+            of {properties.length} listings
           </div>
         </div>
 
-        {/* Filter Bar & Controls */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-800/80">
+        {/* ================= FILTER & SEARCH TOOLBAR ================= */}
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-10 pb-2">
           
-          {/* Functional Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#0D121F]/80 rounded-2xl border border-slate-800/90 shadow-lg">
-            <button
-              onClick={() => setActiveCategory('all')}
-              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
-                activeCategory === 'all'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
-              }`}
-            >
-              All Listings
-            </button>
-            <button
-              onClick={() => setActiveCategory('luxury')}
-              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
-                activeCategory === 'luxury'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
-              }`}
-            >
-              Luxury Condos
-            </button>
-            <button
-              onClick={() => setActiveCategory('expressway')}
-              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
-                activeCategory === 'expressway'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
-              }`}
-            >
-              Expressway Hub
-            </button>
-            <button
-              onClick={() => setActiveCategory('commercial')}
-              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
-                activeCategory === 'commercial'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
-              }`}
-            >
-              Commercial Retail
-            </button>
-            <button
-              onClick={() => setActiveCategory('plots')}
-              className={`px-4 py-2 text-xs rounded-xl transition-all cursor-pointer ${
-                activeCategory === 'plots'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50 font-medium'
-              }`}
-            >
-              Airport Plots &amp; Villas
-            </button>
+          {/* Left Category Tabs (Pills) */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+            {CATEGORY_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                      : 'bg-white/85 hover:bg-white text-slate-700 hover:text-slate-950 border border-orange-200/80 shadow-sm'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Search + Sort */}
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-            <div className="relative w-full sm:w-64">
+          {/* Right Search Input & Sorters */}
+          <div className="flex items-center gap-2.5 self-start lg:self-auto shrink-0 w-full sm:w-auto">
+            {/* Search Input Box */}
+            <div className="relative flex-1 sm:flex-initial">
               <input
                 type="text"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search builder, sector..."
-                className="w-full px-3.5 py-2 text-xs rounded-xl bg-[#0D121F]/90 border border-slate-700/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
+                className="w-full sm:w-60 pl-3.5 pr-8 py-2 text-xs rounded-full bg-white border border-orange-200/80 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 transition-colors shadow-sm"
               />
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              <SlidersHorizontal className="h-4 w-4 text-amber-400 shrink-0 hidden sm:block" />
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value as any)}
-                className="w-full sm:w-auto px-3.5 py-2 text-xs rounded-xl bg-[#0D121F] border border-slate-700/80 text-slate-200 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 cursor-pointer"
+            {/* Filter icon reset */}
+            {(searchQuery || activeTab !== 'all' || (searchFilterParams && searchFilterParams.sector !== 'all')) && (
+              <button
+                type="button"
+                onClick={handleReset}
+                title="Reset all filters"
+                className="p-2 rounded-full bg-white hover:bg-orange-50 border border-orange-200/80 text-amber-700 hover:text-amber-800 transition-colors cursor-pointer shadow-sm"
               >
-                <option value="featured" className="bg-[#0D121F] text-slate-100">Featured Curations</option>
-                <option value="price_low" className="bg-[#0D121F] text-slate-100">Price: Low to High</option>
-                <option value="price_high" className="bg-[#0D121F] text-slate-100">Price: High to Low</option>
-                <option value="greens" className="bg-[#0D121F] text-slate-100">Maximum Greenery %</option>
+                <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+            )}
+
+            {/* Filter Slider icon */}
+            <button
+              type="button"
+              onClick={() => setActiveTab('all')}
+              title="Show all filters"
+              className="p-2 rounded-full bg-white hover:bg-orange-50 border border-orange-200/80 text-amber-700 hover:text-amber-800 transition-colors cursor-pointer shadow-sm"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="appearance-none pl-3.5 pr-8 py-2 text-xs font-semibold rounded-full bg-white border border-orange-200/80 text-slate-800 focus:outline-none focus:border-amber-500 cursor-pointer shadow-sm"
+              >
+                <option value="featured">Featured Curations</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="greens">Highest Greens %</option>
               </select>
+              <ChevronDown className="w-3 h-3 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
         </div>
 
-        {/* Listings Grid */}
+        {/* ================= 3-COLUMN PROPERTY CARDS GRID ================= */}
         {filteredProperties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProperties.map((property, idx) => (
-              <div 
-                key={property.id} 
-                className="animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-700 fill-mode-both"
-                style={{ animationDelay: `${Math.min(idx * 150, 1500)}ms` }}
-              >
-                <PropertyCard
-                  property={property}
-                  onSelectProperty={onSelectProperty}
-                  onScheduleVisit={onScheduleVisit}
-                  onWatchVideo={onWatchVideo}
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {filteredProperties.map((property) => (
+              <PropertyCard
+                key={property.id}
+                property={property}
+                onSelectProperty={onSelectProperty}
+                onScheduleVisit={onScheduleVisit}
+                onWatchVideo={onWatchVideo}
+              />
             ))}
           </div>
         ) : (
-          <div className="p-16 rounded-3xl border border-slate-800 bg-[#0D121F]/80 text-center max-w-xl mx-auto shadow-2xl">
-            <h3 className="text-lg font-bold text-white">No properties match your current filters</h3>
-            <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-              Try adjusting your sector, budget, or keyword criteria, or contact KR Estate directly for unlisted off-market options.
+          <div className="text-center py-16 px-4 bg-white/95 rounded-3xl border border-orange-200/80 space-y-4 max-w-xl mx-auto shadow-xl">
+            <h3 className="font-serif-luxury text-xl font-bold text-slate-900">No properties match your filter</h3>
+            <p className="text-xs text-slate-600">
+              Try adjusting your search criteria or resetting filters to see all available properties.
             </p>
             <button
-              onClick={() => {
-                setActiveCategory('all');
-                setKeyword('');
-                onResetFilters();
-              }}
-              className="mt-6 px-5 py-2.5 text-xs font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl hover:from-amber-300 hover:to-amber-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer"
+              type="button"
+              onClick={handleReset}
+              className="px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer"
             >
               Reset All Filters
             </button>

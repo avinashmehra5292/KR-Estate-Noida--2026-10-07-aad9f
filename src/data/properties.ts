@@ -950,7 +950,7 @@ export const NOIDA_PROPERTIES: Property[] = [
     ],
     "videoTour": {
       "title": "EON Fairfox 4K Project Flythrough",
-      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "videoUrl": "/uploads/videos/video-EON_Fairfox-1791662399500.mp4",
       "thumbnailUrl": "/uploads/upload-1791397244933-1.jpg",
       "duration": "02:35",
       "description": "Visual tour of the 88-meter frontage, 13.65-acre central landscaped plaza, skywalk network, and Grade-A commercial towers."

@@ -767,7 +767,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
   }
 
   const formContent = (
-    <div className={`bg-slate-50 flex flex-col relative w-full h-full ${inlineMode ? '' : 'rounded-3xl max-w-5xl max-h-[92vh] overflow-hidden shadow-2xl border border-slate-300'}`}>
+    <div className={`bg-slate-50 text-slate-900 admin-panel flex flex-col relative w-full h-full ${inlineMode ? '' : 'rounded-3xl max-w-5xl max-h-[92vh] overflow-hidden shadow-2xl border border-slate-300'}`}>
 
       {/* Top Header */}
       <div className="flex items-center justify-between p-6 border-b border-slate-200 bg-white/70 backdrop-blur-sm">
@@ -817,7 +817,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="title" 
                   value={formData.title || ''} 
                   onChange={handleChange} 
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                   placeholder="e.g. Godrej Woods" 
                 />
               </div>
@@ -829,7 +829,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="developer" 
                   value={formData.developer || ''} 
                   onChange={handleChange} 
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                   placeholder="e.g. Godrej Properties (or leave blank for Direct Owner)" 
                 />
               </div>
@@ -843,7 +843,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                 name="tagline" 
                 value={formData.tagline || ''} 
                 onChange={handleChange} 
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                 placeholder="e.g. Private Urban Forest Residences adjacent to Noida Golf Course" 
               />
             </div>
@@ -857,7 +857,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="sector" 
                   value={formData.sector || ''} 
                   onChange={handleChange} 
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                   placeholder="e.g. Sector 43" 
                 />
               </div>
@@ -869,7 +869,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="locality"
                   value={formData.locality || 'Central Noida'}
                   onChange={handleChange}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
                 >
                   <option value="Central Noida">Central Noida (Sec 43, 44, 7x)</option>
                   <option value="Noida Expressway">Noida Expressway (Sec 128 - 150)</option>
@@ -886,7 +886,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="propertyType"
                   value={formData.propertyType || 'luxury_apartment'}
                   onChange={handleChange}
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
                 >
                   <option value="luxury_apartment">Luxury Apartment</option>
                   <option value="penthouse">Sky Penthouse</option>
@@ -906,7 +906,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="priceDisplay" 
                   value={formData.priceDisplay || ''} 
                   onChange={handleChange} 
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                   placeholder="e.g. ₹2.65 Cr - ₹6.80 Cr" 
                 />
               </div>
@@ -920,7 +920,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="priceNumInCrores" 
                   value={formData.priceNumInCrores ?? ''} 
                   onChange={handleChange} 
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                   placeholder="e.g. 2.65" 
                 />
               </div>
@@ -932,7 +932,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="possessionDate" 
                   value={formData.possessionDate || ''} 
                   onChange={handleChange} 
-                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                   placeholder="e.g. Mid 2026 / Ready to Move" 
                 />
               </div>
@@ -984,7 +984,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                 name="fullDescription" 
                 value={formData.fullDescription || ''} 
                 onChange={handleChange} 
-                className="w-full p-3.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 leading-relaxed" 
+                className="w-full p-3.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 leading-relaxed" 
                 placeholder="e.g. Godrej Woods in Sector 43, Noida brings nature right to your doorstep with an authentic private forest ecosystem of over 1,100 mature trees. Nestled right next to the prestigious Noida Golf Course and just 900m from Botanical Garden Metro Interchange..." 
               />
             </div>
@@ -997,7 +997,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                 name="shortDescription" 
                 value={formData.shortDescription || ''} 
                 onChange={handleChange} 
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400" 
                 placeholder="e.g. 1,100 dense urban trees, 2 infinity edge swimming pools, elevated walking bridges, and bespoke Turkish hammam bath." 
               />
             </div>
@@ -1025,7 +1025,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                     name="totalAcres" 
                     value={formData.totalAcres ?? ''} 
                     onChange={handleChange} 
-                    className="w-full px-3 py-2 text-sm font-semibold rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                    className="w-full px-3 py-2 text-sm font-semibold rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400" 
                     placeholder="e.g. 11" 
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">Acres</span>
@@ -1255,7 +1255,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                       <input 
                         value={plan.name}
                         onChange={(e) => handleUpdateFloorPlan(idx, 'name', e.target.value)}
-                        className="w-full px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white"
+                        className="w-full px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400"
                         placeholder="e.g. 3 BHK Royal Luxe"
                       />
                     </div>
@@ -1266,7 +1266,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                           type="number"
                           value={plan.bedrooms}
                           onChange={(e) => handleUpdateFloorPlan(idx, 'bedrooms', e.target.value)}
-                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white"
+                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-semibold"
                           title="Bedrooms"
                           placeholder="Beds"
                         />
@@ -1275,7 +1275,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                           type="number"
                           value={plan.bathrooms}
                           onChange={(e) => handleUpdateFloorPlan(idx, 'bathrooms', e.target.value)}
-                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white"
+                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-semibold"
                           title="Baths"
                           placeholder="Baths"
                         />
@@ -1288,7 +1288,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                           type="number"
                           value={plan.carpetAreaSqFt}
                           onChange={(e) => handleUpdateFloorPlan(idx, 'carpetAreaSqFt', e.target.value)}
-                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white"
+                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-semibold"
                           placeholder="Carpet"
                         />
                         <span className="text-slate-400">/</span>
@@ -1296,7 +1296,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                           type="number"
                           value={plan.superAreaSqFt}
                           onChange={(e) => handleUpdateFloorPlan(idx, 'superAreaSqFt', e.target.value)}
-                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white"
+                          className="w-full px-2 py-1.5 text-xs text-center rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-semibold"
                           placeholder="Super"
                         />
                       </div>
@@ -1306,7 +1306,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                       <input 
                         value={plan.priceEstimate}
                         onChange={(e) => handleUpdateFloorPlan(idx, 'priceEstimate', e.target.value)}
-                        className="w-full px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white text-amber-700"
+                        className="w-full px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white text-amber-700 placeholder:text-slate-400"
                         placeholder="e.g. ₹2.65 Cr"
                       />
                     </div>
@@ -1553,7 +1553,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                       handleAddAmenity(newAmenityInput);
                     }
                   }}
-                  className="flex-1 px-3.5 py-2.5 text-xs rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  className="flex-1 px-3.5 py-2.5 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400"
                   placeholder="Type any custom amenity in your own words (e.g. Temperature Controlled All-Weather Pool) and press Enter..."
                 />
                 <button
@@ -1581,7 +1581,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                 rows={3}
                 value={customBulkAmenities}
                 onChange={(e) => setCustomBulkAmenities(e.target.value)}
-                className="w-full p-3 text-xs rounded-xl border border-amber-300/80 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 leading-relaxed placeholder:text-slate-400"
+                className="w-full p-3 text-xs rounded-xl border border-amber-300/80 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 leading-relaxed"
                 placeholder="Type or paste any number of amenities in your own words here...&#10;e.g. Olympic Size Heated Pool, Private Cigar Lounge, Italian Marble Clubhouse, Zen Meditation Deck, 24/7 Butler Service, Rooftop Helipad, EV Charging Bay"
               />
               <div className="flex items-center justify-end gap-2 pt-1">
@@ -1721,7 +1721,7 @@ export const AdminPropertyForm: React.FC<AdminPropertyFormProps> = ({
                   name="coverImage"
                   value={formData.coverImage || ''}
                   onChange={handleChange}
-                  className="w-full h-full px-3.5 py-2.5 text-sm rounded-2xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  className="w-full h-full px-3.5 py-2.5 text-sm rounded-2xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-amber-400"
                   placeholder="Or paste an external Image URL (Optional)..."
                   disabled={uploadFiles.length > 0}
                 />

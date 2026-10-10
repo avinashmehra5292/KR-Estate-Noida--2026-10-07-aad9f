@@ -50,18 +50,18 @@ export const EmiCalculator: React.FC = () => {
   };
 
   return (
-    <section id="calculator" className="py-20 lg:py-28 border-b border-slate-800/80 bg-[#070A10]">
+    <section id="calculator" className="py-20 lg:py-28 border-b border-orange-200/60 bg-[#FBE8DC]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-amber-800 mb-2">
             Financial Planning
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
             Home Loan &amp; EMI Calculator
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="mt-2 text-sm sm:text-base text-slate-700 leading-relaxed">
             Calculate your monthly repayment schedules with competitive interest rates from top institutional lenders in Noida.
           </p>
         </div>
@@ -70,16 +70,16 @@ export const EmiCalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto">
           
           {/* Sliders Input Panel (Col 7) */}
-          <div className="lg:col-span-7 rounded-3xl border border-slate-800/90 bg-[#0D121F]/80 p-6 sm:p-8 backdrop-blur-xl shadow-xl space-y-6">
+          <div className="lg:col-span-7 rounded-3xl border border-orange-200/80 bg-white/95 p-6 sm:p-8 backdrop-blur-xl shadow-xl space-y-6">
             
             {/* Loan Amount Slider */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                  <IndianRupee className="h-3.5 w-3.5 text-amber-400" />
+                <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <IndianRupee className="h-3.5 w-3.5 text-amber-700" />
                   Loan Amount
                 </label>
-                <span className="font-mono text-lg font-bold text-amber-400 tabular-nums drop-shadow-[0_0_10px_rgba(245,158,11,0.25)]">
+                <span className="font-mono text-lg font-bold text-amber-800 tabular-nums">
                   {formatRupees(loanAmountLakhs * 100000)}
                 </span>
               </div>
@@ -90,9 +90,9 @@ export const EmiCalculator: React.FC = () => {
                 step="5"
                 value={loanAmountLakhs}
                 onChange={(e) => setLoanAmountLakhs(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+                className="w-full h-2.5 bg-orange-100 rounded-lg appearance-none cursor-pointer accent-amber-500"
               />
-              <div className="flex justify-between text-[11px] text-slate-500 mt-1">
+              <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
                 <span>₹10 Lakh</span>
                 <span>₹2.5 Cr</span>
                 <span>₹5 Cr</span>
@@ -107,8 +107,8 @@ export const EmiCalculator: React.FC = () => {
                     onClick={() => setLoanAmountLakhs(amt)}
                     className={`px-3 py-1 text-xs rounded-lg transition-all cursor-pointer ${
                       loanAmountLakhs === amt
-                        ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_10px_rgba(245,158,11,0.3)]'
-                        : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700/60'
+                        ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold shadow-md'
+                        : 'bg-orange-50 text-slate-700 hover:text-slate-950 hover:bg-orange-100 border border-orange-200/80'
                     }`}
                   >
                     {amt >= 100 ? `₹${amt / 100} Cr` : `₹${amt}L`}
@@ -120,11 +120,11 @@ export const EmiCalculator: React.FC = () => {
             {/* Interest Rate Slider */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                  <Percent className="h-3.5 w-3.5 text-amber-400" />
+                <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <Percent className="h-3.5 w-3.5 text-amber-700" />
                   Interest Rate (% p.a.)
                 </label>
-                <span className="font-mono text-lg font-bold text-white tabular-nums">
+                <span className="font-mono text-lg font-bold text-slate-900 tabular-nums">
                   {interestRate.toFixed(2)}%
                 </span>
               </div>
@@ -135,9 +135,9 @@ export const EmiCalculator: React.FC = () => {
                 step="0.05"
                 value={interestRate}
                 onChange={(e) => setInterestRate(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+                className="w-full h-2.5 bg-orange-100 rounded-lg appearance-none cursor-pointer accent-amber-500"
               />
-              <div className="flex justify-between text-[11px] text-slate-500 mt-1">
+              <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
                 <span>6.5%</span>
                 <span>8.5% (Typical)</span>
                 <span>12.0%</span>
@@ -147,11 +147,11 @@ export const EmiCalculator: React.FC = () => {
             {/* Tenure Slider */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                  <Clock className="h-3.5 w-3.5 text-amber-400" />
+                <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5 text-amber-700" />
                   Loan Duration (Tenure)
                 </label>
-                <span className="font-mono text-lg font-bold text-white tabular-nums">
+                <span className="font-mono text-lg font-bold text-slate-900 tabular-nums">
                   {tenureYears} Years ({tenureYears * 12} Months)
                 </span>
               </div>
@@ -162,9 +162,9 @@ export const EmiCalculator: React.FC = () => {
                 step="1"
                 value={tenureYears}
                 onChange={(e) => setTenureYears(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+                className="w-full h-2.5 bg-orange-100 rounded-lg appearance-none cursor-pointer accent-amber-500"
               />
-              <div className="flex justify-between text-[11px] text-slate-500 mt-1">
+              <div className="flex justify-between text-[11px] text-slate-500 mt-1 font-medium">
                 <span>5 Yrs</span>
                 <span>15 Yrs</span>
                 <span>20 Yrs</span>
@@ -175,7 +175,7 @@ export const EmiCalculator: React.FC = () => {
           </div>
 
           {/* Results Summary Box (Col 5) */}
-          <div className="lg:col-span-5 rounded-3xl border border-amber-500/30 bg-gradient-to-br from-[#10172A] via-[#0D1322] to-[#0A0E18] p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_35px_rgba(245,158,11,0.15)] relative overflow-hidden">
+          <div className="lg:col-span-5 rounded-3xl border border-amber-500/40 bg-gradient-to-br from-[#1C120C] via-[#2A1B12] to-[#180F0A] p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden text-white">
             <div className="absolute top-0 right-0 -mr-12 -mt-12 h-44 w-44 rounded-full bg-amber-500/15 blur-3xl pointer-events-none" />
 
             <div className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
